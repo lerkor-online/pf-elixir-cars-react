@@ -20,6 +20,11 @@ export default function CarDetail() {
   const [car, setCar] = useState(null);
   const { id } = useParams();
   console.log(id)
+
+  const crearOrden = () => {
+    // redireccion para con id de product, precio y nombre
+    
+  }
   
   useEffect(() => {
     const fetchCarDetail = async () => {
@@ -93,7 +98,7 @@ export default function CarDetail() {
               </div>
             </div>
             <div></div>
-            <button className='bg-transparent text-black border-2 border-black mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md hover:bg-gradient-to-r from-yellow-800 to-yellow-500 shadow-2xl'>Comprar</button>
+            <button onClick={() => {}} className='bg-transparent text-black border-2 border-black mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md hover:bg-gradient-to-r from-yellow-800 to-yellow-500 shadow-2xl'>Comprar</button>
             {/* <ButtonAddCart car={car}/>   */}          
             <div className='mt-3 text-sm text-gray-600'>Foto no contractual, el precio y equipamiento podrán variar sin previo aviso. No incluye gastos de flete y patentamiento.</div>
           </div>
