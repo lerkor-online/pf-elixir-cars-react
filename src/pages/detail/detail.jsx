@@ -2,25 +2,25 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ButtonAddCart from "../../components/buttonAddCart/buttonAddCart";
 import { useParams } from "react-router-dom";
-import facebook from '../../assets/SocialIcons/facebook.png';
-import twitter from '../../assets/SocialIcons/twitter.png';
-import whatsapp from '../../assets/SocialIcons/whatsapp.png';
-import carengine from '../../assets//IconsDetail/car-engine.png';
-import carpassenger from '../../assets/IconsDetail/car-passenger.png';
-import carhatch from '../../assets/IconsDetail/car-hatch.png';
-import cartransmission from '../../assets/IconsDetail/car-transmission.png';
-import cartraction from '../../assets/IconsDetail/car-traction.png';
-import cartires from '../../assets/IconsDetail/car-tires.png';
-import carpower from '../../assets/IconsDetail/car-power.png';
-import carkey from '../../assets/IconsDetail/car-key.png';
-import cartrunk from '../../assets/IconsDetail/car-trunk.png';
-import carairbag from '../../assets/IconsDetail/car-airbag.png';
+import facebook from "../../assets/SocialIcons/facebook.png";
+import twitter from "../../assets/SocialIcons/twitter.png";
+import whatsapp from "../../assets/SocialIcons/whatsapp.png";
+import carengine from "../../assets//IconsDetail/car-engine.png";
+import carpassenger from "../../assets/IconsDetail/car-passenger.png";
+import carhatch from "../../assets/IconsDetail/car-hatch.png";
+import cartransmission from "../../assets/IconsDetail/car-transmission.png";
+import cartraction from "../../assets/IconsDetail/car-traction.png";
+import cartires from "../../assets/IconsDetail/car-tires.png";
+import carpower from "../../assets/IconsDetail/car-power.png";
+import carkey from "../../assets/IconsDetail/car-key.png";
+import cartrunk from "../../assets/IconsDetail/car-trunk.png";
+import carairbag from "../../assets/IconsDetail/car-airbag.png";
 
 export default function CarDetail() {
   const [car, setCar] = useState(null);
   const { id } = useParams();
-  console.log(id)
-  
+  console.log(id);
+
   useEffect(() => {
     const fetchCarDetail = async () => {
       try {
@@ -105,12 +105,7 @@ export default function CarDetail() {
       <section className="grid grid-cols-5 w-auto p-12">
         <div className="p-4 flex items-center flex-col">
           <p className="font-semibold text-center">
-            <img
-              src={carengine}
-              alt="car-engine.png"
-              width={50}
-              height={50}
-            />
+            <img src={carengine} alt="car-engine.png" width={50} height={50} />
             {car.fichaTecnica?.motor}
           </p>
           <p>Motor</p>
@@ -129,12 +124,7 @@ export default function CarDetail() {
         </div>
         <div className="p-4 flex items-center flex-col">
           <p className="font-semibold text-center">
-            <img
-              src={carhatch}
-              alt="car-hatch.png"
-              width={50}
-              height={50}
-            />
+            <img src={carhatch} alt="car-hatch.png" width={50} height={50} />
             {car.fichaTecnica?.carroceria}
           </p>
           <p>Carrocería</p>
@@ -165,60 +155,35 @@ export default function CarDetail() {
         </div>
         <div className="p-4 flex items-center flex-col">
           <p className="font-semibold text-center">
-            <img
-              src={cartires}
-              alt="car-tires.png"
-              width={50}
-              height={50}
-            />
+            <img src={cartires} alt="car-tires.png" width={50} height={50} />
             {car.fichaTecnica?.llantas}
           </p>
           <p>Llantas</p>
         </div>
         <div className="p-4 flex items-center flex-col">
           <p className="font-semibold text-center">
-            <img
-              src={carpower}
-              alt="car-power.png"
-              width={50}
-              height={50}
-            />
+            <img src={carpower} alt="car-power.png" width={50} height={50} />
             {car.fichaTecnica?.potencia}
           </p>
           <p>Potencia</p>
         </div>
         <div className="p-4 flex items-center flex-col">
           <p className="font-semibold text-center">
-            <img
-              src={carkey}
-              alt="car-key.png"
-              width={50}
-              height={50}
-            />
+            <img src={carkey} alt="car-key.png" width={50} height={50} />
             {car.fichaTecnica?.puertas}
           </p>
           <p>Puertas</p>
         </div>
         <div className="p-4 flex items-center flex-col">
           <p className="font-semibold text-center">
-            <img
-              src={cartrunk}
-              alt="car-trunk.png"
-              width={50}
-              height={50}
-            />
+            <img src={cartrunk} alt="car-trunk.png" width={50} height={50} />
             {car.fichaTecnica?.baul}
           </p>
           <p>Baúl</p>
         </div>
         <div className="p-4 flex items-center flex-col">
           <p className="font-semibold text-center">
-            <img
-              src={carairbag}
-              alt="car-airbag.png"
-              width={50}
-              height={50}
-            />
+            <img src={carairbag} alt="car-airbag.png" width={50} height={50} />
             {car.fichaTecnica?.airbag}
           </p>
           <p>Airbags</p>

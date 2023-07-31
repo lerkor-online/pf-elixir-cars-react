@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react"; // Asegúrate de importar React si aún no lo has hecho
 import axios from "axios";
 import Card from '../../../components/Card/Card'
@@ -32,6 +33,7 @@ export default function Cerokm() {
         `${URL}cars?page=${currentPage}&limit=${limit}&minPrice=${values[0]}&maxPrice=${values[1]}&brand=${brand}&estado=new `
       );
       const jsonData = await response.data;
+      
       setTotalPages(jsonData.totalPages);
 
       if (Array.isArray(jsonData.data)) {
@@ -66,6 +68,7 @@ export default function Cerokm() {
   };
 
   useEffect(() => {
+
     setIsLoading(true);
 
     fetchData(currentPage)
