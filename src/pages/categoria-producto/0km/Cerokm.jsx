@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react"; // Asegúrate de importar React si aún no lo has hecho
 import axios from "axios";
-import Card from '../../../components/Card/Card'
-import Paginate from '../../../components/Paginate/Paginate'
-import Filters from '../../../components/Filters/Filters'
-import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner'
-import Slider from 'react-slider'
-import './Cerokm.css'
+import Card from "../../../components/Card/Card";
+import Paginate from "../../../components/Paginate/Paginate";
+import Filters from "../../../components/Filters/Filters";
+import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
+import SearchBar from "../../../components/SearchBar/SearchBar";
+import Slider from "react-slider";
+import "./Cerokm.css";
 
-const URL = 'https://pf-elixir-cars-back-production.up.railway.app/'
+const URL = "https://pf-elixir-cars-back-production.up.railway.app/";
 const limit = 12;
 const MIN = 0;
 const MAX = 60000;
@@ -25,15 +26,20 @@ export default function Cerokm() {
   const [showFilters, setShowFilters] = useState(true);
   const [filterButtonSymbol, setFilterButtonSymbol] = useState("◀");
 
-  const [values, setValues] = useState([MIN, MAX])
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+
+  const [values, setValues] = useState([MIN, MAX]);
+
+  const limitItems = isSearching ? 10000 : limit;
 
   const fetchData = async (currentPage) => {
     try {
       const response = await axios(
-        `${URL}cars?page=${currentPage}&limit=${limit}&minPrice=${values[0]}&maxPrice=${values[1]}&brand=${brand}&estado=new `
+        `${URL}cars?page=${currentPage}&limit=${limitItems}&minPrice=${values[0]}&maxPrice=${values[1]}&brand=${brand}&estado=new `
       );
       const jsonData = await response.data;
-      
+
       setTotalPages(jsonData.totalPages);
 
       if (Array.isArray(jsonData.data)) {
@@ -50,9 +56,7 @@ export default function Cerokm() {
 
   const fetchBrands = async () => {
     try {
-      const response = await axios(
-        `${URL}brands`
-      );
+      const response = await axios(`${URL}brands`);
       const jsonData = response.data;
 
       if (Array.isArray(jsonData)) {
@@ -68,7 +72,6 @@ export default function Cerokm() {
   };
 
   useEffect(() => {
-
     setIsLoading(true);
 
     fetchData(currentPage)
@@ -81,18 +84,18 @@ export default function Cerokm() {
       });
 
     fetchBrands();
-  }, [currentPage, values[0], values[1], brand]);
+  }, [currentPage, isSearching, searchQuery, values[0], values[1], brand]);
 
-  console.log(brand)
+  console.log(brand);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  function handleFilterBrand(e){
-    console.log(e.target.value)
+  function handleFilterBrand(e) {
+    console.log(e.target.value);
     setBrand(e.target.value);
-}
+  }
 
   /* const handleToggleFilters = () => {
     setShowFilters((prevShowFilters) => {
@@ -100,6 +103,22 @@ export default function Cerokm() {
       return !prevShowFilters;
     });
   }; */
+
+  const handleSearchBarReset = () => {
+    setIsSearching(false);
+    setSearchQuery("");
+    setCurrentPage(1);
+    fetchData();
+  };
+
+  const filteredCars = cars.filter(
+    (car) =>
+      car.brand.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      car.carModel.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      car.presentacion.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      car.estado.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      car.year.toString().includes(searchQuery)
+  );
 
   return (
     <div>
@@ -126,30 +145,49 @@ export default function Cerokm() {
             {/* <div className="mt-6 ml-2 text-lg font-bold">Destacado</div>
             <div className="text-s">Aqui van los destacados a filtrar</div> */}
             <div className="mt-6 ml-2 text-lg font-bold">Marca</div>
-              <select onChange={handleFilterBrand}>
-                {brands.map((brand)=>(<option key={brand.name} value={brand.name}>{brand.name}</option>))}
-              </select>
+            <select onChange={handleFilterBrand}>
+              {brands.map((brand) => (
+                <option key={brand.name} value={brand.name}>
+                  {brand.name}
+                </option>
+              ))}
+            </select>
           </div>
           <section>
-          <h3 className="mt-6 ml-2 text-lg font-bold">Precio <span>Range</span></h3>
-          <div className={"values"}>${values[0]} - ${values[1]}</div>
-          <small>
-            Current Range: ${values[1] - values[0]}
-          </small>
-          <Slider className='slider'
-                  onChange={setValues}
-                  value={values} 
-                  min={MIN} 
-                  max={MAX}/>        
+            <h3 className="mt-6 ml-2 text-lg font-bold">
+              Precio <span>Range</span>
+            </h3>
+            <div className={"values"}>
+              ${values[0]} - ${values[1]}
+            </div>
+            <small>Current Range: ${values[1] - values[0]}</small>
+            <Slider
+              className="slider"
+              onChange={setValues}
+              value={values}
+              min={MIN}
+              max={MAX}
+            />
           </section>
         </div>
-        <div className=' mb-24 m-6 grid grid-cols-4 grid-rows-10 gap-2 h-auto w-9/12 mx-auto text-black items-center'>
-        {isLoading ? (
-          // Show the loading message or spinner while isLoading is true
-          <LoadingSpinner/>
-        ) :cars.map((auto) => (
-            <Card key={auto.id} auto={auto} />
-          ))}
+        <div>
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            isSearching={isSearching} // Paso  isSearching como prop
+            setIsSearching={setIsSearching} // Paso setIsSearching como prop
+            setCurrentPage={setCurrentPage} // Pasa setCurrentPage como prop
+            fetchData={fetchData} // Aqui paso la función fetchData como prop
+            handleSearchBarReset={handleSearchBarReset} // Paso la función handleSearchBarReset como prop
+          />
+        </div>
+        <div className=" mb-24 m-6 grid grid-cols-4 grid-rows-10 gap-2 h-auto w-9/12 mx-auto text-black items-center">
+          {isLoading ? (
+            // Show the loading message or spinner while isLoading is true
+            <LoadingSpinner />
+          ) : (
+            filteredCars.map((auto) => <Card key={auto.id} auto={auto} />)
+          )}
         </div>
       </section>
       <div className="flex justify-center items-center w-full h-20 bg-neutral-900 ">
