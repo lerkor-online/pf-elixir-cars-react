@@ -1,10 +1,10 @@
 import { useRef, useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Card = ({ auto }) => {
   const cardRef = useRef(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,7 +43,6 @@ const Card = ({ auto }) => {
     };
   }, []);
 
-  
   const navigateHandler = () => {
     navigate(`/categoria-producto/0km/detail/${auto.id}`);
   };
@@ -74,9 +73,9 @@ const Card = ({ auto }) => {
         </div>
       </div>
       <button onClick={navigateHandler}>
-                <div className="bg-yellow-400 p-3 m-2 text-center rounded-lg shadow-lg rounded-4 text-[#332F2E] uppercase font-bold">
-                  <span className=" text-black">VER MÁS</span>
-                </div>
+        <div className="bg-yellow-400 p-3 m-2 text-center rounded-lg shadow-lg rounded-4 text-[#332F2E] uppercase font-bold">
+          <span className=" text-black">VER MÁS</span>
+        </div>
       </button>
     </div>
   );
