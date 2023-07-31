@@ -19,8 +19,12 @@ import carairbag from "../../assets/IconsDetail/car-airbag.png";
 export default function CarDetail() {
   const [car, setCar] = useState(null);
   const { id } = useParams();
-  console.log(id);
+  console.log(id)
 
+  const crearOrden = () => {
+    // redireccion para con id de product, precio y nombre
+    
+  }
   useEffect(() => {
     const fetchCarDetail = async () => {
       try {
