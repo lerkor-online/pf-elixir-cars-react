@@ -1,8 +1,8 @@
 import React from 'react';
 
-/* import { ChartCard } from '../../components/Dashboard/ChartCard';
-import { TableCard } from '../../components/Dashboard/TableCard';
-import { RecentActivity } from '../../components/Dashboard/RecentActivity'; */
+import ChartCard from '../../components/Dashboard/ChartCard';
+import TableCard from '../../components/Dashboard/TableCard';
+import RecentActivity from '../../components/Dashboard/RecentActivity';
 
 const Dashboard = () => {
     return (
