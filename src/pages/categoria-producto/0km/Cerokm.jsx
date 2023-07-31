@@ -20,7 +20,7 @@ export default function Cerokm() {
   const [isSearching, setIsSearching] = useState(false);
 
   const limit = isSearching ? 10000 : 12;
-  console.log(limit);
+
   const fetchData = async (currentPage) => {
     try {
       const response = await axios(
@@ -46,7 +46,7 @@ export default function Cerokm() {
 
   useEffect(() => {
     fetchData(currentPage);
-  }, [currentPage]);
+  }, [isSearching, searchQuery, currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -58,12 +58,13 @@ export default function Cerokm() {
       return !prevShowFilters;
     });
   };
-
   const handleSearchBarReset = () => {
     setIsSearching(false);
     setSearchQuery("");
+    setCurrentPage(1);
     fetchData();
   };
+
   console.log(cars);
 
   const filteredCars = cars.filter(
@@ -117,8 +118,8 @@ export default function Cerokm() {
             setIsSearching={setIsSearching} // Paso setIsSearching como prop
             setCurrentPage={setCurrentPage} // Pasa setCurrentPage como prop
             fetchData={fetchData} // Aqui paso la función fetchData como prop
+            handleSearchBarReset={handleSearchBarReset} // Paso la función handleSearchBarReset como prop
           />
-          <button onClick={handleSearchBarReset}>Reset</button>
         </div>
         <div className=" mb-24 m-6 grid grid-cols-4 grid-rows-10 gap-2 h-auto w-9/12 mx-auto text-black items-center">
           {filteredCars.map((auto) => (
