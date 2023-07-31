@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ButtonAddCart from "../../components/buttonCart/buttonCart";
+import ButtonAddCart from "../../components/buttonAddCart/buttonAddCart";
 import { useParams } from "react-router-dom";
 import facebook from "../../assets/SocialIcons/facebook.png";
 import twitter from "../../assets/SocialIcons/twitter.png";
@@ -93,14 +93,9 @@ export default function CarDetail() {
               </div>
             </div>
             <div></div>
-            <button className="bg-transparent text-black border-2 border-black mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md hover:bg-gradient-to-r from-yellow-800 to-yellow-500 shadow-2xl">
-              Comprar
-            </button>
-            {/* <ButtonAddCart car={car}/>   */}
-            <div className="mt-3 text-sm text-gray-600">
-              Foto no contractual, el precio y equipamiento podrán variar sin
-              previo aviso. No incluye gastos de flete y patentamiento.
-            </div>
+            <button className='bg-transparent text-black border-2 border-black mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md hover:bg-gradient-to-r from-yellow-800 to-yellow-500 shadow-2xl'>Comprar</button>
+            <ButtonAddCart car={car}/>            
+            <div className='mt-3 text-sm text-gray-600'>Foto no contractual, el precio y equipamiento podrán variar sin previo aviso. No incluye gastos de flete y patentamiento.</div>
           </div>
         </div>
       </section>
@@ -135,7 +130,7 @@ export default function CarDetail() {
           <p>Carrocería</p>
         </div>
         <div className="p-4 flex items-center flex-col">
-          <p className="font-semibold text-center">
+          <p className="font-semibold text-center capitalize">
             <img
               src={cartransmission}
               alt="car-transmission.png"
