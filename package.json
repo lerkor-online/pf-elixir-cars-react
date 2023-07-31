@@ -12,6 +12,9 @@
   "dependencies": {
     "@clerk/clerk-react": "^4.23.1",
     "@paypal/react-paypal-js": "^8.1.1",
+    "@syncfusion/ej2-react-grids": "^22.2.5",
+    "@syncfusion/ej2-react-popups": "^22.2.5",
+    "@syncfusion/ej2-react-schedule": "^22.2.5",
     "axios": "^1.4.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
