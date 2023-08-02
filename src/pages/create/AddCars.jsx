@@ -1,4 +1,3 @@
-/* eslint-disable quote-props */
 import React, { ChangeEvent, useState, useLayoutEffect, useRef } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -35,6 +34,11 @@ const AddCars = ({ marca }) => {
   const [newVehicleModelList, setNewVehicleModelList] = useState([]);
 
   const [selectedState, setSelectedState] = useState("");
+
+  const cloudinaryName = "dwfinmexa";
+  const [image, setImage] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const [formData, setFormData] = useState({
     marca: "",
@@ -180,15 +184,18 @@ const AddCars = ({ marca }) => {
 
   const fetchBrands = async () => {
     try {
-      const response = await fetch("https://pf-elixir-cars-back-production.up.railway.app/brands", {
-        next: {
-          revalidate: 10,
-        },
-      });
+      const response = await fetch(
+        "https://pf-elixir-cars-back-production.up.railway.app/brands",
+        {
+          next: {
+            revalidate: 10,
+          },
+        }
+      );
       const brands = await response.json();
       setBrandList(brands);
     } catch (error) {
-      console.error("Erroral obtener las marcas:", error);
+      console.error("Error al obtener las marcas:", error);
     }
   };
 
@@ -236,7 +243,7 @@ const AddCars = ({ marca }) => {
   //   }
   // };
 
-  if (!marca) {
+  if (brandList !== "") {
     fetchBrands();
   }
   const handleChangeBrands = (e) => {
@@ -427,6 +434,33 @@ const AddCars = ({ marca }) => {
       ...prevFormData,
       imageUrl: value.split("\n"),
     }));
+  };
+
+  // --------------------------------------------------------------------------- //
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    console.log(file);
+    setImage(file);
+    setPreviewImage(URL.createObjectURL(file));
+  };
+
+  const handleImageUploadCloudinary = async () => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "hengersrosario");
+    data.append("cloud_name", cloudinaryName);
+
+    fetch(`https://api.cloudinary.com/v1_1/${cloudinaryName}//image/upload`, {
+      method: "post",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleChangeMotor = (e) => {
@@ -1274,18 +1308,48 @@ const AddCars = ({ marca }) => {
                               />
                               {!isCombustibleValid && isCombustibleFocused && (
                                 <div className="absolute rounded-sm top-[calc(100%+0.5rem)] left-0 mt-[-0.8rem] px-2 py-1 mr-2 bg-red-500/90 text-white text-sm z-10">
-                                  Por favor, selecciona un tipo de combustible
+                                  Por favor, ingrese un tipo de combustible
                                   válido (gasolina, gasoil o electrica)
                                 </div>
                               )}
                             </div>
                           </div>
                         </div>
+
                         <div className="max-w-[300px] min-w-[300px] max-h-[300px] min-h-[300px] ml-2 p-2 bg-white rounded shadow-lg flex-grow flex-shrink relative">
                           <h2 className="text-2xl text-center font-bold mb-1">
                             IMAGEN
                           </h2>
-                          <input
+
+                          <div>
+                            {" "}
+                            <div>
+                              <label htmlFor="image">Imagen:</label>
+                              <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                onChange={handleImageUpload}
+                                // onChange={(e) => setImage(e.target.files[0])}
+                              />
+                            </div>
+                            {previewImage && (
+                              <div>
+                                <img
+                                  src={previewImage}
+                                  alt="Vista previa"
+                                  style={{ width: "200px" }}
+                                />
+                              </div>
+                            )}
+                            <button
+                              type="button"
+                              onClick={handleImageUploadCloudinary}
+                            >
+                              Subir Imagen
+                            </button>
+                          </div>
+                          {/*  <input
                             type="text"
                             name="imageUrl"
                             value={formData.imageUrl.join("\n")}
@@ -1318,7 +1382,7 @@ const AddCars = ({ marca }) => {
                                 />
                               ))}
                             </div>
-                          )}
+                          )} */}
                         </div>
                       </div>
                     )}
@@ -1467,7 +1531,7 @@ const AddCars = ({ marca }) => {
           </div>
         )}
       </div>
-      <CarouselMarca/>
+      <CarouselMarca />
     </div>
   );
 };
