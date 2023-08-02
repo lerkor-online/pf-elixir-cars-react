@@ -21,6 +21,7 @@ export default function Nav() {
       {
         withCredentials: true,
       }
+
     );
     await logout();
     localStorage.removeItem("Usuario");
