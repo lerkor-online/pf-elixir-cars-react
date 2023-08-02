@@ -1,12 +1,13 @@
-import React from "react";
-import { SignIn } from "@clerk/nextjs";
 import { useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/ContextProvider";
 
 const Login = ({ setShowLogin }) => {
-  const router = useRouter();
+  const navigate = useNavigate();
+
+  const { login, loginwithgoogle, user: usuario } = useAuth();
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -31,21 +32,43 @@ const Login = ({ setShowLogin }) => {
 
   const logHandler = async (e) => {
     e.preventDefault();
-    const response = await axios.post(
-      "https://pf-elixir-cars-back-production.up.railway.app/login",
-      user
-    );
+    const response = await axios.post("http://localhost:3001/login", user, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
 
     const data = await response.data;
-    if (data) {
-      console.log("entre!");
-      localStorage.setItem("userToken", data.token);
-      Cookies.set("cookiesToken", data.token);
-    } else {
-    }
-    router.push("/home");
-  };
 
+    if (data) {
+      await login(user.email, user.password);
+      localStorage.setItem("Usuario", data.token);
+      navigate("/home");
+    }
+  };
+  ////////////////////////////////////////////////////////////////////////////////////////
+  const handleGoogleSignin = async (e) => {
+    e.preventDefault();
+    await loginwithgoogle();
+    try {
+      const getUser = await axios.get(
+        `http://localhost:3001/getUser?email=${usuario.email}`
+      );
+      const dataUser = await getUser.data;
+      localStorage.setItem("Usuario", dataUser.token);
+      navigate("/home");
+    } catch (err) {
+      await axios.post("http://localhost:3001/register", {
+        name: usuario.displayName,
+        email: usuario.email,
+        password: usuario.uid,
+      });
+      localStorage.setItem("Usuario", usuario.token);
+      navigate("/home");
+    }
+  };
+  ////////////////////////////////////////////////////////////////////////////////////////
   return (
     <>
       <div className="fixed grid place-content-center bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden  bg-fixed z-10">
@@ -98,15 +121,21 @@ const Login = ({ setShowLogin }) => {
                     Cancelar
                   </button> */}
                 </section>
-                <h1>Continuar con:</h1>
-                <SignIn
+                <h2>Continuar con:</h2>
+                {/* <SignIn
                   afterSignInUrl="/home"
                   appearance={{
                     elements: {
                       header: "hidden",
                     },
                   }}
-                />
+                /> */}
+                <button
+                  onClick={handleGoogleSignin}
+                  className="bg-gray-200 mb-2 p-1 px-4 rounded-lg hover:bg-gray-300"
+                >
+                  Google
+                </button>
               </section>
             </section>
           </form>
