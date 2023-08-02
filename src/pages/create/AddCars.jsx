@@ -36,7 +36,7 @@ const AddCars = ({ marca }) => {
   const [selectedState, setSelectedState] = useState("");
 
   const cloudinaryName = "dwfinmexa";
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState([""]);
   const [previewImage, setPreviewImage] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
 
@@ -456,7 +456,12 @@ const AddCars = ({ marca }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        if (data && data.secure_url) {
+          const imageUrl = data.secure_url;
+          console.log(imageUrl);
+        } else {
+          console.log("Error: No se pudo obtener la URL de la imagen");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -1327,6 +1332,7 @@ const AddCars = ({ marca }) => {
                               <label htmlFor="image">Imagen:</label>
                               <input
                                 type="file"
+                                multiple
                                 id="image"
                                 name="image"
                                 onChange={handleImageUpload}
