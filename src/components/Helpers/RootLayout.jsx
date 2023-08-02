@@ -1,18 +1,23 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "../footer/footer";
 import Nav from "../nav/nav";
+import AuthMiddleware from "./AuthMiddleware";
 
 const RootLayout = () => {
   const { pathname } = useLocation();
   return (
     <>
-      {pathname !== "/" && <Nav/>}
+      {pathname !== "/" && (
+        <AuthMiddleware>
+          <Nav />
+        </AuthMiddleware>
+      )}
       <main style={{ display: "block" }}>
         <Outlet />
       </main>
-      <Footer/>
+      <Footer />
     </>
-  )
+  );
 };
 
 export default RootLayout;

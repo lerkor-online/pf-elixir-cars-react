@@ -12,7 +12,6 @@ import Contact from "./pages/contact/Contact";
 import Checkout from "./pages/checkout/Checkout";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { ContextProvider } from "./contexts/ContextProvider";
-import AuthMiddleware from "./components/Helpers/AuthMiddleware";
 import SignUpPage from "./pages/sing-up/[[...sign-up]]/sing-up";
 
 function App() {
@@ -25,11 +24,7 @@ function App() {
         { path: "/", element: <LandingPage /> },
         {
           path: "/home",
-          element: (
-            <AuthMiddleware>
-              <Home />
-            </AuthMiddleware>
-          ),
+          element: <Home />,
         },
         { path: "/categoria-producto/0km", element: <Cerokm /> },
         { path: "/categoria-producto/0km/detail/:id", element: <Detail /> },
