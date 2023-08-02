@@ -3,7 +3,6 @@ import ButtonCart from "../cart/cart";
 import logo from "../../assets/logo_elixir.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../firebase";
 import { useAuth } from "../../contexts/ContextProvider";
 
 export default function Nav() {
@@ -16,7 +15,6 @@ export default function Nav() {
       navigate("/");
       return;
     }
-
     await axios.post(
       "http://localhost:3001/logout",
       {},
@@ -24,7 +22,7 @@ export default function Nav() {
         withCredentials: true,
       }
     );
-
+    await logout();
     localStorage.removeItem("Usuario");
     navigate("/");
   };
