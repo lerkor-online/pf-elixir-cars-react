@@ -11,6 +11,7 @@ import About from './pages/about/About';
 import Detail from './pages/detail/detail';
 import OurTeam from './pages/ourteam/Ourteam';
 import Contact from './pages/contact/Contact';
+import Dashboard from './components/Dashboard/Dashboard';
 
 function App() {
   const root = createBrowserRouter([
@@ -27,6 +28,7 @@ function App() {
         { path: "/about/ourteam", element: <OurTeam/> },
         { path: "/about/contact", element: <Contact/> },
         { path: "/create", element: <AddCars/> },
+        { path: "/dashboard", element: <Dashboard/> },
       ],
     },
   ]);
