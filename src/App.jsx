@@ -12,7 +12,7 @@ import Detail from "./pages/detail/detail";
 import OurTeam from "./pages/ourteam/Ourteam";
 import Contact from "./pages/contact/Contact";
 import Checkout from "./pages/checkout/Checkout";
-import Dashboard from "./pages/dashboard/Dashboard";
+import Dashboard from './components/Dashboard/Dashboard';
 
 function App() {
   const root = createBrowserRouter([

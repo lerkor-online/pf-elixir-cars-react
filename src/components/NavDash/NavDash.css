@@ -1,0 +1,55 @@
+.container {
+    width: 100%;
+    padding: 20px;
+    background-color: #f3f4f6;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .icon {
+    font-size: 3rem;
+  }
+  
+  .logo-text img {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .user-actions {
+    display: flex;
+    gap: 2px;
+  }
+  
+  .user-badge,
+  .action-badge {
+    padding: 10px 12px;
+    border-radius: 50%;
+    font-size: 1rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .blue-gradient {
+    background: linear-gradient(to top, #3182ce, #ebf8ff);
+  }
+  
+  .purple-gradient {
+    background: linear-gradient(to top, #9f7aea, #f3ebff);
+  }
+  
+  .red-gradient {
+    background: linear-gradient(to top, #e53e3e, #fff5f5);
+  }
+  
