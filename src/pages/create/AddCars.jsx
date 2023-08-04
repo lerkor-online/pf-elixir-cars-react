@@ -439,34 +439,55 @@ const AddCars = ({ marca }) => {
   };
 
   const handleImageUploadCloudinary = async () => {
-    const data = new FormData();
-    data.append("file", image);
-    data.append("upload_preset", "hengersrosario");
-    data.append("cloud_name", cloudinaryName);
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Los cambios no se pueden deshacer",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, estoy seguro",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const data = new FormData();
+        data.append("file", image);
+        data.append("upload_preset", "hengersrosario");
+        data.append("cloud_name", cloudinaryName);
 
-    fetch(`https://api.cloudinary.com/v1_1/${cloudinaryName}//image/upload`, {
-      method: "post",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && data.secure_url) {
-          const imageUrl = data.secure_url;
-          console.log(imageUrl);
+        fetch(
+          `https://api.cloudinary.com/v1_1/${cloudinaryName}//image/upload`,
+          {
+            method: "post",
+            body: data,
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            if (data && data.secure_url) {
+              const imageUrl = data.secure_url;
+              console.log(imageUrl);
 
-          setFormData((prevFormValues) => ({
-            ...prevFormValues,
-            imageUrl: [imageUrl],
-          }));
-        } else {
-          console.log("Error: No se pudo obtener la URL de la imagen");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+              setFormData((prevFormValues) => ({
+                ...prevFormValues,
+                imageUrl: [imageUrl],
+              }));
+
+              Swal.fire(
+                "¡Imagen subida!",
+                "La imagen ha sido subida correctamente",
+                "success"
+              );
+            } else {
+              console.log("Error: No se pudo obtener la URL de la imagen");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
   };
-
   const handleChangeMotor = (e) => {
     const { value } = e.target;
     console.log(value);
@@ -819,6 +840,8 @@ const AddCars = ({ marca }) => {
           }
           onClick={() => {
             // Restablecer la variable de estado del formulario "Añadir un nuevo vehículo" al cambiar de pestaña
+            setPreviewImage("");
+            setImage([]);
             setSelectedState("");
             setInventoryBrand("");
             setInventoryModelList([]);
@@ -827,6 +850,29 @@ const AddCars = ({ marca }) => {
             handleCancelAddBrand();
             handleCancelAddModel();
             handleCancelAddYear();
+            setFormData({
+              marca: "",
+              modelo: "",
+              presentacion: "",
+              precio: 0,
+              estado: "",
+              year: 0,
+              imageUrl: [""],
+              kilometraje: 0,
+              combustible: "",
+              fichaTecnica: {
+                Motor: "",
+                Pasajeros: "",
+                Carroceria: "",
+                Transmision: "",
+                Traccion: "",
+                Llantas: "",
+                Potencia: "",
+                Puertas: "",
+                Baul: "",
+                airbag: "",
+              },
+            });
           }}
         >
           RELOAD
@@ -1370,16 +1416,17 @@ const AddCars = ({ marca }) => {
                             </div>
                           </div>
                           <div className=" items-start flex flex-row overflow-hidden">
-                            {formData.imageUrl &&
-                              formData.imageUrl.length > 0 && (
-                                <a
-                                  href={formData.imageUrl}
-                                  target="blank"
-                                  className="text-sm"
-                                >
-                                  Url de la imagen: {formData.imageUrl}
-                                </a>
-                              )}
+                            {formData.imageUrl.map(
+                              (image, index) => index > 0
+                            ) ? (
+                              <a
+                                href={formData.imageUrl}
+                                target="blank"
+                                className="text-sm"
+                              >
+                                Url de la imagen: {formData.imageUrl}
+                              </a>
+                            ) : null}
                           </div>
                           {/*  <input
                             type="text"
