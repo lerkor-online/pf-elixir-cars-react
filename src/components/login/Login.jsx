@@ -54,7 +54,9 @@ const Login = ({ setShowLogin }) => {
     try {
       const getUser = await axios.get(
         `http://localhost:3001/getUser?email=${usuario.email}`
+        
       );
+      console.log(getUser.data);
       const dataUser = await getUser.data;
       localStorage.setItem("Usuario", dataUser.token);
       navigate("/home");
