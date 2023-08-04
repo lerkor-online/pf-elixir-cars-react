@@ -184,14 +184,11 @@ const AddCars = ({ marca }) => {
 
   const fetchBrands = async () => {
     try {
-      const response = await fetch(
-        "https://pf-elixir-cars-back-production.up.railway.app/brands",
-        {
-          next: {
-            revalidate: 10,
-          },
-        }
-      );
+      const response = await fetch("http://localhost:3001/brands", {
+        next: {
+          revalidate: 10,
+        },
+      });
       const brands = await response.json();
       setBrandList(brands);
     } catch (error) {
@@ -204,14 +201,11 @@ const AddCars = ({ marca }) => {
     try {
       const response =
         brandName !== "add"
-          ? await fetch(
-              `https://pf-elixir-cars-back-production.up.railway.app/carModels?brand=${brandName}`,
-              {
-                next: {
-                  revalidate: 10,
-                },
-              }
-            )
+          ? await fetch(`http://localhost:3001/carModels?brand=${brandName}`, {
+              next: {
+                revalidate: 10,
+              },
+            })
           : null;
 
       console.log(response);
@@ -617,7 +611,9 @@ const AddCars = ({ marca }) => {
             text: "El auto se ha publicado correctamente.",
             icon: "success",
           });
-          console.log(response.data);
+
+          console.log("Nuevo auto:", response.data);
+
           // "https://pf-elixir-cars-back-production.up.railway.app/cars"
           // Limpio los campos después de confirmar
           setNewBrand("");
@@ -630,6 +626,8 @@ const AddCars = ({ marca }) => {
           setNewVehicleModel("");
           setSelectedState("");
           setPreviewImage("");
+
+          fetchBrands();
           setFormData({
             marca: "",
             modelo: "",
@@ -653,7 +651,7 @@ const AddCars = ({ marca }) => {
               airbag: "",
             },
           });
-          console.log("Nueva auto:", formData);
+          // console.log("Nuevo auto:", formData);
         } catch (error) {
           Swal.fire({
             title: "Error al publicar el auto",
@@ -1554,7 +1552,7 @@ const AddCars = ({ marca }) => {
                     className={`py-2 px-4 rounded ${
                       isButtonActive
                         ? "bg-blue-500 text-white animate-pulse-gradient px-4 mb-8 rounded-lg transition duration-300 hover:shadow-md shadow-[#555555] hover:text-gray-900 hover:bg-[#FFD700] "
-                        : "bg-gray-400 text-white  px-4 mb-8 rounded-lg transition duration-300 shadow-[#555555]cursor-not-allowed"
+                        : "bg-gray-400 text-white  px-4 mb-8 rounded-lg transition duration-300 shadow-[#555555] cursor-not-allowed"
                     }`}
                   >
                     PUBLISH
