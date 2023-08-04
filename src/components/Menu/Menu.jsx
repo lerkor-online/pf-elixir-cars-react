@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Dashboard1 from '../img/Dashboard1.jpg';
 import './Menu.css';
-import { FaUserCircle, FaUserAlt, FaCar, FaUserCog, FaSignOutAlt } from 'react-icons/fa';
+import { FaUserCircle, FaUserAlt, FaCar, FaCarSide, FaUserCog, FaSignOutAlt } from 'react-icons/fa';
 
 function Menu() {
   const [activeIcon, setActiveIcon] = useState(null);
   const [users, setUsers] = useState([]);
+  const [cars, setCars] = useState([]);
   const [showDialog, setShowDialog] = useState(false);
   const [newUserName, setNewUserName] = useState('');
   const [newUserEmail, setNewUserEmail] = useState('');
@@ -13,8 +14,30 @@ function Menu() {
   const [newUserRole, setNewUserRole] = useState('user');
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
+  const [newCarName, setNewCarName] = useState('');
+  const [newCarModel, setNewCarModel] = useState('');
+  const [newCarPhoto, setNewCarPhoto] = useState('');
 
-  
+  useEffect(() => {
+    const storedUsers = localStorage.getItem('users');
+    if (storedUsers) {
+      setUsers(JSON.parse(storedUsers));
+    }
+
+    const storedCars = localStorage.getItem('cars');
+    if (storedCars) {
+      setCars(JSON.parse(storedCars));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('users', JSON.stringify(users));
+  }, [users]);
+
+  useEffect(() => {
+    localStorage.setItem('cars', JSON.stringify(cars));
+  }, [cars]);
+
   const validateEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(email);
   };
@@ -35,6 +58,9 @@ function Menu() {
     setNewUserRole('user');
     setEmailError('');
     setPhoneError('');
+    setNewCarName('');
+    setNewCarModel('');
+    setNewCarPhoto('');
   };
 
   const handleCreateUser = () => {
@@ -52,19 +78,30 @@ function Menu() {
       const newUser = { id: newUserId, name: newUserName, email: newUserEmail, phone: newUserPhone, role: newUserRole };
       setUsers([...users, newUser]);
       handleCloseDialog();
-      setActiveIcon(2); // Cambiar al ícono de usuarios registrados (índice 2)
+      setActiveIcon(2);
+    }
+  };
+
+  const handleCreateCar = () => {
+    if (newCarName && newCarModel && newCarPhoto) {
+      const newCarId = cars.length + 1;
+      const newCar = { id: newCarId, name: newCarName, model: newCarModel, photo: newCarPhoto };
+      setCars([...cars, newCar]);
+      handleCloseDialog();
+      setActiveIcon(3);
     }
   };
 
   const menuItems = [
     { icon: <FaUserCircle />, id: 1, action: () => { setActiveIcon(1); setShowDialog(true); } },
     { icon: <FaUserAlt />, id: 2, action: () => setActiveIcon(2) },
-    { icon: <FaCar />, id: 3 },
+    { icon: <FaCar />, id: 3, action: () => setActiveIcon(3) },
+    { icon: <FaCarSide />, id: 4, action: () => setActiveIcon(4) },
   ];
 
   const lastMenuItems = [
-    { icon: <FaUserCog />, id: 4 },
-    { icon: <FaSignOutAlt />, id: 5 },
+    { icon: <FaUserCog />, id: 5 },
+    { icon: <FaSignOutAlt />, id: 6 },
   ];
 
   return (
@@ -129,21 +166,63 @@ function Menu() {
         </div>
       )}
 
-{activeIcon === 2 && (
-  <div className="user-list">
-    <h2>Usuarios Registrados</h2>
-    <ul>
-      {users.map((user) => (
-         <li key={user.id} className="user-card">
-         <p className="user-info">Nombre: {user.name}</p>
-         <p className="user-info">Correo: {user.email}</p>
-         <p className="user-info">Teléfono: {user.phone}</p>
-         <p className="user-role">Rol: {user.role}</p>
-       </li>
-      ))}
-    </ul>
-  </div>
-)}
+      {activeIcon === 2 && (
+        <div className="user-list">
+          <h2>Usuarios Registrados</h2>
+          <ul>
+            {users.map((user) => (
+              <li key={user.id} className="user-card">
+                <p className="user-info">Nombre: {user.name}</p>
+                <p className="user-info">Correo: {user.email}</p>
+                <p className="user-info">Teléfono: {user.phone}</p>
+                <p className="user-role">Rol: {user.role}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {activeIcon === 3 && (
+        <div className="car-list">
+          {/* <h2>Autos Publicados</h2> */}
+          <ul>
+            {cars.map((car) => (
+              <li key={car.id} className="car-card">
+                <p className="car-info">Nombre: {car.name}</p>
+                <p className="car-info">Modelo: {car.model}</p>
+                <img src={car.photo} alt={car.name} className="car-photo" />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {showDialog && activeIcon === 3 && (
+        <div className="dialog-container">
+          <div className="dialog">
+           {/*  <h2>Publicar Auto</h2> */}
+            <input
+              type="text"
+              placeholder="Nombre del auto"
+              value={newCarName}
+              onChange={(e) => setNewCarName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Modelo del auto"
+              value={newCarModel}
+              onChange={(e) => setNewCarModel(e.target.value)}
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setNewCarPhoto(URL.createObjectURL(e.target.files[0]))}
+            />
+            <button onClick={handleCreateCar}>Publicar</button>
+            <button onClick={() => { handleCloseDialog(); setActiveIcon(null); }}>Cancelar</button>
+          </div>
+        </div>
+      )}
 
     </>
   );
@@ -158,6 +237,10 @@ const Icon = ({ icon, isActive, onClick }) => (
 );
 
 export default Menu;
+
+
+
+
 
 
 
