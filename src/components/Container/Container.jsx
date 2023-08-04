@@ -1,4 +1,4 @@
-/* import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 import {  FaChevronDown } from 'react-icons/fa';
 import './Container.css'
@@ -13,7 +13,10 @@ function Container() {
   };
 
   return (
-    <div className="Container">
+    <div>
+      Saludos
+    </div>
+   /*  <div className="Container">
       <div className="inputBox">
         <input type="text" placeholder="Search users" />
         <i>
@@ -31,17 +34,17 @@ function Container() {
         </i>
         {isMenuOpen && (
           <div className="menuContainer" id="menuContainer">
-            <ul> 
-            <li>Opcion 1</li>
-            <li>Opcion 2</li>
-            <li>Opcion 3</li>
-            <li>Opcion 4</li>
-          </ul>
-        </div>
-      )}
-    </div>
-  </div>
-);
+            <ul>
+              <li>Opcion 1</li>
+              <li>Opcion 2</li>
+              <li>Opcion 3</li>
+              <li>Opcion 4</li>
+            </ul>
+          </div>
+        )}
+      </div>
+    </div> */
+  );
 }
 
-export default Container; */
+export default Container;

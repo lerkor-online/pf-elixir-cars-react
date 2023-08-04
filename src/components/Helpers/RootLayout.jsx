@@ -10,7 +10,7 @@ const RootLayout = () => {
       <main style={{ display: "block" }}>
         <Outlet />
       </main>
-      {pathname !== "/dashboard" && <Footer/>}
+     {pathname !== "/dashboard" && <Footer/>}
     </>
   )
 };

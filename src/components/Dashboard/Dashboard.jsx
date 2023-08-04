@@ -1,15 +1,13 @@
 import React from 'react'
 import style from  './Dashboard.module.css'
-/* import Container from '../Container/Container.jsx'; */
-import Menu from '../Menu/Menu';
-import NavDash from '../NavDash/NavDash'
+import Container from '../Container/Container.jsx';
+import Menu from '../Menu/Menu.jsx';
 
 function Dashboard() {
   return (
   <div className={style.container}>
-   {/*  <Container /> */}
+    <Container />
     <Menu />
-    <NavDash/>
   </div>
   );
   
