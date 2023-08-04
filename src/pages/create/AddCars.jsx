@@ -243,7 +243,7 @@ const AddCars = ({ marca }) => {
   //   }
   // };
 
-  if (brandList !== "") {
+  if (!brandList) {
     fetchBrands();
   }
   const handleChangeBrands = (e) => {
@@ -427,14 +427,14 @@ const AddCars = ({ marca }) => {
     }));
   };
 
-  const handleChangeImagen = (e) => {
-    const { value } = e.target;
-    console.log(value);
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      imageUrl: value.split("\n"),
-    }));
-  };
+  // const handleChangeImagen = (e) => {
+  //   const { value } = e.target;
+  //   console.log(value);
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     imageUrl: value.split("\n"),
+  //   }));
+  // };
 
   // --------------------------------------------------------------------------- //
   const handleImageUpload = (event) => {
@@ -459,6 +459,11 @@ const AddCars = ({ marca }) => {
         if (data && data.secure_url) {
           const imageUrl = data.secure_url;
           console.log(imageUrl);
+
+          setFormData((prevFormValues) => ({
+            ...prevFormValues,
+            imageUrl: [imageUrl],
+          }));
         } else {
           console.log("Error: No se pudo obtener la URL de la imagen");
         }
@@ -598,7 +603,7 @@ const AddCars = ({ marca }) => {
       if (result.isConfirmed) {
         try {
           const response = await axios.post(
-            "https://pf-elixir-cars-back-production.up.railway.app/cars",
+            "http://localhost:3001/cars",
             jsonData,
             {
               headers: {
@@ -613,7 +618,7 @@ const AddCars = ({ marca }) => {
             icon: "success",
           });
           console.log(response.data);
-
+          // "https://pf-elixir-cars-back-production.up.railway.app/cars"
           // Limpio los campos después de confirmar
           setNewBrand("");
           setNewModel("");
@@ -624,6 +629,7 @@ const AddCars = ({ marca }) => {
           setNewVehicleBrand("");
           setNewVehicleModel("");
           setSelectedState("");
+          setPreviewImage("");
           setFormData({
             marca: "",
             modelo: "",
@@ -647,8 +653,7 @@ const AddCars = ({ marca }) => {
               airbag: "",
             },
           });
-          console.log("Nueva marca de vehículo:", newVehicleBrand);
-          console.log("Nuevo modelo de vehículo:", newVehicleModel);
+          console.log("Nueva auto:", formData);
         } catch (error) {
           Swal.fire({
             title: "Error al publicar el auto",
@@ -1321,39 +1326,62 @@ const AddCars = ({ marca }) => {
                           </div>
                         </div>
 
-                        <div className="max-w-[300px] min-w-[300px] max-h-[300px] min-h-[300px] ml-2 p-2 bg-white rounded shadow-lg flex-grow flex-shrink relative">
-                          <h2 className="text-2xl text-center font-bold mb-1">
+                        <div className="max-w-[400px] min-w-[400px] max-h-[300px] min-h-[300px] ml-2 p-2 bg-white rounded shadow-lg flex-grow flex-shrink relative">
+                          <h2 className="text-2xl text-center font-bold ">
                             IMAGEN
                           </h2>
 
-                          <div>
-                            {" "}
-                            <div>
-                              <label htmlFor="image">Imagen:</label>
+                          <div className="flex flex-col items-center ">
+                            <div className="flex flex-wrap items-center max-h-[175px] mb-2">
+                              {previewImage ? (
+                                <div className="my-2 flex justify-center items-center">
+                                  <img
+                                    src={previewImage}
+                                    alt="Vista previa"
+                                    className="w-40 mx-auto max-h-[175px]"
+                                  />
+                                </div>
+                              ) : (
+                                <div
+                                  className="my-2 flex justify-center items-center"
+                                  aria-live="assertive"
+                                  aria-atomic="true"
+                                >
+                                  <div className="flex-none w-40 h-[175px] bg-gray-200 rounded-sm animate-pulse"></div>
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex items-center mt-1">
                               <input
                                 type="file"
                                 multiple
                                 id="image"
                                 name="image"
                                 onChange={handleImageUpload}
-                                // onChange={(e) => setImage(e.target.files[0])}
+                                className="ml-2"
                               />
+                              {previewImage && (
+                                <button
+                                  type="button"
+                                  onClick={handleImageUploadCloudinary}
+                                  className="p-0 w-28 text-center bg-blue-500 text-white absolute top-0 right-0 m-1 py-1 rounded-lg transition duration-300 hover:shadow-md shadow-[#555555] hover:text-gray-900 hover:bg-[#FFD700]"
+                                >
+                                  Subir Imagen
+                                </button>
+                              )}
                             </div>
-                            {previewImage && (
-                              <div>
-                                <img
-                                  src={previewImage}
-                                  alt="Vista previa"
-                                  style={{ width: "200px" }}
-                                />
-                              </div>
-                            )}
-                            <button
-                              type="button"
-                              onClick={handleImageUploadCloudinary}
-                            >
-                              Subir Imagen
-                            </button>
+                          </div>
+                          <div className=" items-start flex flex-row overflow-hidden">
+                            {formData.imageUrl &&
+                              formData.imageUrl.length > 0 && (
+                                <a
+                                  href={formData.imageUrl}
+                                  target="blank"
+                                  className="text-sm"
+                                >
+                                  Url de la imagen: {formData.imageUrl}
+                                </a>
+                              )}
                           </div>
                           {/*  <input
                             type="text"
