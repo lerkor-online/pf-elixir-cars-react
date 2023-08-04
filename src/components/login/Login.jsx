@@ -42,7 +42,7 @@ const Login = ({ setShowLogin }) => {
     const data = await response.data;
 
     if (data) {
-      await login(user.email, user.password);
+      await login(data.email, data.password);
       localStorage.setItem("Usuario", data.token);
       navigate("/home");
     }

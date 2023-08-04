@@ -6,6 +6,8 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
 } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -26,16 +28,39 @@ const ContextProvider = ({ children }) => {
   const login = async (email, password) => {
     signInWithEmailAndPassword(auth, email, password);
   };
-  const logout = async () => {
-    signOut(auth);
+  const logout = () => {
+    signOut(auth)
+      .then(() => {
+        auth.signOut();
+      })
+      .catch((error) => {
+        // An error happened.
+      });
   };
 
   const provider = new GoogleAuthProvider();
 
   const loginwithgoogle = async () => {
-    // signInWithRedirect(auth, googleProvider);
-    const result = await signInWithPopup(auth, provider);
-    const credential = GoogleAuthProvider.credentialFromResult(result);
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
   };
 
   useEffect(() => {
