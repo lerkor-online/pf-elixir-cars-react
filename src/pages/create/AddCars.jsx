@@ -142,9 +142,10 @@ const AddCars = ({ marca }) => {
     setIsKilometrajeValid(validInput);
 
     // Validación de propiedad combustible
-    const validCombustible = ["gasolina", "gasoil", "electrica"].includes(
+    const validCombustible = ["nafta", "gasoil", "gas", "electrica"].includes(
       combustible
     );
+    console.log(validCombustible);
     setIsCombustibleValid(validCombustible);
 
     // Validación de propiedad imageUrl
@@ -415,6 +416,7 @@ const AddCars = ({ marca }) => {
 
   const handleChangeCombustible = (e) => {
     const { value } = e.target;
+    console.log(value);
     setFormData((prevFormData) => ({
       ...prevFormData,
       combustible: value,
@@ -464,6 +466,7 @@ const AddCars = ({ marca }) => {
         )
           .then((res) => res.json())
           .then((data) => {
+            console.log(data);
             if (data && data.secure_url) {
               const imageUrl = data.secure_url;
               console.log(imageUrl);
@@ -474,8 +477,8 @@ const AddCars = ({ marca }) => {
               }));
 
               Swal.fire(
-                "¡Imagen subida!",
-                "La imagen ha sido subida correctamente",
+                "¡Imagen Añadida!",
+                "La imagen ha sido adjuntada correctamente en cloudinary",
                 "success"
               );
             } else {
@@ -488,6 +491,7 @@ const AddCars = ({ marca }) => {
       }
     });
   };
+
   const handleChangeMotor = (e) => {
     const { value } = e.target;
     console.log(value);
@@ -657,7 +661,7 @@ const AddCars = ({ marca }) => {
             estado: "",
             year: 0,
             imageUrl: [""],
-            kilometraje: 0,
+            kilometraje: "",
             combustible: "",
             fichaTecnica: {
               Motor: "",
@@ -858,7 +862,7 @@ const AddCars = ({ marca }) => {
               estado: "",
               year: 0,
               imageUrl: [""],
-              kilometraje: 0,
+              kilometraje: "",
               combustible: "",
               fichaTecnica: {
                 Motor: "",
@@ -1343,7 +1347,21 @@ const AddCars = ({ marca }) => {
                             </div>
                             <div className="flex flex-col mt-2 mx-2 relative">
                               <label htmlFor="combustible">Combustible:</label>
-                              <input
+                              <select
+                                className="border border-gray-300 rounded px-4 py-2 my-1 "
+                                name="combustible"
+                                id=""
+                                onChange={handleChangeCombustible}
+                              >
+                                <option disabled value="">
+                                  Seleccione un tipo
+                                </option>
+                                <option value="nafta">Nafta</option>
+                                <option value="gasoil">Gasoil</option>
+                                <option value="gas">Gas</option>
+                                <option value="electrica">Electrico</option>
+                              </select>
+                              {/* <input
                                 type="text"
                                 id="combustible"
                                 name={formData.combustible}
@@ -1363,9 +1381,9 @@ const AddCars = ({ marca }) => {
                               {!isCombustibleValid && isCombustibleFocused && (
                                 <div className="absolute rounded-sm top-[calc(100%+0.5rem)] left-0 mt-[-0.8rem] px-2 py-1 mr-2 bg-red-500/90 text-white text-sm z-10">
                                   Por favor, ingrese un tipo de combustible
-                                  válido (gasolina, gasoil o electrica)
+                                  válido (nafta, gasoil, gas o electrica)
                                 </div>
-                              )}
+                              )} */}
                             </div>
                           </div>
                         </div>
@@ -1416,9 +1434,7 @@ const AddCars = ({ marca }) => {
                             </div>
                           </div>
                           <div className=" items-start flex flex-row overflow-hidden">
-                            {formData.imageUrl.map(
-                              (image, index) => index > 0
-                            ) ? (
+                            {formData.imageUrl[0] ? (
                               <a
                                 href={formData.imageUrl}
                                 target="blank"
@@ -1426,7 +1442,11 @@ const AddCars = ({ marca }) => {
                               >
                                 Url de la imagen: {formData.imageUrl}
                               </a>
-                            ) : null}
+                            ) : (
+                              <span className="text-red-500 pl-2 pt-2">
+                                Adjunta una imagen, para el Vehículo
+                              </span>
+                            )}
                           </div>
                           {/*  <input
                             type="text"
@@ -1602,7 +1622,7 @@ const AddCars = ({ marca }) => {
                         : "bg-gray-400 text-white  px-4 mb-8 rounded-lg transition duration-300 shadow-[#555555] cursor-not-allowed"
                     }`}
                   >
-                    PUBLISH
+                    PUBLICAR
                   </button>
                 </div>
               </div>
