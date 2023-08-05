@@ -38,13 +38,17 @@ function Menu() {
     localStorage.setItem('cars', JSON.stringify(cars));
   }, [cars]);
 
+  //Valido mail
   const validateEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(email);
   };
 
+  //Valido telefono
   const validatePhone = (phone) => {
     return /^[0-9\s-]+$/.test(phone);
   };
+
+
 
   const handleOpenDialog = () => {
     setShowDialog(true);
@@ -63,6 +67,8 @@ function Menu() {
     setNewCarPhoto('');
   };
 
+
+  // Creación de usuario
   const handleCreateUser = () => {
     if (newUserName && newUserEmail && newUserPhone) {
       if (!validateEmail(newUserEmail)) {
@@ -130,7 +136,7 @@ function Menu() {
           ))}
         </ul>
       </menu>
-
+        {/* Crear usuario */}
       {showDialog && activeIcon === 1 && (
         <div className="dialog-container">
           <div className="dialog">
@@ -165,7 +171,7 @@ function Menu() {
           </div>
         </div>
       )}
-
+        {/* Usuario registrados */}
       {activeIcon === 2 && (
         <div className="user-list">
           <h2>Usuarios Registrados</h2>
