@@ -11,7 +11,7 @@ import About from './pages/about/About';
 import Detail from './pages/detail/detail';
 import OurTeam from './pages/ourteam/Ourteam';
 import Contact from './pages/contact/Contact';
-import Dashboard from './components/Dashboard/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard'
 
 function App() {
   const root = createBrowserRouter([

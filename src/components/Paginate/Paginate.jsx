@@ -79,7 +79,7 @@ function Paginate({ currentPage, totalPages, onPageChange }) {
                 </button>
             </div>
 
-            <form onSubmit={handlePageSubmit} className="ml-4">
+            {/* <form onSubmit={handlePageSubmit} className="ml-4">
                 <input
                     type="number"
                     min={1}
@@ -95,7 +95,7 @@ function Paginate({ currentPage, totalPages, onPageChange }) {
                 >
                     Ir
                 </button>
-            </form>
+            </form> */}
         </div>
     );
 }

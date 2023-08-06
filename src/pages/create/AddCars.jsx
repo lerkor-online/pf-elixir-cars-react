@@ -198,7 +198,7 @@ const AddCars = ({ marca }) => {
       const response =
         brandName !== "add"
           ? await fetch(
-              `https://pf-elixir-cars-back-production.up.railway.app/carModels/byBrand?brand=${brandName}`,
+              `https://pf-elixir-cars-back-production.up.railway.app/carModels?brand=${brandName}`,
               {
                 next: {
                   revalidate: 10,

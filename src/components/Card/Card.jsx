@@ -1,10 +1,10 @@
 import { useRef, useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Card = ({ auto }) => {
   const cardRef = useRef(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,7 +43,6 @@ const Card = ({ auto }) => {
     };
   }, []);
 
-  
   const navigateHandler = () => {
     navigate(`/categoria-producto/0km/detail/${auto.id}`);
   };
@@ -51,7 +50,7 @@ const Card = ({ auto }) => {
   return (
     <div
       ref={cardRef}
-      className="bg-white m-4 rounded-lg overflow-hidden w-[260px] relative transition-transform duration-300 transform-gpu shadow-glass-card"
+      className=" flex flex-col justify-center bg-white m-4 rounded-lg overflow-hidden w-[260px] relative transition-transform duration-300 transform-gpu shadow-glass-card shadow-[#a8a8a8]  shadow-xl"
       style={{ transition: "transform 0.3s" }}
     >
       <img
@@ -73,11 +72,12 @@ const Card = ({ auto }) => {
           <p className="text-xl font-bold">U$D {auto.precio}</p>
         </div>
       </div>
-      <button onClick={navigateHandler}>
-                <div className="bg-yellow-400 p-3 m-2 text-center rounded-lg shadow-lg rounded-4 text-[#332F2E] uppercase font-bold">
+      <div className="flex justify-center">
+      <button onClick={navigateHandler}
+              className="bg-yellow-400 p-3 m-2 w-9/12 text-center rounded-lg shadow-lg rounded-4 text-[#332F2E] uppercase font-bold">
                   <span className=" text-black">VER MÁS</span>
-                </div>
       </button>
+      </div>
     </div>
   );
 };

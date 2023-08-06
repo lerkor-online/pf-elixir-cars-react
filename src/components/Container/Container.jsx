@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 import {  FaChevronDown } from 'react-icons/fa';
 import './Container.css'
-import acertijo from '../../img/acertijo.jpg';
+import acertijo from '../img/person-9.png';
 
 
 function Container() {
@@ -13,7 +13,10 @@ function Container() {
   };
 
   return (
-    <div className="Container">
+    <div>
+      Saludos
+    </div>
+   /*  <div className="Container">
       <div className="inputBox">
         <input type="text" placeholder="Search users" />
         <i>
@@ -40,7 +43,7 @@ function Container() {
           </div>
         )}
       </div>
-    </div>
+    </div> */
   );
 }
 

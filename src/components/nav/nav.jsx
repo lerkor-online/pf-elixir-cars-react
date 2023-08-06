@@ -1,9 +1,25 @@
+import React, { useEffect, useState } from "react";
 import Boxgold from "../boxgold/boxgold";
 /* import { UserButton } from "@clerk/nextjs"; */
 import ButtonCart from "../cart/cart";
 import logo from '../../assets/logo_elixir.png';
 
 export default function Nav() {
+  const [cartCount, setCartCount] = useState(0);
+
+  const getCartCountFromLocalStorage = () => {
+    const cartCountStr = localStorage.getItem("carrito");
+    const parsedCount = parseInt(cartCountStr, 10);
+    if (!isNaN(parsedCount)) {
+      setCartCount(parsedCount);
+    }
+  };
+
+  // Call the function to get the cart count when the component mounts
+  useEffect(() => {
+    getCartCountFromLocalStorage();
+  }, []);
+
   return (
     <main>
       <header
@@ -48,7 +64,7 @@ export default function Nav() {
           </ul>
         </nav>
         <nav>
-            <ButtonCart/>
+        <a href="">🛒({cartCount})</a>
         </nav>
         <Boxgold />
         <div className="px-1">
