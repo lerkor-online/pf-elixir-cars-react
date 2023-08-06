@@ -123,10 +123,16 @@ export default function Cerokm() {
   return (
     <div>
       <header className="h-20"></header>
-      <section className="m-4 w-11/12 flex justify-end uppercase">
-        <select>
-          <option>Orden Predeterminado</option>
-        </select>
+      <section className="mt-4 h-16 w-11/12 flex justify-end uppercase">
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            isSearching={isSearching} // Paso  isSearching como prop
+            setIsSearching={setIsSearching} // Paso setIsSearching como prop
+            setCurrentPage={setCurrentPage} // Pasa setCurrentPage como prop
+            fetchData={fetchData} // Aqui paso la función fetchData como prop
+            handleSearchBarReset={handleSearchBarReset} // Paso la función handleSearchBarReset como prop
+          />
       </section>
       <section className="flex">
         <div className="w-2/12 p-6">
@@ -169,17 +175,6 @@ export default function Cerokm() {
               max={MAX}
             />
           </section>
-        </div>
-        <div>
-          <SearchBar
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            isSearching={isSearching} // Paso  isSearching como prop
-            setIsSearching={setIsSearching} // Paso setIsSearching como prop
-            setCurrentPage={setCurrentPage} // Pasa setCurrentPage como prop
-            fetchData={fetchData} // Aqui paso la función fetchData como prop
-            handleSearchBarReset={handleSearchBarReset} // Paso la función handleSearchBarReset como prop
-          />
         </div>
         <div className=" mb-24 m-6 grid grid-cols-4 grid-rows-10 gap-2 h-auto w-9/12 mx-auto text-black items-center">
           {isLoading ? (
