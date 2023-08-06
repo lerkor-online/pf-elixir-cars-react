@@ -14,6 +14,9 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import { ContextProvider } from "./contexts/ContextProvider";
 import SignUpPage from "./pages/sing-up/[[...sign-up]]/sing-up";
 
+// import Dashboard from "../src/components/Dashboard/Dashboard";
+
+
 function App() {
   const root = createBrowserRouter([
     {
@@ -46,7 +49,7 @@ function App() {
         </div>
       </ContextProvider>
     </>
-  );
+  )
 }
 
-export default App;
+export default App

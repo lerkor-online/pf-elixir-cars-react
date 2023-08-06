@@ -16,6 +16,13 @@ const RootLayout = () => {
         <Outlet />
       </main>
       <Footer />
+
+//      {pathname !== "/" && pathname !== "/dashboard" && <Nav/>}
+//      <main style={{ display: "block" }}>
+//        <Outlet />
+//      </main>
+//     {pathname !== "/dashboard" && <Footer/>}
+
     </>
   );
 };

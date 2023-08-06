@@ -1,4 +1,3 @@
-/* eslint-disable quote-props */
 import React, { ChangeEvent, useState, useLayoutEffect, useRef } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -35,6 +34,11 @@ const AddCars = ({ marca }) => {
   const [newVehicleModelList, setNewVehicleModelList] = useState([]);
 
   const [selectedState, setSelectedState] = useState("");
+
+  const cloudinaryName = "dwfinmexa";
+  const [image, setImage] = useState([""]);
+  const [previewImage, setPreviewImage] = useState("");
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const [formData, setFormData] = useState({
     marca: "",
@@ -138,9 +142,10 @@ const AddCars = ({ marca }) => {
     setIsKilometrajeValid(validInput);
 
     // Validación de propiedad combustible
-    const validCombustible = ["gasolina", "gasoil", "electrica"].includes(
+    const validCombustible = ["nafta", "gasoil", "gas", "electrica"].includes(
       combustible
     );
+    console.log(validCombustible);
     setIsCombustibleValid(validCombustible);
 
     // Validación de propiedad imageUrl
@@ -180,7 +185,7 @@ const AddCars = ({ marca }) => {
 
   const fetchBrands = async () => {
     try {
-      const response = await fetch("https://pf-elixir-cars-back-production.up.railway.app/brands", {
+      const response = await fetch("http://localhost:3001/brands", {
         next: {
           revalidate: 10,
         },
@@ -188,7 +193,7 @@ const AddCars = ({ marca }) => {
       const brands = await response.json();
       setBrandList(brands);
     } catch (error) {
-      console.error("Erroral obtener las marcas:", error);
+      console.error("Error al obtener las marcas:", error);
     }
   };
 
@@ -197,14 +202,11 @@ const AddCars = ({ marca }) => {
     try {
       const response =
         brandName !== "add"
-          ? await fetch(
-              `https://pf-elixir-cars-back-production.up.railway.app/carModels?brand=${brandName}`,
-              {
-                next: {
-                  revalidate: 10,
-                },
-              }
-            )
+          ? await fetch(`http://localhost:3001/carModels?brand=${brandName}`, {
+              next: {
+                revalidate: 10,
+              },
+            })
           : null;
 
       console.log(response);
@@ -236,7 +238,7 @@ const AddCars = ({ marca }) => {
   //   }
   // };
 
-  if (!marca) {
+  if (!brandList) {
     fetchBrands();
   }
   const handleChangeBrands = (e) => {
@@ -414,19 +416,80 @@ const AddCars = ({ marca }) => {
 
   const handleChangeCombustible = (e) => {
     const { value } = e.target;
+    console.log(value);
     setFormData((prevFormData) => ({
       ...prevFormData,
       combustible: value,
     }));
   };
 
-  const handleChangeImagen = (e) => {
-    const { value } = e.target;
-    console.log(value);
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      imageUrl: value.split("\n"),
-    }));
+  // const handleChangeImagen = (e) => {
+  //   const { value } = e.target;
+  //   console.log(value);
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     imageUrl: value.split("\n"),
+  //   }));
+  // };
+
+  // --------------------------------------------------------------------------- //
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    console.log(file);
+    setImage(file);
+    setPreviewImage(URL.createObjectURL(file));
+  };
+
+  const handleImageUploadCloudinary = async () => {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Los cambios no se pueden deshacer",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, estoy seguro",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const data = new FormData();
+        data.append("file", image);
+        data.append("upload_preset", "hengersrosario");
+        data.append("cloud_name", cloudinaryName);
+
+        fetch(
+          `https://api.cloudinary.com/v1_1/${cloudinaryName}//image/upload`,
+          {
+            method: "post",
+            body: data,
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data && data.secure_url) {
+              const imageUrl = data.secure_url;
+              console.log(imageUrl);
+
+              setFormData((prevFormValues) => ({
+                ...prevFormValues,
+                imageUrl: [imageUrl],
+              }));
+
+              Swal.fire(
+                "¡Imagen Añadida!",
+                "La imagen ha sido adjuntada correctamente en cloudinary",
+                "success"
+              );
+            } else {
+              console.log("Error: No se pudo obtener la URL de la imagen");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
   };
 
   const handleChangeMotor = (e) => {
@@ -559,7 +622,7 @@ const AddCars = ({ marca }) => {
       if (result.isConfirmed) {
         try {
           const response = await axios.post(
-            "https://pf-elixir-cars-back-production.up.railway.app/cars",
+            "http://localhost:3001/cars",
             jsonData,
             {
               headers: {
@@ -573,8 +636,10 @@ const AddCars = ({ marca }) => {
             text: "El auto se ha publicado correctamente.",
             icon: "success",
           });
-          console.log(response.data);
 
+          console.log("Nuevo auto:", response.data);
+
+          // "https://pf-elixir-cars-back-production.up.railway.app/cars"
           // Limpio los campos después de confirmar
           setNewBrand("");
           setNewModel("");
@@ -585,6 +650,9 @@ const AddCars = ({ marca }) => {
           setNewVehicleBrand("");
           setNewVehicleModel("");
           setSelectedState("");
+          setPreviewImage("");
+
+          fetchBrands();
           setFormData({
             marca: "",
             modelo: "",
@@ -593,7 +661,7 @@ const AddCars = ({ marca }) => {
             estado: "",
             year: 0,
             imageUrl: [""],
-            kilometraje: 0,
+            kilometraje: "",
             combustible: "",
             fichaTecnica: {
               Motor: "",
@@ -608,8 +676,7 @@ const AddCars = ({ marca }) => {
               airbag: "",
             },
           });
-          console.log("Nueva marca de vehículo:", newVehicleBrand);
-          console.log("Nuevo modelo de vehículo:", newVehicleModel);
+          // console.log("Nuevo auto:", formData);
         } catch (error) {
           Swal.fire({
             title: "Error al publicar el auto",
@@ -777,6 +844,8 @@ const AddCars = ({ marca }) => {
           }
           onClick={() => {
             // Restablecer la variable de estado del formulario "Añadir un nuevo vehículo" al cambiar de pestaña
+            setPreviewImage("");
+            setImage([]);
             setSelectedState("");
             setInventoryBrand("");
             setInventoryModelList([]);
@@ -785,6 +854,29 @@ const AddCars = ({ marca }) => {
             handleCancelAddBrand();
             handleCancelAddModel();
             handleCancelAddYear();
+            setFormData({
+              marca: "",
+              modelo: "",
+              presentacion: "",
+              precio: 0,
+              estado: "",
+              year: 0,
+              imageUrl: [""],
+              kilometraje: "",
+              combustible: "",
+              fichaTecnica: {
+                Motor: "",
+                Pasajeros: "",
+                Carroceria: "",
+                Transmision: "",
+                Traccion: "",
+                Llantas: "",
+                Potencia: "",
+                Puertas: "",
+                Baul: "",
+                airbag: "",
+              },
+            });
           }}
         >
           RELOAD
@@ -1255,7 +1347,21 @@ const AddCars = ({ marca }) => {
                             </div>
                             <div className="flex flex-col mt-2 mx-2 relative">
                               <label htmlFor="combustible">Combustible:</label>
-                              <input
+                              <select
+                                className="border border-gray-300 rounded px-4 py-2 my-1 "
+                                name="combustible"
+                                id=""
+                                onChange={handleChangeCombustible}
+                              >
+                                <option disabled value="">
+                                  Seleccione un tipo
+                                </option>
+                                <option value="nafta">Nafta</option>
+                                <option value="gasoil">Gasoil</option>
+                                <option value="gas">Gas</option>
+                                <option value="electrica">Electrico</option>
+                              </select>
+                              {/* <input
                                 type="text"
                                 id="combustible"
                                 name={formData.combustible}
@@ -1274,18 +1380,75 @@ const AddCars = ({ marca }) => {
                               />
                               {!isCombustibleValid && isCombustibleFocused && (
                                 <div className="absolute rounded-sm top-[calc(100%+0.5rem)] left-0 mt-[-0.8rem] px-2 py-1 mr-2 bg-red-500/90 text-white text-sm z-10">
-                                  Por favor, selecciona un tipo de combustible
-                                  válido (gasolina, gasoil o electrica)
+                                  Por favor, ingrese un tipo de combustible
+                                  válido (nafta, gasoil, gas o electrica)
                                 </div>
-                              )}
+                              )} */}
                             </div>
                           </div>
                         </div>
-                        <div className="max-w-[300px] min-w-[300px] max-h-[300px] min-h-[300px] ml-2 p-2 bg-white rounded shadow-lg flex-grow flex-shrink relative">
-                          <h2 className="text-2xl text-center font-bold mb-1">
+
+                        <div className="max-w-[400px] min-w-[400px] max-h-[300px] min-h-[300px] ml-2 p-2 bg-white rounded shadow-lg flex-grow flex-shrink relative">
+                          <h2 className="text-2xl text-center font-bold ">
                             IMAGEN
                           </h2>
-                          <input
+
+                          <div className="flex flex-col items-center ">
+                            <div className="flex flex-wrap items-center max-h-[175px] mb-2">
+                              {previewImage ? (
+                                <div className="my-2 flex justify-center items-center">
+                                  <img
+                                    src={previewImage}
+                                    alt="Vista previa"
+                                    className="w-40 mx-auto max-h-[175px]"
+                                  />
+                                </div>
+                              ) : (
+                                <div
+                                  className="my-2 flex justify-center items-center"
+                                  aria-live="assertive"
+                                  aria-atomic="true"
+                                >
+                                  <div className="flex-none w-40 h-[175px] bg-gray-200 rounded-sm animate-pulse"></div>
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex items-center mt-1">
+                              <input
+                                type="file"
+                                multiple
+                                id="image"
+                                name="image"
+                                onChange={handleImageUpload}
+                                className="ml-2"
+                              />
+                              {previewImage && (
+                                <button
+                                  type="button"
+                                  onClick={handleImageUploadCloudinary}
+                                  className="p-0 w-28 text-center bg-blue-500 text-white absolute top-0 right-0 m-1 py-1 rounded-lg transition duration-300 hover:shadow-md shadow-[#555555] hover:text-gray-900 hover:bg-[#FFD700]"
+                                >
+                                  Subir Imagen
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                          <div className=" items-start flex flex-row overflow-hidden">
+                            {formData.imageUrl[0] ? (
+                              <a
+                                href={formData.imageUrl}
+                                target="blank"
+                                className="text-sm"
+                              >
+                                Url de la imagen: {formData.imageUrl}
+                              </a>
+                            ) : (
+                              <span className="text-red-500 pl-2 pt-2">
+                                Adjunta una imagen, para el Vehículo
+                              </span>
+                            )}
+                          </div>
+                          {/*  <input
                             type="text"
                             name="imageUrl"
                             value={formData.imageUrl.join("\n")}
@@ -1318,7 +1481,7 @@ const AddCars = ({ marca }) => {
                                 />
                               ))}
                             </div>
-                          )}
+                          )} */}
                         </div>
                       </div>
                     )}
@@ -1456,10 +1619,10 @@ const AddCars = ({ marca }) => {
                     className={`py-2 px-4 rounded ${
                       isButtonActive
                         ? "bg-blue-500 text-white animate-pulse-gradient px-4 mb-8 rounded-lg transition duration-300 hover:shadow-md shadow-[#555555] hover:text-gray-900 hover:bg-[#FFD700] "
-                        : "bg-gray-400 text-white  px-4 mb-8 rounded-lg transition duration-300 shadow-[#555555]cursor-not-allowed"
+                        : "bg-gray-400 text-white  px-4 mb-8 rounded-lg transition duration-300 shadow-[#555555] cursor-not-allowed"
                     }`}
                   >
-                    PUBLISH
+                    PUBLICAR
                   </button>
                 </div>
               </div>
@@ -1467,7 +1630,7 @@ const AddCars = ({ marca }) => {
           </div>
         )}
       </div>
-      <CarouselMarca/>
+      <CarouselMarca />
     </div>
   );
 };
