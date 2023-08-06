@@ -1,85 +1,60 @@
-import { useEffect, useState, useRef } from 'react';
+import './Cart.css'
 
-const ButtonCart = () => {
-  const [carrito, setCarrito] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [lengthCart, set_lengthCart] = useState(0);
-  const cartRef = useRef(null);
+import { useId } from 'react'
+import { CartIcon, ClearCartIcon } from './Icons.jsx'
+import { useCart } from '../../hooks/useCart.js'
 
-  
-  useEffect(() => {
-    const storedCarrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    setCarrito(storedCarrito);
-    const _lengthCart = JSON.parse(localStorage.getItem('carrito_length')) || 0;
-    set_lengthCart(_lengthCart)
-  }, []);
-    
-    const handleOpenCart = (e) => {
-    e.preventDefault();
-    setIsCartOpen(!isCartOpen);
-  };
+function CartItem ({ brand, precio, imageUrl, presentation, title, quantity, addToCart }) {
+  return (
+    <div>
+      <div className='flex gap-3 justify-center items-center'>
+        <img
+          src={imageUrl}
+          alt={title}
+        />
 
-  const handleOutsideClick = (e) => {
-    if (cartRef.current && !cartRef.current.contains(e.target)) {
-      setIsCartOpen(false);
-    }
-  };
+          <strong>{brand.name}</strong>
+          <strong>{presentation}</strong>
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
+          <strong>{precio}</strong> - USD{precio}
+      </div>
 
-  const handleQuitItem = (carIdToDelete) => {
-    console.log("Auto Eliminado Id" + carIdToDelete)
+      <footer>
+        <small>
+          Qty: {quantity}
+        </small>
+        <button onClick={addToCart}>+</button>
+      </footer>
+    </div>
+  )
+}
 
-    // Retrieve the current cart items from the local storage
-    const storedCarrito = JSON.parse(localStorage.getItem('carrito')) || [];
-  
-    // Filter out the item with the matching id from the cart items
-    const updatedCarrito = storedCarrito.filter((car) => car.id !== carIdToDelete);
-  
-    // Update the cart state with the filtered cart items
-    setCarrito(updatedCarrito);
-  
-    // Store the updated cart items back to the local storage
-    localStorage.setItem('carrito', JSON.stringify(updatedCarrito));
- };
-
+export default function Cart () {
+  const cartCheckboxId = useId()
+  const { cart, clearCart, addToCart } = useCart()
 
   return (
-    <div className="relative text-white justify-center mr-10">
-      <div onClick={handleOpenCart}>
-        {console.log(lengthCart)}
-        <a href="">🛒({lengthCart})</a>
-      </div>
-      {isCartOpen && (
-        <div className="absolute right-0 top-8 border border-black text-black bg-white p-4" ref={cartRef}>
-          {carrito.length > 0 ? (
-            carrito.map((car) => (
-                <div key={car.id} className="flex flex-row items-center m-4 w-max">
-                <img
-                  src={car.imageUrl}
-                  alt="Car Img"
-                  width={100}
-                  height={100}
-                  priority
-                />
-                <p className="m-2 font-bold">{car.brand.name}</p>
-                <p className="m-2 whitespace-nowrap">{car.presentacion}</p>
-                <p className="m-2 font-bold">U$D {car.precio}</p>
-                <button className='m-2 py-1 px-2 bg-red-700 rounded-md font-bold' onClick={()=>handleQuitItem(car.id)}>X</button>
-              </div>
-            ))
-          ) : (
-            <p>El carrito está vacío.</p>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
+    <>
+      <label className='cart-button' htmlFor={cartCheckboxId}>
+        <CartIcon />
+      </label>
+      <input id={cartCheckboxId} type='checkbox' hidden />
 
-export default ButtonCart;
+      <aside className='cart'>
+        <ul>
+          {cart.map(product => (
+            <CartItem
+              key={product.id}
+              addToCart={() => addToCart(product)}
+              {...product}
+            />
+          ))}
+        </ul>
+
+        <button onClick={clearCart}>
+          <ClearCartIcon />
+        </button>
+      </aside>
+    </>
+  )
+}

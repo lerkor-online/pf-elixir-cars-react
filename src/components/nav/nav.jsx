@@ -1,9 +1,16 @@
 import Boxgold from "../boxgold/boxgold";
+<<<<<<< Updated upstream
 import ButtonCart from "../cart/cart";
 import logo from "../../assets/logo_elixir.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/ContextProvider";
+=======
+/* import { UserButton } from "@clerk/nextjs"; */
+
+import logo from '../../assets/logo_elixir.png';
+import Cart from "../cart/cart";
+>>>>>>> Stashed changes
 
 export default function Nav() {
   const navigate = useNavigate();
@@ -72,7 +79,11 @@ export default function Nav() {
           </ul>
         </nav>
         <nav>
+<<<<<<< Updated upstream
           <ButtonCart />
+=======
+        <Cart/>
+>>>>>>> Stashed changes
         </nav>
         <Boxgold />
         <button onClick={onLogOut} className="bg-white p-1 rounded-lg ">
