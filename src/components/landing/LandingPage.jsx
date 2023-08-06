@@ -8,9 +8,31 @@ const LandingPage = () => {
     "https://img1.wallspic.com/crops/2/5/7/7/6/167752/167752-carretera-cargador_esquivar_2022-dodge-dodge_charger_srt_hellcat-coche-3840x2160.jpg",
   ];
 
+  // const usuario = useUser()?.user;
+  // // console.log(usuario.emailAddresses[0]?.emailAddress);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const responseLogin = await axios.post(
+  //       "http://localhost:3001/login",
+  //       {
+  //         email: usuario.id,
+  //         password: usuario.id,
+  //         name: usuario.firstName,
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         withCredentials: true,
+  //       }
+  //     );
+  //   })();
+  // }, []);
+
   return (
     <>
-      <Header/>
+      <Header />
       <section className=" flex flex-wrap  max-sm:flex-col ">
         <section className="flex-grow w-96 max-md:w-auto">
           <Carousel images={images} />

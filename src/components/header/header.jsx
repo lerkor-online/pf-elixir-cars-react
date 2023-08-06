@@ -1,73 +1,74 @@
-import axios from "axios";
-import { useUser } from "@clerk/clerk-react";
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import { useNavigate, useRoutes } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Login from "../login/Login";
 
-const Header = ({ onClickHandler }) => {
+const Header = () => {
   const navigate = useNavigate();
-  /* const { user } = useUser();
-  const [sessionCookie, setSessionCookie] = useState(""); */
 
- /*  useEffect(() => {
-    const sessionCookieValue = Cookies.get("__session");
-    console.log(sessionCookieValue);
-    if (sessionCookieValue) {
-      setSessionCookie(sessionCookieValue);
-    }
-  }, []);
-  console.log(sessionCookie); */
+  const [showLogin, setShowLogin] = useState(false);
+
+  const onClickHandler = (e) => {
+    e.preventDefault();
+    setShowLogin(true);
+  };
+
+  const toRegister = (e) => {
+    e.preventDefault();
+    navigate("/sing-up");
+  };
 
   return (
-    <header>
-      {<div
-        className="relative overflow-hidden bg-cover bg-no-repeat"
-        style={{
-          backgroundPosition: "50%",
-          backgroundImage:
-            "url('https://images.pexels.com/photos/9260918/pexels-photo-9260918.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
-          height: "100vh",
-        }}
-      >
-        <div
-          className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.70)" }}
-        >
-          <div className="flex  h-full items-center justify-center">
-            <div className="px-6 text-center text-white md:px-12">
-              <section className="m-10">
-                <h1 className="mb-6 text-5xl font-bold animate-pulse">
-                  Elixir Cars
-                </h1>
-                <p className="text-2xl">
-                  Somos la mejor empresa de compra y venta de automoviles
-                </p>
-              </section>
-              <section className="flex max-sm:flex-col justify-center gap-5">
-                <a href="/home">
-                  <button
-                    /* onClick={onClickHandler} */
-                    type="button"
-                    className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full "
-                  >
-                    Ingresar
-                  </button>
-                </a>
-                <button
-                  onClick={() => {
-                    navigate("/sign-up");
-                  }}
-                  type="button"
-                  className="bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.11)] active:scale-105 inline-block rounded border-2 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50 max-sm:rounded-full  "
-                >
-                  Registrarse
-                </button>
-              </section>
+    <>
+      {showLogin && <Login setShowLogin={setShowLogin} />}
+      <header>
+        {
+          <div
+            className="relative overflow-hidden bg-cover bg-no-repeat"
+            style={{
+              backgroundPosition: "50%",
+              backgroundImage:
+                "url('https://images.pexels.com/photos/9260918/pexels-photo-9260918.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
+              height: "100vh",
+            }}
+          >
+            <div
+              className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed"
+              style={{ backgroundColor: "rgba(0, 0, 0, 0.70)" }}
+            >
+              <div className="flex  h-full items-center justify-center">
+                <div className="px-6 text-center text-white md:px-12">
+                  <section className="m-10">
+                    <h1 className="mb-6 text-5xl font-bold animate-pulse">
+                      Elixir Cars
+                    </h1>
+                    <p className="text-2xl">
+                      Somos la mejor empresa de compra y venta de automoviles
+                    </p>
+                  </section>
+                  <section className="flex max-sm:flex-col justify-center gap-5">
+                    <button
+                      onClick={onClickHandler}
+                      type="button"
+                      className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full "
+                    >
+                      Ingresar
+                    </button>
+
+                    <button
+                      onClick={toRegister}
+                      type="button"
+                      className="bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.11)] active:scale-105 inline-block rounded border-2 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50 max-sm:rounded-full  "
+                    >
+                      Registrarse
+                    </button>
+                  </section>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>}
-    </header>
+        }
+      </header>
+    </>
   );
 };
 

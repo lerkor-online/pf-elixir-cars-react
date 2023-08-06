@@ -1,18 +1,30 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "../footer/footer";
 import Nav from "../nav/nav";
+import AuthMiddleware from "./AuthMiddleware";
 
 const RootLayout = () => {
   const { pathname } = useLocation();
   return (
     <>
-      {pathname !== "/" && pathname !== "/dashboard" && <Nav/>}
+      {pathname !== "/" && (
+        <AuthMiddleware>
+          <Nav />
+        </AuthMiddleware>
+      )}
       <main style={{ display: "block" }}>
         <Outlet />
       </main>
-     {pathname !== "/dashboard" && <Footer/>}
+      <Footer />
+
+//      {pathname !== "/" && pathname !== "/dashboard" && <Nav/>}
+//      <main style={{ display: "block" }}>
+//        <Outlet />
+//      </main>
+//     {pathname !== "/dashboard" && <Footer/>}
+
     </>
-  )
+  );
 };
 
 export default RootLayout;

@@ -1,24 +1,32 @@
-import React, { useEffect, useState } from "react";
 import Boxgold from "../boxgold/boxgold";
-/* import { UserButton } from "@clerk/nextjs"; */
 import ButtonCart from "../cart/cart";
-import logo from '../../assets/logo_elixir.png';
+import logo from "../../assets/logo_elixir.png";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/ContextProvider";
 
 export default function Nav() {
-  const [cartCount, setCartCount] = useState(0);
-
-  const getCartCountFromLocalStorage = () => {
-    const cartCountStr = localStorage.getItem("carrito");
-    const parsedCount = parseInt(cartCountStr, 10);
-    if (!isNaN(parsedCount)) {
-      setCartCount(parsedCount);
+  const navigate = useNavigate();
+  const { logout, user } = useAuth();
+  const onLogOut = async () => {
+    if (user) {
+      await logout();
+      localStorage.removeItem("Usuario");
+      navigate("/");
+      return;
     }
-  };
+    await axios.post(
+      "http://localhost:3001/logout",
+      {},
+      {
+        withCredentials: true,
+      }
 
-  // Call the function to get the cart count when the component mounts
-  useEffect(() => {
-    getCartCountFromLocalStorage();
-  }, []);
+    );
+    await logout();
+    localStorage.removeItem("Usuario");
+    navigate("/");
+  };
 
   return (
     <main>
@@ -28,13 +36,13 @@ export default function Nav() {
       >
         <div>
           <a href="/home">
-          <img
-            src={logo}
-            alt="Elixir Logo"
-            className="dark:invert"
-            width="160px"
-            height="56px"
-          />
+            <img
+              src={logo}
+              alt="Elixir Logo"
+              className="dark:invert"
+              width="160px"
+              height="56px"
+            />
           </a>
         </div>
 
@@ -64,12 +72,12 @@ export default function Nav() {
           </ul>
         </nav>
         <nav>
-        <a href="">🛒({cartCount})</a>
+          <ButtonCart />
         </nav>
         <Boxgold />
-        <div className="px-1">
-          {/* <UserButton afterSignOutUrl="/" /> */}
-        </div>
+        <button onClick={onLogOut} className="bg-white p-1 rounded-lg ">
+          Salir
+        </button>
       </header>
     </main>
   );
