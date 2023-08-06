@@ -2,16 +2,18 @@ import {useState, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./components/Helpers/RootLayout";
 
-import './App.css'
-import Home from './pages/home/home';
-import Cerokm from './pages/categoria-producto/0km/Cerokm'
-import LandingPage from './components/landing/LandingPage'
-import AddCars from './pages/create/AddCars';
-import About from './pages/about/About';
-import Detail from './pages/detail/detail';
-import OurTeam from './pages/ourteam/Ourteam';
-import Contact from './pages/contact/Contact';
-import Dashboard from './components/Dashboard/Dashboard'
+
+import "./App.css";
+import Home from "./pages/home/home";
+import Cerokm from "./pages/categoria-producto/0km/Cerokm";
+import LandingPage from "./components/landing/LandingPage";
+import AddCars from "./pages/create/AddCars";
+import About from "./pages/about/About";
+import Detail from "./pages/detail/detail";
+import OurTeam from "./pages/ourteam/Ourteam";
+import Contact from "./pages/contact/Contact";
+import Checkout from "./pages/checkout/Checkout";
+import Dashboard from "../src/components/Dashboard/Dashboard";
 
 function App() {
   const root = createBrowserRouter([
