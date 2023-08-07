@@ -6,13 +6,15 @@ const RootLayout = () => {
   const { pathname } = useLocation();
   return (
     <>
-      {pathname !== "/" && pathname !== "/dashboard" && <Nav/>}
+      {(pathname !== "/" && pathname.includes("/dashboard")) || <Nav />}
       <main style={{ display: "block" }}>
         <Outlet />
       </main>
-     {pathname !== "/dashboard" && <Footer/>}
+      {(pathname !== "/dashboard" && pathname.includes("/dashboard_1")) || (
+        <Footer />
+      )}
     </>
-  )
+  );
 };
 
 export default RootLayout;
