@@ -42,29 +42,29 @@ function App() {
   ]);
 
   // Lee la variable de entorno desde import.meta.env
-  const clerkPublishableKey = import.meta.env
-    .VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
+  // const clerkPublishableKey = import.meta.env
+  //   .VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
 
-  console.log(clerkPublishableKey);
-  // Verifica si la clave existe y no está vacía
-  if (!clerkPublishableKey || clerkPublishableKey === "") {
-    throw new Error("Missing or empty Publishable Key");
-  }
+  // console.log(clerkPublishableKey);
+  // // Verifica si la clave existe y no está vacía
+  // if (!clerkPublishableKey || clerkPublishableKey === "") {
+  //   throw new Error("Missing or empty Publishable Key");
+  // }
 
-  // Usa la variable en tu código
-  const clerkPubKey = clerkPublishableKey;
+  // // Usa la variable en tu código
+  // const clerkPubKey = clerkPublishableKey;
 
   // Continúa con el resto de tu código utilizando clerkPubKey
 
   return (
     <>
-      <ClerkProvider publishableKey={clerkPubKey}>
-        <ContextProvider>
-          <div className="App">
-            <RouterProvider router={root} />
-          </div>
-        </ContextProvider>
-      </ClerkProvider>
+      {/* <ClerkProvider publishableKey={clerkPubKey}> */}
+      <ContextProvider>
+        <div className="App">
+          <RouterProvider router={root} />
+        </div>
+      </ContextProvider>
+      {/* </ClerkProvider> */}
     </>
   );
 }

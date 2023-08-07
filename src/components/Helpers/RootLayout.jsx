@@ -12,17 +12,15 @@ const RootLayout = () => {
           <Nav />
         </AuthMiddleware>
       )} */}
-      <main style={{ display: "block" }}>
+      {/* <main style={{ display: "block" }}>
         <Outlet />
       </main>
-      <Footer />
-
-//      {pathname !== "/" && pathname !== "/dashboard" && <Nav/>}
-//      <main style={{ display: "block" }}>
-//        <Outlet />
-//      </main>
-//     {pathname !== "/dashboard" && <Footer/>}
-
+      <Footer /> */}
+      {pathname !== "/" && pathname !== "/dashboard" && <Nav />}{" "}
+      <main style={{ display: "block" }}>
+        <Outlet />{" "}
+      </main>
+      {pathname !== "/dashboard" && <Footer />}
     </>
   );
 };
