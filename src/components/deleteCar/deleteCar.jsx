@@ -11,14 +11,13 @@ const MAX = 60000;
 
 export default function DeleteCar() {
   const [cars, setCars] = useState([]);
-  const [brands, setBrands] = useState([]);
+
   const [brand, setBrand] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [showFilters, setShowFilters] = useState(true);
 
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -81,12 +80,9 @@ export default function DeleteCar() {
     fetchBrands();
   }, [currentPage, isSearching, searchQuery, values[0], values[1], brand]);
 
-  console.log(brand);
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
 
   const filteredCars = cars.filter(
     (car) =>
@@ -97,13 +93,30 @@ export default function DeleteCar() {
       car.year.toString().includes(searchQuery)
   );
 
+  const handleDeleteCar = async (carId) => {
+    try {
+      // Realizar la solicitud DELETE al backend para eliminar el automóvil
+      await axios.delete(`${URL}cars/${carId}`);
+  
+      // Después de eliminar, actualizar la lista de autos sin el automóvil eliminado
+      setCars((prevCars) => prevCars.filter((car) => car.id !== carId));
+    } catch (error) {
+      console.error("Error al eliminar el automóvil:", error);
+      // Manejar errores si ocurre algún problema al eliminar el automóvil
+    }
+  };
+  
+
+
   return (
     <div>
       <section className="flex">
         <div className=" grid grid-cols-4 grid-rows-10 gap-2 h-auto mx-auto text-black items-center">
           {filteredCars.map((auto) => (
-             <Card key={auto.id} auto={auto} />
-          
+            <div key={auto.id}>
+             <Card  auto={auto} />
+             <button onClick={() => handleDeleteCar(auto.id)} className="mt-0 ml-20 px-4 py-2 bg-red-500 text-white">Eliminar</button>
+        </div>
           ))}
         </div>
       </section>
