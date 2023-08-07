@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Boxgold from "../boxgold/boxgold";
 /* import { UserButton } from "@clerk/nextjs"; */
 import ButtonCart from "../cart/cart";
-import logo from '../../assets/logo_elixir.png';
+import logo from "../../assets/logo_elixir.png";
 
 export default function Nav() {
   const [cartCount, setCartCount] = useState(0);
@@ -28,13 +28,13 @@ export default function Nav() {
       >
         <div>
           <a href="/home">
-          <img
-            src={logo}
-            alt="Elixir Logo"
-            className="dark:invert"
-            width="160px"
-            height="56px"
-          />
+            <img
+              src={logo}
+              alt="Elixir Logo"
+              className="dark:invert"
+              width="160px"
+              height="56px"
+            />
           </a>
         </div>
 
@@ -49,9 +49,9 @@ export default function Nav() {
             <li>
               <a href="">Vende tu Auto</a>
             </li>
-            <li>
+            {/* <li>
               <a href="/create">Añadir Auto</a>
-            </li>
+            </li> */}
             <li>
               <a href="">Servicios</a>
             </li>
@@ -64,12 +64,10 @@ export default function Nav() {
           </ul>
         </nav>
         <nav>
-        <a href="">🛒({cartCount})</a>
+          <a href="">🛒({cartCount})</a>
         </nav>
         <Boxgold />
-        <div className="px-1">
-          {/* <UserButton afterSignOutUrl="/" /> */}
-        </div>
+        <div className="px-1">{/* <UserButton afterSignOutUrl="/" /> */}</div>
       </header>
     </main>
   );

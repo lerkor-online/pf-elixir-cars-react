@@ -3,7 +3,7 @@ import AddCars from "../../create/AddCars";
 
 function Cars() {
   return (
-    <div className="flex flex-col m-auto min-h-full min-w-full ">
+    <div className="flex flex-col m-auto min-h-full min-w-full Z-0">
       <div className="min-h-[6vh]">
         <h1>CARS</h1>
       </div>

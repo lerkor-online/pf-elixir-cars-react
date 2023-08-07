@@ -684,8 +684,8 @@ const AddCars = ({ marca }) => {
 
   return (
     // <div className="mt-16 min-w-full flex-col items-center bg-slate-50 text-gray-600 body-font h730:mt-144 h742:mt-120 h935:mt-100 hdm:mt-20 lg:mt-16 xl:mt-16 2xl:mt-16">
-    <div className="min-w-full flex-col items-center bg-slate-50 text-gray-600 body-font">
-      <div className="p-4 flex justify-center">
+    <div className="-mt-5 pt-5 min-w-full flex-col items-center bg-slate-50 text-gray-600 body-font ">
+      <div className="absolute right-4 p-4 flex justify-center ">
         <button
           className={
             "ml-4 py-2 px-4 bg-gray-500 text-gray-200  hover:text-gray-900 hover:cursor-pointer h-fit flex border-gray-200  rounded-lg transition duration-300 hover:shadow-md shadow-[#555555] hover:bg-[#ff7300]"
@@ -733,7 +733,7 @@ const AddCars = ({ marca }) => {
 
       <div className="mt-4">
         <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-bold mb-2">PUBLICA TU AUTO</h2>
+          <h2 className="text-2xl font-bold mb-2"> AÑADIR NUEVO AUTO</h2>
           <form
             onSubmit={handleNewVehicleSubmit}
             className="flex flex-row m-auto w-fit"
@@ -1324,7 +1324,7 @@ const AddCars = ({ marca }) => {
           </form>
         </div>
       </div>
-      <CarouselMarca />
+      {/* <CarouselMarca /> */}
     </div>
   );
 };
