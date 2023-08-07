@@ -3,30 +3,36 @@ import ButtonCart from "../cart/cart";
 import logo from "../../assets/logo_elixir.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth, useUser } from "@clerk/clerk-react";
-import { useEffect } from "react";
+/* import { useAuth } from "../../contexts/ContextProvider"; */
+
+/* import { UserButton } from "@clerk/nextjs"; */
+
+import Cart from "../cart/cart";
+import LogoutButton from "../login/LogoutButton";
 
 export default function Nav() {
   // const { logout, user } = useAuth();
 
   const navigate = useNavigate();
-  const onLogOut = async () => {
-    // if (user) {
-    //   await logout();
-    //   localStorage.removeItem("Usuario");
-    //   navigate("/");
-    //   return;
-    // }
+  /* const { logout, user } = useAuth(); */
+  /*  const onLogOut = async () => {
+    if (user) {
+      await logout();
+      localStorage.removeItem("Usuario");
+      navigate("/");
+      return;
+    }
     await axios.post(
       "http://localhost:3001/logout",
       {},
       {
         withCredentials: true,
       }
+
     );
     localStorage.removeItem("Usuario");
     navigate("/");
-  };
+  }; */
 
   return (
     <main>
@@ -73,11 +79,14 @@ export default function Nav() {
         </nav>
         <nav>
           <ButtonCart />
+
+          {/*  <Cart/> */}
         </nav>
         <Boxgold />
-        <button onClick={onLogOut} className="bg-white p-1 rounded-lg ">
+        <LogoutButton />
+        {/* <button onClick={onLogOut} className="bg-white p-1 rounded-lg ">
           Salir
-        </button>
+        </button> */}
       </header>
     </main>
   );
