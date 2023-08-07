@@ -1,4 +1,5 @@
 import React from "react";
+import AddUser from "../../create_user/AddUser";
 
 function Users() {
   return (
@@ -8,7 +9,7 @@ function Users() {
         <button>Ver Usuarios</button>
       </div>
       <div className="border-2 text-black bg-slate-300 rounded-lg mt-2 min-h-[91vh]">
-        Hola
+        <AddUser />
       </div>
     </div>
   );
