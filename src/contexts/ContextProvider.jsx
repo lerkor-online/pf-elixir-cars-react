@@ -20,7 +20,7 @@ export const useAuth = () => {
 
 const ContextProvider = ({ children }) => {
   ///////////////////FIREBASE AUTH///////////////////////////////////////
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
 
   const signup = (email, password) =>
     createUserWithEmailAndPassword(auth, email, password);

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+/* import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AuthMiddleware = ({ children }) => {
@@ -18,3 +18,4 @@ const AuthMiddleware = ({ children }) => {
 };
 
 export default AuthMiddleware;
+ */

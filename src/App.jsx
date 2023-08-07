@@ -10,9 +10,12 @@ import Detail from "./pages/detail/detail";
 import OurTeam from "./pages/ourteam/Ourteam";
 import Contact from "./pages/contact/Contact";
 import Checkout from "./pages/checkout/Checkout";
-import Dashboard from "./pages/dashboard/Dashboard";
+/* import Dashboard from "./pages/dashboard/Dashboard"; */
 import { ContextProvider } from "./contexts/ContextProvider";
-import SignUpPage from "./pages/sing-up/[[...sign-up]]/sing-up";
+/* import SignUpPage from "./pages/sing-up/[[...sign-up]]/sing-up"; */
+
+import Dashboard from "../src/components/Dashboard/Dashboard";
+
 
 function App() {
   const root = createBrowserRouter([
@@ -34,7 +37,7 @@ function App() {
         { path: "/about/contact", element: <Contact /> },
         { path: "/create", element: <AddCars /> },
         { path: "/dashboard", element: <Dashboard /> },
-        { path: "/sing-up", element: <SignUpPage /> },
+        /* { path: "/sing-up", element: <SignUpPage /> }, */
       ],
     },
   ]);
@@ -46,7 +49,7 @@ function App() {
         </div>
       </ContextProvider>
     </>
-  );
+  )
 }
 
-export default App;
+export default App

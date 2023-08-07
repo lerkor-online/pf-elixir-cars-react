@@ -1,17 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Login from "../login/Login";
+import { useAuth0 } from "@auth0/auth0-react";
+/* import Login from "../login/Login"; */
 
 const Header = () => {
+  const {loginWithRedirect, isAuthenticated} = useAuth0()
   const navigate = useNavigate();
 
-  const [showLogin, setShowLogin] = useState(false);
+  /* const [showLogin, setShowLogin] = useState(false); */
 
-  const onClickHandler = (e) => {
-    e.preventDefault();
-    setShowLogin(true);
-  };
-
+  // const onClickHandler = (e) => {
+  //   e.preventDefault()
+  //   loginWithRedirect()
+  //   navigate("/home")
+  //   /* setShowLogin(true); */
+  // };
+ 
+  console.log(isAuthenticated)
   const toRegister = (e) => {
     e.preventDefault();
     navigate("/sing-up");
@@ -19,7 +24,7 @@ const Header = () => {
 
   return (
     <>
-      {showLogin && <Login setShowLogin={setShowLogin} />}
+      {/* {showLogin && <Login setShowLogin={setShowLogin} />} */}
       <header>
         {
           <div
@@ -46,21 +51,25 @@ const Header = () => {
                     </p>
                   </section>
                   <section className="flex max-sm:flex-col justify-center gap-5">
+                    {isAuthenticated ? <button className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] list-none active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full "><a href="/home">Ingresar</a></button>
+                    :                    
                     <button
-                      onClick={onClickHandler}
+                      /* onClick={(onClickHandler)} */
+                      onClick={()=>loginWithRedirect()}
                       type="button"
                       className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full "
                     >
-                      Ingresar
+                      Login
                     </button>
+                    }
 
-                    <button
+                    {/* <button
                       onClick={toRegister}
                       type="button"
                       className="bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.11)] active:scale-105 inline-block rounded border-2 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50 max-sm:rounded-full  "
                     >
                       Registrarse
-                    </button>
+                    </button> */}
                   </section>
                 </div>
               </div>

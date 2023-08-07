@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+// import { useAuth } from "../../../contexts/ContextProvider";
 import { useAuth } from "../../../contexts/ContextProvider";
 export default function SignUpPage() {
   const navigate = useNavigate();
-  const { signup, user: usuario } = useAuth();
+  const { signup, loginwithgoogle, user: usuario } = useAuth();
   const [user, setUser] = useState({
     name: "",
     email: "",
