@@ -875,7 +875,7 @@ const AddCars = ({ marca }) => {
                       />
                       {!isYearValid && isYearFocused && (
                         <div className="absolute rounded-sm top-[calc(100%+0.5rem)] left-0 mt-[-1.4rem] px-2 py-1 mr-2 bg-red-500/90 text-white text-sm z-10">
-                          Por favor, ingresa un año válido.
+                          Ingresa año entre 2010 y actual
                         </div>
                       )}
                       <button
@@ -1324,7 +1324,7 @@ const AddCars = ({ marca }) => {
           </form>
         </div>
       </div>
-      <CarouselMarca />
+      {/* <CarouselMarca /> */}
     </div>
   );
 };

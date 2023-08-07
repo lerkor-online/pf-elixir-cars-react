@@ -1,14 +1,13 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-
+import logoo from '../imgs/logoo.png';
 function MenuBar() {
   const location = useLocation();
 
   return (
     <div className="flex flex-col p-5 bg-neutral-700 min-w-full min-h-[98vh] rounded-lg shadow-lg">
-      <div className="">
-        <img src="" alt="" />
-        <h2 className="text-2xl text-white">ELIXIR CARS</h2>
+      <div >
+        <img src={logoo} alt=""className="w-32 h-auto mb-5"/>
       </div>
 
       <div className="flex flex-col">

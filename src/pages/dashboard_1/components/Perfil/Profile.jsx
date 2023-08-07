@@ -19,7 +19,7 @@ function Profile() {
         </button>
       </div>
       {menuUser && (
-        <div className="absolute -right-2 p-2 flex flex-col items-center bg-neutral-700 min-w-[150px] rounded-lg shadow-lg">
+        <div className="z-10 absolute -right-2 p-2 flex flex-col items-center bg-neutral-700 min-w-[150px] rounded-lg shadow-lg">
           <div className="h-16 w-16 bg-red-600 my-2 overflow-hidden rounded-full">
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png"
