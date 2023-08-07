@@ -11,6 +11,7 @@ import OurTeam from "./pages/ourteam/Ourteam";
 import Contact from "./pages/contact/Contact";
 import Checkout from "./pages/checkout/Checkout";
 import Dashboard from "./pages/dashboard/Dashboard";
+import { ClerkProvider } from "@clerk/clerk-react";
 import { ContextProvider } from "./contexts/ContextProvider";
 import SignUpPage from "./pages/sing-up/[[...sign-up]]/sing-up";
 
@@ -38,13 +39,31 @@ function App() {
       ],
     },
   ]);
+
+  // Lee la variable de entorno desde import.meta.env
+  const clerkPublishableKey = import.meta.env
+    .VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
+
+  console.log(clerkPublishableKey);
+  // Verifica si la clave existe y no está vacía
+  if (!clerkPublishableKey || clerkPublishableKey === "") {
+    throw new Error("Missing or empty Publishable Key");
+  }
+
+  // Usa la variable en tu código
+  const clerkPubKey = clerkPublishableKey;
+
+  // Continúa con el resto de tu código utilizando clerkPubKey
+
   return (
     <>
-      <ContextProvider>
-        <div className="App">
-          <RouterProvider router={root} />
-        </div>
-      </ContextProvider>
+      <ClerkProvider publishableKey={clerkPubKey}>
+        <ContextProvider>
+          <div className="App">
+            <RouterProvider router={root} />
+          </div>
+        </ContextProvider>
+      </ClerkProvider>
     </>
   );
 }

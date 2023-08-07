@@ -3,18 +3,20 @@ import ButtonCart from "../cart/cart";
 import logo from "../../assets/logo_elixir.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/ContextProvider";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { useEffect } from "react";
 
 export default function Nav() {
+  // const { logout, user } = useAuth();
+
   const navigate = useNavigate();
-  const { logout, user } = useAuth();
   const onLogOut = async () => {
-    if (user) {
-      await logout();
-      localStorage.removeItem("Usuario");
-      navigate("/");
-      return;
-    }
+    // if (user) {
+    //   await logout();
+    //   localStorage.removeItem("Usuario");
+    //   navigate("/");
+    //   return;
+    // }
     await axios.post(
       "http://localhost:3001/logout",
       {},
@@ -22,7 +24,6 @@ export default function Nav() {
         withCredentials: true,
       }
     );
-    await logout();
     localStorage.removeItem("Usuario");
     navigate("/");
   };

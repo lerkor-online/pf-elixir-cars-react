@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/ContextProvider";
+import { useUser, SignIn } from "@clerk/clerk-react";
 
 const Login = ({ setShowLogin }) => {
   const navigate = useNavigate();
-
-  const { login, loginwithgoogle, user: usuario } = useAuth();
+  const currentUser = useUser().user;
+  console.log(currentUser);
+  // const { login, loginwithgoogle, user: usuario } = useAuth();
 
   const [user, setUser] = useState({
     email: "",
@@ -30,6 +31,28 @@ const Login = ({ setShowLogin }) => {
     });
   };
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const getUser = await axios.get(
+  //         `http://localhost:3001/getUser?email=${currentUser?.primaryEmailAddress.emailAddress}`
+  //       );
+  //       const dataUser = await getUser.data;
+  //       localStorage.setItem("Usuario", dataUser.token);
+  //       navigate("/home");
+  //     } catch (err) {
+  //       await axios.post("http://localhost:3001/register", {
+  //         name: currentUser?.fullName,
+  //         email: currentUser?.primaryEmailAddress.emailAddress,
+  //         password: currentUser?.id,
+  //       });
+  //       localStorage.setItem("Usuario", usuario.token);
+  //       navigate("/home");
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+
   const logHandler = async (e) => {
     e.preventDefault();
     const response = await axios.post("http://localhost:3001/login", user, {
@@ -42,32 +65,31 @@ const Login = ({ setShowLogin }) => {
     const data = await response.data;
 
     if (data) {
-      await login(data.email, data.password);
       localStorage.setItem("Usuario", data.token);
       navigate("/home");
     }
   };
   ////////////////////////////////////////////////////////////////////////////////////////
-  const handleGoogleSignin = async (e) => {
-    e.preventDefault();
-    await loginwithgoogle();
-    try {
-      const getUser = await axios.get(
-        `http://localhost:3001/getUser?email=${usuario.email}`
-      );
-      const dataUser = await getUser.data;
-      localStorage.setItem("Usuario", dataUser.token);
-      navigate("/home");
-    } catch (err) {
-      await axios.post("http://localhost:3001/register", {
-        name: usuario.displayName,
-        email: usuario.email,
-        password: usuario.uid,
-      });
-      localStorage.setItem("Usuario", usuario.token);
-      navigate("/home");
-    }
-  };
+  // const handleGoogleSignin = async (e) => {
+  //   await loginwithgoogle();
+  //   e.preventDefault();
+  //   try {
+  //     const getUser = await axios.get(
+  //       `http://localhost:3001/getUser?email=${usuario?.email}`
+  //     );
+  //     const dataUser = await getUser.data;
+  //     localStorage.setItem("Usuario", dataUser.token);
+  //     navigate("/home");
+  //   } catch (err) {
+  //     await axios.post("http://localhost:3001/register", {
+  //       name: usuario?.displayName,
+  //       email: usuario?.email,
+  //       password: usuario?.uid,
+  //     });
+  //     localStorage.setItem("Usuario", usuario.token);
+  //     navigate("/home");
+  //   }
+  // };
   ////////////////////////////////////////////////////////////////////////////////////////
   return (
     <>
@@ -130,12 +152,13 @@ const Login = ({ setShowLogin }) => {
                     },
                   }}
                 /> */}
-                <button
+                {/* <button
                   onClick={handleGoogleSignin}
                   className="bg-gray-200 mb-2 p-1 px-4 rounded-lg hover:bg-gray-300"
                 >
                   Google
-                </button>
+                </button> */}
+                <SignIn afterSignInUrl="/home" />
               </section>
             </section>
           </form>

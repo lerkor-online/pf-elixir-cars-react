@@ -1,13 +1,15 @@
+import { useUser } from "@clerk/clerk-react";
 import Carousel from "../carousel/carousel";
 import Header from "../header/header";
 import Newsletter from "../newsletter/Newsletter";
-
 const LandingPage = () => {
   const images = [
     "https://img1.wallspic.com/crops/4/0/4/0/7/170404/170404-porsche-porsche_911_gt3_r_991-coche-deportivo-wapcar-3840x2160.jpg",
     "https://img1.wallspic.com/crops/2/5/7/7/6/167752/167752-carretera-cargador_esquivar_2022-dodge-dodge_charger_srt_hellcat-coche-3840x2160.jpg",
   ];
 
+  const userr = useUser().user;
+  console.log(userr);
   // const usuario = useUser()?.user;
   // // console.log(usuario.emailAddresses[0]?.emailAddress);
 
