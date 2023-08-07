@@ -1,21 +1,21 @@
 import Boxgold from "../boxgold/boxgold";
-<<<<<<< Updated upstream
 import ButtonCart from "../cart/cart";
 import logo from "../../assets/logo_elixir.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/ContextProvider";
-=======
+/* import { useAuth } from "../../contexts/ContextProvider"; */
+
 /* import { UserButton } from "@clerk/nextjs"; */
 
-import logo from '../../assets/logo_elixir.png';
+
 import Cart from "../cart/cart";
->>>>>>> Stashed changes
+import LogoutButton from "../login/LogoutButton";
+
 
 export default function Nav() {
   const navigate = useNavigate();
-  const { logout, user } = useAuth();
-  const onLogOut = async () => {
+  /* const { logout, user } = useAuth(); */
+ /*  const onLogOut = async () => {
     if (user) {
       await logout();
       localStorage.removeItem("Usuario");
@@ -33,7 +33,7 @@ export default function Nav() {
     await logout();
     localStorage.removeItem("Usuario");
     navigate("/");
-  };
+  }; */
 
   return (
     <main>
@@ -79,16 +79,16 @@ export default function Nav() {
           </ul>
         </nav>
         <nav>
-<<<<<<< Updated upstream
           <ButtonCart />
-=======
-        <Cart/>
->>>>>>> Stashed changes
+
+       {/*  <Cart/> */}
+
         </nav>
         <Boxgold />
-        <button onClick={onLogOut} className="bg-white p-1 rounded-lg ">
+        <LogoutButton/>
+        {/* <button onClick={onLogOut} className="bg-white p-1 rounded-lg ">
           Salir
-        </button>
+        </button> */}
       </header>
     </main>
   );
