@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 /* import Login from "../login/Login"; */
 
 const Header = () => {
@@ -9,12 +10,20 @@ const Header = () => {
 
   /* const [showLogin, setShowLogin] = useState(false); */
 
-  // const onClickHandler = (e) => {
-  //   e.preventDefault()
-  //   loginWithRedirect()
-  //   navigate("/home")
-  //   /* setShowLogin(true); */
-  // };
+  const onClickHandler = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.get(`http://localhost:3001/getUser?email=${user.email}`);
+      navigate("/home");
+    } catch (err) {
+      await axios.post("http://localhost:3001/register", {
+        email: user.email,
+        password: user.sub,
+        name: user.name,
+      });
+      navigate("/home");
+    }
+  };
 
   // console.log(isAuthenticated, user);
   const toRegister = (e) => {
@@ -52,13 +61,16 @@ const Header = () => {
                   </section>
                   <section className="flex max-sm:flex-col justify-center gap-5">
                     {isAuthenticated ? (
-                      <button className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] list-none active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full ">
-                        <a href="/home">Ingresar</a>
+                      <button
+                        onClick={onClickHandler}
+                        className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] list-none active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full "
+                      >
+                        Ingresar
                       </button>
                     ) : (
                       <button
-                        /* onClick={(onClickHandler)} */
                         onClick={() => loginWithRedirect()}
+                        // onClick={() => loginWithRedirect()}
                         type="button"
                         className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full "
                       >

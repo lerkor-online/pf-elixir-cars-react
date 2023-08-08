@@ -3,10 +3,16 @@ import Frame851 from "../../assets/Frame-851.svg";
 import Frame891 from "../../assets/Frame-891.svg";
 import Frame890 from "../../assets/Frame-890.svg";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
 
 export default function Home() {
   const { isAuthenticated, user } = useAuth0();
   console.log(isAuthenticated, user);
+
+
+  // useEffect(()=>)
+
+
   return (
     <div className="overflow-hidden">
       <main>
