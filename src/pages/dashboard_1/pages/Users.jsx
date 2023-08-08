@@ -6,7 +6,7 @@ function Users() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get('https://localhost:3001/users')
+    axios.get('http://localhost:3001/users?email=herms.home94%40gmail.com')
       .then(response => {
         setUsers(response.data);
       })
