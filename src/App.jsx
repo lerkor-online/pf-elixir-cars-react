@@ -16,6 +16,8 @@ import { ContextProvider } from "./contexts/ContextProvider";
 
 import Dashboard from "../src/components/Dashboard/Dashboard";
 
+import AuthMiddleware from "./components/Helpers/AuthMiddleware";
+
 function App() {
   const root = createBrowserRouter([
     {
@@ -26,7 +28,11 @@ function App() {
         { path: "/", element: <LandingPage /> },
         {
           path: "/home",
-          element: <Home />,
+          element: (
+            <AuthMiddleware>
+              <Home />
+            </AuthMiddleware>
+          ),
         },
         { path: "/categoria-producto/0km", element: <Cerokm /> },
         { path: "/categoria-producto/0km/detail/:id", element: <Detail /> },
@@ -58,13 +64,11 @@ function App() {
 
   return (
     <>
-      {/* <ClerkProvider publishableKey={clerkPubKey}> */}
       <ContextProvider>
         <div className="App">
           <RouterProvider router={root} />
         </div>
       </ContextProvider>
-      {/* </ClerkProvider> */}
     </>
   );
 }
