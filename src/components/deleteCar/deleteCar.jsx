@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react"; // Asegúrate de importar React si aún no lo has hecho
 import axios from "axios";
+import "./deleteCar.css";
 import Card from "../Card/Card";
 import Paginate from "../Paginate/Paginate";
-import "./deleteCar.css";
 
 const URL = "https://pf-elixir-cars-back-production.up.railway.app/";
 const limit = 12;
 const MIN = 0;
 const MAX = 60000;
-
-export default function DeleteCar() {
+function DeleteCar() {
   const [cars, setCars] = useState([]);
 
   const [brand, setBrand] = useState("");
@@ -17,8 +16,6 @@ export default function DeleteCar() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
-
 
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
@@ -33,9 +30,7 @@ export default function DeleteCar() {
         `${URL}cars?page=${currentPage}&limit=${limitItems}&minPrice=${values[0]}&maxPrice=${values[1]}&brand=${brand}&estado=new `
       );
       const jsonData = await response.data;
-
       setTotalPages(jsonData.totalPages);
-
       if (Array.isArray(jsonData.data)) {
         setCars(jsonData.data);
       } else {
@@ -54,7 +49,7 @@ export default function DeleteCar() {
       const jsonData = response.data;
 
       if (Array.isArray(jsonData)) {
-        setBrands(jsonData);
+        setBrand(jsonData);
       } else {
         console.log("API response is not an array:", jsonData);
       }
@@ -97,7 +92,7 @@ export default function DeleteCar() {
     try {
       // Realizar la solicitud DELETE al backend para eliminar el automóvil
       await axios.delete(`${URL}cars/${carId}`);
-  
+
       // Después de eliminar, actualizar la lista de autos sin el automóvil eliminado
       setCars((prevCars) => prevCars.filter((car) => car.id !== carId));
     } catch (error) {
@@ -105,8 +100,6 @@ export default function DeleteCar() {
       // Manejar errores si ocurre algún problema al eliminar el automóvil
     }
   };
-  
-
 
   return (
     <div>
@@ -114,9 +107,14 @@ export default function DeleteCar() {
         <div className=" grid grid-cols-4 grid-rows-10 gap-2 h-auto mx-auto text-black items-center">
           {filteredCars.map((auto) => (
             <div key={auto.id}>
-             <Card  auto={auto} />
-             <button onClick={() => handleDeleteCar(auto.id)} className="mt-0 m-20 px-4 py-2 bg-red-500 text-white">Eliminar</button>
-        </div>
+              <Card auto={auto} />
+              <button
+                onClick={() => handleDeleteCar(auto.id)}
+                className="mt-0 m-20 px-4 py-2 bg-red-500 text-white"
+              >
+                Eliminar
+              </button>
+            </div>
           ))}
         </div>
       </section>
@@ -132,3 +130,5 @@ export default function DeleteCar() {
     </div>
   );
 }
+
+export default DeleteCar;

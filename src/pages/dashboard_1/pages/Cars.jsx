@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AddCars from "../../create/AddCars";
+import AddCars from "../../create_cars/AddCars";
 import Stock from "../../stock/Stock";
 import DeleteCar from "../../../components/deleteCar/deleteCar";
 

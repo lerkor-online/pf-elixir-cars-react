@@ -1,5 +1,5 @@
 import React from "react";
-import AddUser from "../components/create_user/AddUser";
+import AddUser from "../../create_user/AddUser";
 
 function Users() {
   return (
