@@ -4,7 +4,7 @@ function Profile() {
   const [menuUser, setMenuUser] = useState(false);
 
   return (
-    <div className="relative items-center">
+    <div className="relative items-center z-10">
       <div>
         <button
           className="p-0 rounded-full h-12 w-12"

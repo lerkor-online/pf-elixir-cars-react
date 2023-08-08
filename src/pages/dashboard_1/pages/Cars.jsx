@@ -1,5 +1,5 @@
 import React from "react";
-import AddCars from "../../create_cars/AddCars";
+import AddCars from "../components/create_cars/AddCars";
 
 function Cars() {
   return (

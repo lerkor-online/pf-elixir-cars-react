@@ -8,7 +8,7 @@ function MenuBar() {
     <div className="flex flex-col p-5 bg-neutral-700 min-w-full min-h-[98vh] rounded-lg shadow-lg">
       <div className="">
         <img src="" alt="" />
-        <h2 className="text-2xl text-white">ELIXIR CARS</h2>
+        <h2 className="text-4xl text-white">ELIXIR CARS</h2>
       </div>
 
       <div className="flex flex-col">

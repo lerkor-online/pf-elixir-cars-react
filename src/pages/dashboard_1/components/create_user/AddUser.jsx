@@ -1,22 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2";
+import axios from "axios";
+
 function AddUser() {
-  const [name, setName] = useState("");
   const [isNameFocused, setIsNameFocused] = useState(false);
   const [isNameValid, setIsNameValid] = useState(false);
-  const [email, setEmail] = useState("");
+
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
-  const [password, setPassword] = useState("");
+
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
+
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] =
     useState(false);
   const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(false);
-  const [role, setRole] = useState("");
+
   const [isRoleFocused, setIsRoleFocused] = useState(false);
   const [isRoleValid, setIsRoleValid] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "",
+  });
 
   const handleNameFocus = () => {
     setIsNameFocused(true);
@@ -60,9 +70,14 @@ function AddUser() {
 
   const handleNameChange = (event) => {
     const newName = event.target.value;
-    setName(newName);
+    console.log(newName);
 
-    // Validar el campo de nombre
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      name: newName,
+    }));
+
+    // Validamos el campo de nombre
     const nameRegex = /^[A-Za-z]+$/;
     if (
       newName.length >= 5 &&
@@ -77,9 +92,14 @@ function AddUser() {
 
   const handleEmailChange = (event) => {
     const newEmail = event.target.value;
-    setEmail(newEmail);
+    console.log(newEmail);
 
-    // Validar el campo de email
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      email: newEmail,
+    }));
+
+    // Validamos el campo de email
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     if (emailRegex.test(newEmail)) {
       setIsEmailValid(true);
@@ -90,9 +110,12 @@ function AddUser() {
 
   const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
-    setPassword(newPassword);
-
-    // Validar el campo de password
+    console.log(newPassword);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      password: newPassword,
+    }));
+    // Validamos el campo de password
     if (newPassword.length >= 8) {
       setIsPasswordValid(true);
     } else {
@@ -102,10 +125,11 @@ function AddUser() {
 
   const handleConfirmPasswordChange = (event) => {
     const newConfirmPassword = event.target.value;
+    console.log(newConfirmPassword);
     setConfirmPassword(newConfirmPassword);
 
-    // Validar el campo de confirmar password
-    if (newConfirmPassword === password) {
+    // Validamos el campo de confirmar password
+    if (newConfirmPassword === formData.password) {
       setIsConfirmPasswordValid(true);
     } else {
       setIsConfirmPasswordValid(false);
@@ -114,7 +138,11 @@ function AddUser() {
 
   const handleRoleChange = (event) => {
     const newRole = event.target.value;
-    setRole(newRole);
+    console.log(newRole);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      role: newRole,
+    }));
 
     // Validar el campo de role
     if (newRole !== "") {
@@ -124,24 +152,85 @@ function AddUser() {
     }
   };
 
+  useEffect(() => {
+    setIsFormValid(
+      isNameValid &&
+        isEmailValid &&
+        isPasswordValid &&
+        isConfirmPasswordValid &&
+        isRoleValid
+    );
+  }, [
+    isNameValid,
+    isEmailValid,
+    isPasswordValid,
+    isConfirmPasswordValid,
+    isRoleValid,
+  ]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(event.target);
 
-    // Validar el formulario
-    if (
-      isNameValid &&
-      isEmailValid &&
-      isPasswordValid &&
-      isConfirmPasswordValid &&
-      isRoleValid
-    ) {
-      setIsFormValid(true);
+    const jsonData = JSON.stringify(formData);
+    console.log(jsonData);
 
-      // Continuar con el envío del formulario
-    } else {
-      setIsFormValid(false);
-    }
+    Swal.fire({
+      title: "¿Deseas crear este usuario?",
+      text: "Al presionar CREAR USUARIO se creará el usuario.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "CREAR USUARIO",
+      cancelButtonText: "CANCELAR",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.post(
+            "http://localhost:3001/users",
+            jsonData,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          Swal.fire({
+            title: "Creación exitosa",
+            text: "El usuario se ha creado correctamente.",
+            icon: "success",
+          });
+
+          console.log("Nuevo Usuario:", response.data);
+
+          // "https://pf-elixir-cars-back-production.up.railway.app/user"
+          // Limpio los campos después de confirmar
+
+          setIsNameValid("");
+          setIsEmailValid("");
+          setIsPasswordValid("");
+          setConfirmPassword("");
+          setIsConfirmPasswordValid("");
+          setIsRoleValid("");
+
+          setFormData({
+            name: "",
+            email: "",
+            password: "",
+            role: "",
+          });
+        } catch (error) {
+          Swal.fire({
+            title: "Error al crear el usuario",
+            text: "Se ah producido un error al enviar los datos del nuevo usuario.",
+            icon: "error",
+          });
+          console.error(error);
+        }
+      }
+    });
   };
+
   return (
     <div>
       <h1>Add User</h1>
@@ -152,7 +241,7 @@ function AddUser() {
             <input
               type="text"
               id="name"
-              value={name}
+              value={formData.name}
               onChange={handleNameChange}
               onFocus={handleNameFocus}
               onBlur={handleNameBlur}
@@ -173,7 +262,7 @@ function AddUser() {
             <input
               type="email"
               id="email"
-              value={email}
+              value={formData.email}
               onChange={handleEmailChange}
               onFocus={handleEmailFocus}
               onBlur={handleEmailBlur}
@@ -193,7 +282,7 @@ function AddUser() {
             <input
               type="password"
               id="password"
-              value={password}
+              value={formData.password}
               onChange={handlePasswordChange}
               onFocus={handlePasswordFocus}
               onBlur={handlePasswordBlur}
@@ -233,7 +322,7 @@ function AddUser() {
             <label htmlFor="role">Role:</label>
             <select
               id="role"
-              value={role}
+              value={formData.role}
               onChange={handleRoleChange}
               onFocus={handleRoleFocus}
               onBlur={handleRoleBlur}

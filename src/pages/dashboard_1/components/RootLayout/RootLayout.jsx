@@ -4,7 +4,7 @@ import MenuBar from "../MenuBar/MenuBar";
 import Profile from "../Perfil/Profile";
 function RootLayout({ children }) {
   return (
-    <div className="flex flex-row w-full min-h-screen">
+    <div className="flex flex-row w-full min-h-screen overflow-hidden">
       <div className="m-2 min-w-fit">
         <MenuBar />
       </div>
