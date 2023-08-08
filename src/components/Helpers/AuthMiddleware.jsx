@@ -1,21 +1,15 @@
-/* import { useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
 const AuthMiddleware = ({ children }) => {
-  const isAuthenticated = localStorage.getItem("Usuario"); // Tu lógica para determinar si el usuario está autenticado
+  const { isAuthenticated } = useAuth0();
+  console.log(isAuthenticated);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Verificar si el usuario está autenticado
-    if (!isAuthenticated) {
-      // Si no está autenticado, redirigir a la página de inicio de sesión
-      navigate("sing-up");
-    }
-  }, [isAuthenticated, navigate]);
-
-  // Renderizar el contenido de las rutas protegidas si el usuario está autenticado
+  if (!isAuthenticated) {
+    navigate("/");
+    return;
+  }
   return isAuthenticated ? children : null;
 };
 
 export default AuthMiddleware;
- */

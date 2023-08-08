@@ -7,15 +7,15 @@ import { useNavigate } from "react-router-dom";
 
 /* import { UserButton } from "@clerk/nextjs"; */
 
-
 import Cart from "../cart/cart";
 import LogoutButton from "../login/LogoutButton";
 
-
 export default function Nav() {
+  // const { logout, user } = useAuth();
+
   const navigate = useNavigate();
   /* const { logout, user } = useAuth(); */
- /*  const onLogOut = async () => {
+  /*  const onLogOut = async () => {
     if (user) {
       await logout();
       localStorage.removeItem("Usuario");
@@ -30,7 +30,6 @@ export default function Nav() {
       }
 
     );
-    await logout();
     localStorage.removeItem("Usuario");
     navigate("/");
   }; */
@@ -81,11 +80,10 @@ export default function Nav() {
         <nav>
           <ButtonCart />
 
-       {/*  <Cart/> */}
-
+          {/*  <Cart/> */}
         </nav>
         <Boxgold />
-        <LogoutButton/>
+        <LogoutButton />
         {/* <button onClick={onLogOut} className="bg-white p-1 rounded-lg ">
           Salir
         </button> */}

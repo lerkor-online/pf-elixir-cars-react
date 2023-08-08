@@ -16,6 +16,7 @@ import { ContextProvider } from "./contexts/ContextProvider";
 
 import Dashboard from "../src/components/Dashboard/Dashboard";
 
+import AuthMiddleware from "./components/Helpers/AuthMiddleware";
 
 function App() {
   const root = createBrowserRouter([
@@ -27,7 +28,11 @@ function App() {
         { path: "/", element: <LandingPage /> },
         {
           path: "/home",
-          element: <Home />,
+          element: (
+            <AuthMiddleware>
+              <Home />
+            </AuthMiddleware>
+          ),
         },
         { path: "/categoria-producto/0km", element: <Cerokm /> },
         { path: "/categoria-producto/0km/detail/:id", element: <Detail /> },
@@ -41,6 +46,22 @@ function App() {
       ],
     },
   ]);
+
+  // Lee la variable de entorno desde import.meta.env
+  // const clerkPublishableKey = import.meta.env
+  //   .VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
+
+  // console.log(clerkPublishableKey);
+  // // Verifica si la clave existe y no está vacía
+  // if (!clerkPublishableKey || clerkPublishableKey === "") {
+  //   throw new Error("Missing or empty Publishable Key");
+  // }
+
+  // // Usa la variable en tu código
+  // const clerkPubKey = clerkPublishableKey;
+
+  // Continúa con el resto de tu código utilizando clerkPubKey
+
   return (
     <>
       <ContextProvider>
@@ -49,7 +70,7 @@ function App() {
         </div>
       </ContextProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

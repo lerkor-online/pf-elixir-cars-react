@@ -1,22 +1,31 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 /* import Login from "../login/Login"; */
 
 const Header = () => {
-  const {loginWithRedirect, isAuthenticated} = useAuth0()
+  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
   const navigate = useNavigate();
 
   /* const [showLogin, setShowLogin] = useState(false); */
 
-  // const onClickHandler = (e) => {
-  //   e.preventDefault()
-  //   loginWithRedirect()
-  //   navigate("/home")
-  //   /* setShowLogin(true); */
-  // };
- 
-  console.log(isAuthenticated)
+  const onClickHandler = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.get(`http://localhost:3001/getUser?email=${user.email}`);
+      navigate("/home");
+    } catch (err) {
+      await axios.post("http://localhost:3001/register", {
+        email: user.email,
+        password: user.sub,
+        name: user.name,
+      });
+      navigate("/home");
+    }
+  };
+
+  // console.log(isAuthenticated, user);
   const toRegister = (e) => {
     e.preventDefault();
     navigate("/sing-up");
@@ -51,17 +60,23 @@ const Header = () => {
                     </p>
                   </section>
                   <section className="flex max-sm:flex-col justify-center gap-5">
-                    {isAuthenticated ? <button className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] list-none active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full "><a href="/home">Ingresar</a></button>
-                    :                    
-                    <button
-                      /* onClick={(onClickHandler)} */
-                      onClick={()=>loginWithRedirect()}
-                      type="button"
-                      className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full "
-                    >
-                      Login
-                    </button>
-                    }
+                    {isAuthenticated ? (
+                      <button
+                        onClick={onClickHandler}
+                        className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] list-none active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full "
+                      >
+                        Ingresar
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => loginWithRedirect()}
+                        // onClick={() => loginWithRedirect()}
+                        type="button"
+                        className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full "
+                      >
+                        Login
+                      </button>
+                    )}
 
                     {/* <button
                       onClick={toRegister}
