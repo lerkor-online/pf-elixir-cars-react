@@ -33,6 +33,7 @@ function App() {
         { path: "/create", element: <AddCars/> },
         { path: "/dashboard", element: <Dashboard/> },
         { path: "/dashboard_1/*", element: <AdminDashboard /> },
+        { path: "/checkout", element: <Checkout/> },
       ],
     },
   ]);

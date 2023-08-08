@@ -50,7 +50,7 @@ const Card = ({ auto }) => {
   return (
     <div
       ref={cardRef}
-      className=" flex flex-col justify-center bg-white m-4 rounded-lg overflow-hidden w-[260px] relative transition-transform duration-300 transform-gpu shadow-glass-card shadow-[#a8a8a8]  shadow-xl"
+      className=" flex flex-col justify-center bg-white m-4 rounded-lg overflow-hidden w-[260px] relative transition-transform duration-300 transform-gpu shadow-glass-card shadow-[#a8a8a8]"
       style={{ transition: "transform 0.3s" }}
     >
       <img

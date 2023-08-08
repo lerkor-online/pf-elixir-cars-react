@@ -1,4 +1,48 @@
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import React from 'react';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+
+const PayPalButton = () => {
+  const paypalClientID = 'AVEb_6nyKhKDoS1J27I2AiAdYH3r0qD-GUwkHptOALusT7-kTlhjgG8adJFy39QVrt80CiozaAFb6P3u';
+
+  const createOrder = (data, actions) => {
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            value: '10.00', // Monto del pago
+          },
+        },
+      ],
+    });
+  };
+
+  const onApprove = (data, actions) => {
+    // Se ejecuta cuando el pago es aprobado
+    console.log('Pago aprobado:', data);
+    return actions.order.capture();
+  };
+
+  const onError = (error) => {
+    // Se ejecuta cuando ocurre un error en el pago
+    console.error('Error en el pago:', error);
+  };
+
+  return (
+    <PayPalScriptProvider options={{ 'client-id': paypalClientID }}>
+      <PayPalButtons
+        createOrder={createOrder}
+        onApprove={onApprove}
+        onError={onError}
+      />
+    </PayPalScriptProvider>
+  );
+};
+
+export default PayPalButton;
+
+
+/* import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
 
 // Componente donde se muestra el botón de pago que basado en sus props define el monto y el product a cobrar
 
@@ -47,3 +91,4 @@ export function PayPalButtonComponent({ precio, nombre }) {
     </PayPalScriptProvider>
   );
 }
+ */
