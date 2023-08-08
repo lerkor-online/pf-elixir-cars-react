@@ -50,6 +50,10 @@ function Stock({ marca }) {
     }
   };
 
+  if(!brandList){
+    fetchBrands();
+  }
+
   const fetchModels = async (brandName) => {
     console.log(brandName);
     try {

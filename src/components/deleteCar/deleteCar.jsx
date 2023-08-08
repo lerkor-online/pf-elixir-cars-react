@@ -115,7 +115,7 @@ export default function DeleteCar() {
           {filteredCars.map((auto) => (
             <div key={auto.id}>
              <Card  auto={auto} />
-             <button onClick={() => handleDeleteCar(auto.id)} className="mt-0 ml-20 px-4 py-2 bg-red-500 text-white">Eliminar</button>
+             <button onClick={() => handleDeleteCar(auto.id)} className="mt-0 m-20 px-4 py-2 bg-red-500 text-white">Eliminar</button>
         </div>
           ))}
         </div>
