@@ -78,7 +78,7 @@ function AddUser() {
     }));
 
     // Validamos el campo de nombre
-    const nameRegex = /^[A-Za-z]+$/;
+    const nameRegex = /^[A-Za-z ]+$/;
     if (
       newName.length >= 5 &&
       newName.length <= 30 &&
