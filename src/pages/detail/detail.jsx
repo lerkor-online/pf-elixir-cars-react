@@ -15,12 +15,14 @@ import carpower from "../../assets/IconsDetail/car-power.png";
 import carkey from "../../assets/IconsDetail/car-key.png";
 import cartrunk from "../../assets/IconsDetail/car-trunk.png";
 import carairbag from "../../assets/IconsDetail/car-airbag.png";
+/* import { PayPalButton } from '../../components/PaypalButton/PaypalButton'; */
 
 export default function CarDetail() {
   const [car, setCar] = useState(null);
   const navigate = useNavigate();
-  const { id } = useParams();
-  console.log(id);
+  const { id, precio, nombre } = useParams();
+   
+  console.log(id, precio, nombre);
 
   useEffect(() => {
     const fetchCarDetail = async () => {
@@ -98,10 +100,12 @@ export default function CarDetail() {
               className="bg-transparent text-black border-2 border-black mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md hover:bg-gradient-to-r from-yellow-800 to-yellow-500 shadow-2xl"
               onClick={() =>
                 navigate(`/paypal-button/${car.precio}/${car.brand.name}`)
-              }
+              } 
             >
               Comprar
             </button>
+            {/* <PayPalButton precio={car.precio} nombre={car.brand.name} /> */}
+          
 
             <ButtonAddCart car={car} />
             <div className="mt-3 text-sm text-gray-600">

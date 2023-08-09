@@ -25,7 +25,7 @@ export function PayPalButton({ precio, nombre }) {
             </div>
           ) : (
             <div>
-              <h2>Pago con PayPal</h2>
+             {/*  <h2>Pago con PayPal</h2> */}
               <PayPalButtons
                 createOrder={(_data, actions) => {
                   // Lógica para crear la orden de pago
