@@ -44,7 +44,7 @@ function Users() {
           {renderOptionContent()}
         </div>
         <div className="border-2 text-black bg-slate-300 rounded-lg mt-2 mx-auto w-auto min-h-[91vh]">
-          Hola
+          Detail del User
         </div>
       </div>
     </div>
