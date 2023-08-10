@@ -16,25 +16,27 @@ import carkey from "../../assets/IconsDetail/car-key.png";
 import cartrunk from "../../assets/IconsDetail/car-trunk.png";
 import carairbag from "../../assets/IconsDetail/car-airbag.png";
 
-import { AddToCartIcon, RemoveFromCartIcon } from '../../components/cart/Icons.jsx'
-import { useCart } from '../../hooks/useCart.js'
-
+import {
+  AddToCartIcon,
+  RemoveFromCartIcon,
+} from "../../components/cart/Icons.jsx";
+import { useCart } from "../../hooks/useCart.js";
+import CreateReview from "../../components/CreateReview/CreateReview";
 
 export default function CarDetail() {
-  const { addToCart, removeFromCart, cart } = useCart()
+  const { addToCart, removeFromCart, cart } = useCart();
   const [car, setCar] = useState(null);
   const { id } = useParams();
-  console.log(id)
-  
-  const checkProductInCart = product => {
-    return cart.some(item => item.id === product.id)
-  }
-  const isProductInCart = car && checkProductInCart(car)
+  console.log(id);
+
+  const checkProductInCart = (product) => {
+    return cart.some((item) => item.id === product.id);
+  };
+  const isProductInCart = car && checkProductInCart(car);
 
   const crearOrden = () => {
     // redireccion para con id de product, precio y nombre
-    
-  }
+  };
   useEffect(() => {
     const fetchCarDetail = async () => {
       try {
@@ -107,24 +109,24 @@ export default function CarDetail() {
               </div>
             </div>
             <div className="flex">
-            <button className='bg-transparent text-black border-2 border-black mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md hover:bg-gradient-to-r from-yellow-800 to-yellow-500 shadow-2xl'>Comprar</button>
-            {/* <ButtonAddCart car={car}/>   */}
-            <button className="border-2 border-black text-black"
-                  style={{ backgroundColor: isProductInCart ? 'red' : '#f7a902' }} onClick={() => {
-                    isProductInCart
-                      ? removeFromCart(car)
-                      : addToCart(car)
-                  }}
-                >
-                  {
-                    isProductInCart
-                      ? <RemoveFromCartIcon />
-                      : <AddToCartIcon />
-                  }
-                </button>          
-
+              <button className="bg-transparent text-black border-2 border-black mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md hover:bg-gradient-to-r from-yellow-800 to-yellow-500 shadow-2xl">
+                Comprar
+              </button>
+              {/* <ButtonAddCart car={car}/>   */}
+              <button
+                className="border-2 border-black text-black"
+                style={{ backgroundColor: isProductInCart ? "red" : "#f7a902" }}
+                onClick={() => {
+                  isProductInCart ? removeFromCart(car) : addToCart(car);
+                }}
+              >
+                {isProductInCart ? <RemoveFromCartIcon /> : <AddToCartIcon />}
+              </button>
             </div>
-            <div className='mt-3 text-sm text-gray-600'>Foto no contractual, el precio y equipamiento podrán variar sin previo aviso. No incluye gastos de flete y patentamiento.</div>
+            <div className="mt-3 text-sm text-gray-600">
+              Foto no contractual, el precio y equipamiento podrán variar sin
+              previo aviso. No incluye gastos de flete y patentamiento.
+            </div>
           </div>
         </div>
       </section>
@@ -218,6 +220,7 @@ export default function CarDetail() {
           <p>Airbags</p>
         </div>
       </section>
+      <CreateReview />
     </div>
   );
 }
