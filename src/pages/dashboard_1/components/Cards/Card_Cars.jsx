@@ -64,8 +64,8 @@ const CardCars = () => {
               key={index}
               onClick={() => handlePageChange(index + 1)}
               className={`${
-                currentPage === index + 1 ? "bg-red-500 text-white m-2" : "bg-white m-2 text-gray-700"
-              } relative inline-flex items-center px-4 py-2 border text-sm font-medium`}
+                currentPage === index + 1 ? "bg-red-500 text-white" : "bg-white text-gray-700"
+              } relative inline-flex items-center px-4 py-2 border text-sm font-medium ml-10`} 
             >
               {index + 1}
             </button>
@@ -74,6 +74,9 @@ const CardCars = () => {
       <table className="table border-collapse w-full">
         <thead className="bg-gray-50">
           <tr>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Nro
+            </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Marca
             </th>
@@ -89,11 +92,13 @@ const CardCars = () => {
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Selecc
             </th>
+            
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {cars.map((auto) => (
+          {cars.map((auto,index) => (
             <tr key={auto.id}>
+              <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
               <td className="px-6 py-4 whitespace-nowrap">{auto.brand.name}</td>
               <td className="px-6 py-4 whitespace-nowrap">{auto.carModel.name}</td>
               <td className="px-6 py-4 whitespace-nowrap">{auto.presentacion}</td>
@@ -102,6 +107,7 @@ const CardCars = () => {
                 <input
                   type="checkbox"
                   onChange={(event) => handleCheckboxChange(event, auto.id)}
+                  className="ml"
                 />
               </td>
             </tr>
