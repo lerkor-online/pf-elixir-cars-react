@@ -18,12 +18,16 @@ const RootLayout = () => {
       </main>
       <Footer /> */}
 
-      {pathname !== "/" && pathname !== "/dashboard" && <Nav/>}
+      {pathname !== "/" && pathname !== "/dashboard" && <Nav />}
       <main style={{ display: "block" }}>
         <Outlet />
       </main>
+<<<<<<< HEAD
      {pathname !== "/dashboard" && <Footer/>}
 
+=======
+      {pathname !== "/dashboard" && <Footer />}
+>>>>>>> 69491b611208dd090593234f4b424e3f08457c71
     </>
   );
 };

@@ -12,6 +12,7 @@ import { useEffect } from "react";
 export default function Nav() {
   const navigate = useNavigate();
   const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
+<<<<<<< HEAD
 
   useEffect(() => {
     const getUserMetadata = async () => {
@@ -56,6 +57,51 @@ export default function Nav() {
     getUserMetadata();
   }, [getAccessTokenSilently, user?.sub]);
 
+=======
+
+  useEffect(() => {
+    const getUserMetadata = async () => {
+      try {
+        const domain = import.meta.env.VITE_REACT_APP_AUTH0_DOMAIN;
+        const accessToken = await getAccessTokenSilently({
+          authorizationParams: {
+            audience: `https://${domain}/api/v2/`,
+            scope: "read:current_user",
+          },
+        });
+
+        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+
+        const metadataResponse = await axios(userDetailsByIdUrl, {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        const user_metadata = await metadataResponse.data;
+
+        const userFound = await axios.get(
+          `http://localhost:3001/users?email=${user_metadata.email}`
+        );
+        const userData = {
+          name: user_metadata.name,
+          email: user_metadata.email,
+          password: accessToken,
+        };
+        console.log(userFound);
+        if (!userFound.data) {
+          await axios.post("http://localhost:3001/register", userData);
+        }
+        await axios.post("http://localhost:3001/login", userData);
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+
+    getUserMetadata();
+  }, [getAccessTokenSilently, user?.sub]);
+>>>>>>> 69491b611208dd090593234f4b424e3f08457c71
 
   return (
     <main>
@@ -107,6 +153,13 @@ export default function Nav() {
         </nav>
         <Boxgold />
         {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+<<<<<<< HEAD
+=======
+
+        {/* <button onClick={onLogOut} className="bg-white p-1 rounded-lg ">
+          Salir
+        </button> */}
+>>>>>>> 69491b611208dd090593234f4b424e3f08457c71
       </header>
     </main>
   );

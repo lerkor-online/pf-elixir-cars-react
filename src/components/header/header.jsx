@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 
 const Header = () => {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 69491b611208dd090593234f4b424e3f08457c71
   return (
     <>
-      {/* {showLogin && <Login setShowLogin={setShowLogin} />} */}
       <header>
         {
           <div

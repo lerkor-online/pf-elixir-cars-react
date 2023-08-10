@@ -15,4 +15,8 @@ const LogoutButton = () => {
   );
 };
 
+<<<<<<< HEAD
 export default LogoutButton;
+=======
+export default LogoutButton;
+>>>>>>> 69491b611208dd090593234f4b424e3f08457c71

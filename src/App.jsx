@@ -7,7 +7,7 @@ import LandingPage from "./components/landing/LandingPage";
 import AddCars from "./pages/create/AddCars";
 import About from "./pages/about/About";
 import Detail from "./pages/detail/detail";
-import OurTeam from "./pages/ourteam/Ourteam";
+import OurTeam from "./pages/ourteam/OurTeam";
 import Contact from "./pages/contact/Contact";
 import Checkout from "./pages/checkout/Checkout";
 /* import Dashboard from "./pages/dashboard/Dashboard"; */
@@ -15,8 +15,9 @@ import { ContextProvider } from "./contexts/ContextProvider";
 /* import SignUpPage from "./pages/sing-up/[[...sign-up]]/sing-up"; */
 
 import Dashboard from "../src/components/Dashboard/Dashboard";
+import Profile from "./pages/profile/Profile";
 
-import AuthMiddleware from "./components/Helpers/AuthMiddleware";
+// import AuthMiddleware from "./components/Helpers/AuthMiddleware";
 
 function App() {
   const root = createBrowserRouter([
@@ -29,7 +30,13 @@ function App() {
         {
           path: "/home",
           element: (
+<<<<<<< HEAD
                <Home />
+=======
+            // <AuthMiddleware>
+            <Home />
+            // </AuthMiddleware>
+>>>>>>> 69491b611208dd090593234f4b424e3f08457c71
           ),
         },
         { path: "/categoria-producto/0km", element: <Cerokm /> },
@@ -40,6 +47,7 @@ function App() {
         { path: "/about/contact", element: <Contact /> },
         { path: "/create", element: <AddCars /> },
         { path: "/dashboard", element: <Dashboard /> },
+        { path: "/profile", element: <Profile /> },
         /* { path: "/sing-up", element: <SignUpPage /> }, */
       ],
     },

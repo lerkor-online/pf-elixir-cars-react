@@ -2,6 +2,7 @@ import videoHome from "../../assets/video.webm";
 import Frame851 from "../../assets/Frame-851.svg";
 import Frame891 from "../../assets/Frame-891.svg";
 import Frame890 from "../../assets/Frame-890.svg";
+<<<<<<< HEAD
 
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -92,6 +93,14 @@ export default function Home() {
   // useEffect(()=>)
 
 
+=======
+import { useAuth0 } from "@auth0/auth0-react";
+
+export default function Home() {
+  // const { user, isAuthenticated } = useAuth0();
+  // const currentUser = isAuthenticated ? user : null;
+  // console.log(currentUser);
+>>>>>>> 69491b611208dd090593234f4b424e3f08457c71
   return (
     <div className="overflow-hidden">
       <main>
