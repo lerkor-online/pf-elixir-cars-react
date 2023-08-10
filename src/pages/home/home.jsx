@@ -2,16 +2,10 @@ import videoHome from "../../assets/video.webm";
 import Frame851 from "../../assets/Frame-851.svg";
 import Frame891 from "../../assets/Frame-891.svg";
 import Frame890 from "../../assets/Frame-890.svg";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect } from "react";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Home() {
-<<<<<<< Updated upstream
-  const { isAuthenticated, user } = useAuth0();
-  console.log(isAuthenticated, user);
-=======
   const {user, isAuthenticated} = useAuth0()
   console.log(user);
   console.log(isAuthenticated);
@@ -93,7 +87,6 @@ export default function Home() {
           </section>
         </main>
     </div>)
->>>>>>> Stashed changes
 
 
   // useEffect(()=>)

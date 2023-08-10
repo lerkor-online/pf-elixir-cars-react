@@ -8,17 +8,6 @@ const RootLayout = () => {
   const { pathname } = useLocation();
   return (
     <>
-<<<<<<< Updated upstream
-      {pathname !== "/" && (
-        // <AuthMiddleware>
-        <Nav />
-        // </AuthMiddleware>
-      )}
-      <main style={{ display: "block" }}>
-        <Outlet />
-      </main>
-      <Footer />
-=======
       {/* {pathname !== "/" && (
         <AuthMiddleware>
           <Nav />
@@ -35,7 +24,6 @@ const RootLayout = () => {
       </main>
      {pathname !== "/dashboard" && <Footer/>}
 
->>>>>>> Stashed changes
     </>
   );
 };

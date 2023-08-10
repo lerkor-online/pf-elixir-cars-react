@@ -29,9 +29,7 @@ function App() {
         {
           path: "/home",
           element: (
-            <AuthMiddleware>
-              <Home />
-            </AuthMiddleware>
+               <Home />
           ),
         },
         { path: "/categoria-producto/0km", element: <Cerokm /> },
