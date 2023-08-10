@@ -50,7 +50,7 @@ const Card = ({ auto }) => {
   return (
     <div
       ref={cardRef}
-      className=" flex flex-col justify-center bg-white m-4 rounded-lg overflow-hidden w-[260px] relative transition-transform duration-300 transform-gpu shadow-glass-card shadow-[#a8a8a8]  shadow-xl"
+      className="flex flex-col justify-center bg-white m-4 rounded-lg overflow-hidden w-[260px] relative transition-transform duration-300 transform-gpu shadow-glass-card shadow-[#a8a8a8] "
       style={{ transition: "transform 0.3s" }}
     >
       <img
@@ -73,10 +73,12 @@ const Card = ({ auto }) => {
         </div>
       </div>
       <div className="flex justify-center">
-      <button onClick={navigateHandler}
-              className="bg-yellow-400 p-3 m-2 w-9/12 text-center rounded-lg shadow-lg rounded-4 text-[#332F2E] uppercase font-bold">
-                  <span className=" text-black">VER MÁS</span>
-      </button>
+        <button
+          onClick={navigateHandler}
+          className="bg-yellow-400 p-3 m-2 w-9/12 text-center rounded-lg shadow-lg rounded-4 text-[#332F2E] uppercase font-bold"
+        >
+          <span className=" text-black">VER MÁS</span>
+        </button>
       </div>
     </div>
   );

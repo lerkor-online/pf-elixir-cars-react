@@ -6,7 +6,7 @@ const AddCars = ({ marca }) => {
   const [brandList, setBrandList] = useState(marca);
   const [modelList, setModelList] = useState("");
 
-  const [selectedBrand, setSelectedBrand] = useState("");
+  // const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
 
   const [newBrand, setNewBrand] = useState("");

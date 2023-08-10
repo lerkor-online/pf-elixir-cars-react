@@ -1,4 +1,5 @@
 import React from "react";
+import OffertMessenge from "../components/OfertMenssenge/OffertMessenge";
 
 function Dashboard() {
   return (
@@ -6,8 +7,10 @@ function Dashboard() {
       <div className="min-h-[6vh]">
         <h1>DASHBOARD</h1>
       </div>
-      <div className="border-2 text-black bg-slate-300 rounded-lg mt-2 min-h-[91vh]">
-        <div className="">Hola soy yo</div>
+      <div className="border-2 text-black bg-slate-300 rounded-lg mt-2 min-h-[91vh] w-full items-start justify-center">
+        <div className="w-full">
+          <OffertMessenge />
+        </div>
       </div>
     </div>
   );

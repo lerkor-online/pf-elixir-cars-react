@@ -11,38 +11,38 @@ function MenuBar() {
       </div>
 
       <div className="flex flex-col">
-        <button className="w-full m-auto my-2  hover:bg-yellow-500">
-          <Link
-            to="/dashboard_1/dashboard"
-            className=" no-underline text-black hover:text-white"
-          >
+        <Link
+          to="/dashboard_1/dashboard"
+          className=" no-underline text-black hover:text-white"
+        >
+          <button className="w-full m-auto my-2  hover:bg-yellow-500">
             Dashboard
-          </Link>
-        </button>
-        <button className="w-full m-auto my-2 hover:bg-yellow-500">
-          <Link
-            to="/dashboard_1/users"
-            className=" no-underline text-black hover:text-white"
-          >
+          </button>
+        </Link>
+        <Link
+          to="/dashboard_1/users"
+          className=" no-underline text-black hover:text-white"
+        >
+          <button className="w-full m-auto my-2 hover:bg-yellow-500">
             Users
-          </Link>
-        </button>
-        <button className="w-full m-auto my-2 hover:bg-yellow-500">
-          <Link
-            to="/dashboard_1/cars"
-            className=" no-underline text-black hover:text-white"
-          >
+          </button>
+        </Link>
+        <Link
+          to="/dashboard_1/cars"
+          className=" no-underline text-black hover:text-white"
+        >
+          <button className="w-full m-auto my-2 hover:bg-yellow-500">
             Cars
-          </Link>
-        </button>
-        <button className="w-full m-auto my-2 hover:bg-yellow-500">
-          <Link
-            to="/dashboard_1/settings"
-            className=" no-underline text-black hover:text-white"
-          >
+          </button>
+        </Link>
+        <Link
+          to="/dashboard_1/settings"
+          className=" no-underline text-black hover:text-white"
+        >
+          <button className="w-full m-auto my-2 hover:bg-yellow-500">
             Settings
-          </Link>
-        </button>
+          </button>
+        </Link>
       </div>
     </div>
   );

@@ -40,11 +40,8 @@ function Users() {
         </button>
       </div>
       <div className="flex flex-row">
-        <div className="border-2 text-black bg-slate-300 rounded-lg mt-2 min-w-[70vw] min-h-[91vh]">
+        <div className=" text-black mt-2 min-w-[97%] min-h-[91vh]">
           {renderOptionContent()}
-        </div>
-        <div className="border-2 text-black bg-slate-300 rounded-lg mt-2 mx-auto w-auto min-h-[91vh]">
-          Detail del User
         </div>
       </div>
     </div>
