@@ -1,30 +1,8 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
-/* import Login from "../login/Login"; */
+import { Link } from "react-router-dom";
 
 const Header = () => {
-  const {loginWithRedirect, isAuthenticated} = useAuth0()
-  const navigate = useNavigate();
-
-  /* const [showLogin, setShowLogin] = useState(false); */
-
-  // const onClickHandler = (e) => {
-  //   e.preventDefault()
-  //   loginWithRedirect()
-  //   navigate("/home")
-  //   /* setShowLogin(true); */
-  // };
- 
-  console.log(isAuthenticated)
-  const toRegister = (e) => {
-    e.preventDefault();
-    navigate("/sing-up");
-  };
-
   return (
     <>
-      {/* {showLogin && <Login setShowLogin={setShowLogin} />} */}
       <header>
         {
           <div
@@ -51,25 +29,11 @@ const Header = () => {
                     </p>
                   </section>
                   <section className="flex max-sm:flex-col justify-center gap-5">
-                    {isAuthenticated ? <button className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] list-none active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full "><a href="/home">Ingresar</a></button>
-                    :                    
-                    <button
-                      /* onClick={(onClickHandler)} */
-                      onClick={()=>loginWithRedirect()}
-                      type="button"
-                      className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full "
-                    >
-                      Login
-                    </button>
-                    }
-
-                    {/* <button
-                      onClick={toRegister}
-                      type="button"
-                      className="bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.11)] active:scale-105 inline-block rounded border-2 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50 max-sm:rounded-full  "
-                    >
-                      Registrarse
-                    </button> */}
+                    <Link to="/home">
+                      <button className="bg-[rgb(207,142,43)] hover:bg-[rgba(207,131,7,0.9)] list-none active:scale-105 inline-block rounded border-2 px-10 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50  max-sm:rounded-full ">
+                        Ingresar
+                      </button>
+                    </Link>
                   </section>
                 </div>
               </div>

@@ -1,38 +1,60 @@
 import Boxgold from "../boxgold/boxgold";
-import ButtonCart from "../cart/cart";
+import ButtonCart from "../cart/Cart";
 import logo from "../../assets/logo_elixir.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-/* import { useAuth } from "../../contexts/ContextProvider"; */
-
-/* import { UserButton } from "@clerk/nextjs"; */
-
-import Cart from "../cart/cart";
 import LogoutButton from "../login/LogoutButton";
+import LoginButton from "../login/LoginButton";
+import { useAuth0 } from "@auth0/auth0-react";
+// import { useUser } from "../../hooks/useUser";
+import { useEffect } from "react";
 
 export default function Nav() {
-  // const { logout, user } = useAuth();
-
   const navigate = useNavigate();
-  /* const { logout, user } = useAuth(); */
-  /*  const onLogOut = async () => {
-    if (user) {
-      await logout();
-      localStorage.removeItem("Usuario");
-      navigate("/");
-      return;
-    }
-    await axios.post(
-      "http://localhost:3001/logout",
-      {},
-      {
-        withCredentials: true,
-      }
+  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
 
-    );
-    localStorage.removeItem("Usuario");
-    navigate("/");
-  }; */
+  useEffect(() => {
+    const getUserMetadata = async () => {
+      try {
+        const domain = import.meta.env.VITE_REACT_APP_AUTH0_DOMAIN;
+        const accessToken = await getAccessTokenSilently({
+          authorizationParams: {
+            audience: `https://${domain}/api/v2/`,
+            scope: "read:current_user",
+          },
+        });
+
+        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+
+        const metadataResponse = await axios(userDetailsByIdUrl, {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        const user_metadata = await metadataResponse.data;
+
+        const userFound = await axios.get(
+          `http://localhost:3001/users?email=${user_metadata.email}`
+        );
+        const userData = {
+          name: user_metadata.name,
+          email: user_metadata.email,
+          password: accessToken,
+        };
+        console.log(userFound);
+        if (!userFound.data) {
+          await axios.post("http://localhost:3001/register", userData);
+        }
+        await axios.post("http://localhost:3001/login", userData);
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+
+    getUserMetadata();
+  }, [getAccessTokenSilently, user?.sub]);
 
   return (
     <main>
@@ -83,7 +105,8 @@ export default function Nav() {
           {/*  <Cart/> */}
         </nav>
         <Boxgold />
-        <LogoutButton />
+        {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+
         {/* <button onClick={onLogOut} className="bg-white p-1 rounded-lg ">
           Salir
         </button> */}
