@@ -17,7 +17,7 @@ import { ContextProvider } from "./contexts/ContextProvider";
 import Dashboard from "../src/components/Dashboard/Dashboard";
 import Profile from "./pages/profile/Profile";
 
-import AuthMiddleware from "./components/Helpers/AuthMiddleware";
+// import AuthMiddleware from "./components/Helpers/AuthMiddleware";
 
 function App() {
   const root = createBrowserRouter([
@@ -30,9 +30,9 @@ function App() {
         {
           path: "/home",
           element: (
-            <AuthMiddleware>
-              <Home />
-            </AuthMiddleware>
+            // <AuthMiddleware>
+            <Home />
+            // </AuthMiddleware>
           ),
         },
         { path: "/categoria-producto/0km", element: <Cerokm /> },
