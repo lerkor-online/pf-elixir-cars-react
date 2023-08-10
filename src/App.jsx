@@ -30,13 +30,9 @@ function App() {
         {
           path: "/home",
           element: (
-<<<<<<< HEAD
-               <Home />
-=======
             // <AuthMiddleware>
             <Home />
             // </AuthMiddleware>
->>>>>>> 69491b611208dd090593234f4b424e3f08457c71
           ),
         },
         { path: "/categoria-producto/0km", element: <Cerokm /> },
