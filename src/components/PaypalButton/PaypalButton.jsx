@@ -1,49 +1,57 @@
 import React, { useState } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { useParams } from 'react-router-dom';
 
-export function PayPalButton({ precio, nombre }) {
+export function PayPalButton() {
   const clientId = "AVEb_6nyKhKDoS1J27I2AiAdYH3r0qD-GUwkHptOALusT7-kTlhjgG8adJFy39QVrt80CiozaAFb6P3u";
 
-  const [purchaseId, setPurchaseId] = useState(null); // Estado para almacenar la ID de compra
+  const [purchaseId, setPurchaseId] = useState(null);
+  const { precio, nombre } = useParams();
+  const [isCancelled, setIsCancelled] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false); // Estado para manejar la finalización de la compra
 
   // Manejar la lógica después de un pago exitoso
   const handlePaymentSuccess = (details, data) => {
     console.log("Pago realizado con éxito:", details);
-    setPurchaseId(details.purchase_units[0].payments.captures[0].id); // Asigna la ID de compra
+    setPurchaseId(details.purchase_units[0].payments.captures[0].id);
+    setIsCompleted(true); // Marcar la compra como completada
+  };
+
+  // Manejar la cancelación de la compra
+  const handleCancel = () => {
+    setIsCancelled(true);
   };
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '75vh' }}>
       <PayPalScriptProvider options={{ "client-id": clientId }}>
         <div style={{ width: '50%' }} >
-          {purchaseId ? (
+          {isCancelled ? (
             <div>
-              <h2>Seña exitosa.
-                Gracias por elegirnos.
-              </h2>
-              <p>ID de seña: {purchaseId} </p>
+              <h2>Compra cancelada.</h2>
+              <p>Has cancelado la compra de {nombre}.</p>
+            </div>
+          ) : isCompleted ? (
+            <div>
+              <h2>¡Compra completada!</h2>
+              <p>Tu compra de {nombre} ha sido exitosa.</p>
+              <p>ID de compra: {purchaseId}</p>
+              <p>Gracias por elegirnos.</p>
             </div>
           ) : (
             <div>
-             {/*  <h2>Pago con PayPal</h2> */}
               <PayPalButtons
                 createOrder={(_data, actions) => {
-                  // Lógica para crear la orden de pago
                   return actions.order.create({
-                    application_context: {
-                      // Orden exitosa
-                      return_url: "http://localhost:3000/complete",
-                      // Orden cancelada
-                      cancel_url: "http://localhost:3000/cancel",
-                    },
+                    application_context: {},
                     purchase_units: [
                       {
-                        reference_id: "Compra de prueba ",
+                        reference_id: "Compra de prueba",
                         description: `Compra de ${nombre}`,
                         amount: {
-                          value: 200,
+                          value: precio,
                           item_total: {
-                            value: precio, // Cambiar al valor que desees cobrar
+                            value: precio,
                           },
                         },
                       },
@@ -51,11 +59,11 @@ export function PayPalButton({ precio, nombre }) {
                   });
                 }}
                 onApprove={(data, actions) => {
-                  // Lógica después de que el usuario apruebe el pago
                   return actions.order.capture().then(function (details) {
                     handlePaymentSuccess(details, data);
                   });
                 }}
+                onCancel={handleCancel}
               />
             </div>
           )}
@@ -64,7 +72,11 @@ export function PayPalButton({ precio, nombre }) {
     </div>
   );
 }
+
 export default PayPalButton;
+
+
+
  
 
 
