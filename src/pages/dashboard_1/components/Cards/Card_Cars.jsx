@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { VscTrash } from "react-icons/vsc";
 import SearchBar from "../../../../components/SearchBar/SearchBar";
+import { BsPencil } from "react-icons/bs";
+import Modal from "react-modal"; // Importamos react-modal
 
-const URL = "http://localhost:3001/cars";
+
+const URL = "https://pf-elixir-cars-back-production.up.railway.app/cars";
 const limit = 1000;
 
 
@@ -14,6 +17,9 @@ const CardCars = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+  const [editedCar, setEditedCar] = useState(null); // Estado para el auto en edición
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   useEffect(() => {
     async function fetchCars(page) {
@@ -66,7 +72,33 @@ const CardCars = () => {
       car.year.toString().includes(searchQuery)
   );
 
+  const handleEditCar = (car) => {
+    setEditedCar(car); // Guardamos el auto en edición
+    setIsModalOpen(true); // Abrimos el modal
+  };
 
+  const handleSaveEdit = async () => {
+    // Implementar la lógica para guardar los cambios en el auto
+    try {
+      // Hacer la solicitud PUT para actualizar el auto en el servidor
+      await axios.put(`${URL}/${editedCar.id}`, {
+        price: editedCar.price,
+        stock: editedCar.stock,
+      });
+
+      // Actualizar la lista de autos después de guardar los cambios
+      const response = await axios.get(URL);
+      setCars(response.data.data);
+
+      // Cerrar el modal y limpiar el auto en edición
+      setIsModalOpen(false);
+      setEditedCar(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  
   return (
     <div>
       <button
@@ -107,11 +139,15 @@ const CardCars = () => {
               Año
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Selecc
+              Selec
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Edit
             </th>
             
           </tr>
         </thead>
+        
         <tbody className="bg-white divide-y divide-gray-200">
           {filteredCars.map((auto,index) => (
             <tr key={auto.id}>
@@ -127,12 +163,50 @@ const CardCars = () => {
                   className="ml"
                 />
               </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <BsPencil
+                  className="w-4 h-4 cursor-pointer text-blue-500"
+                  onClick={() => handleEditCar(auto)} // Agregamos el manejador de edición
+                />
+                  </td>
             </tr>
           ))}
         </tbody>
       </table>
-     
-    </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Editar Auto"
+        className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+      >
+        <div className="w-150 h-150 bg-gray-300 rounded-lg p-4 flex flex-col justify-center items-center">
+        <h2 className="text-lg font-semibold mb-2">Editar Auto</h2>
+        {editedCar && (
+          <div className="flex flex-col items-center">
+            <label className="mb-2">Precio:</label>
+            <input
+              type="number"
+              value={editedCar.price}
+              onChange={(e) =>
+                setEditedCar({ ...editedCar, price: e.target.value })
+              }
+            />
+            <label className="mb-2">Stock:</label>
+            <input
+              type="number"
+              value={editedCar.stock}
+              onChange={(e) =>
+                setEditedCar({ ...editedCar, stock: e.target.value })
+              }
+            />
+            <button className="bg-blue-500 text-white px-3 py-1 rounded" onClick={handleSaveEdit}>Guardar</button>
+            <button className="bg-gray-300 text-gray-700 px-3 py-1 rounded mt-2" onClick={() => setIsModalOpen(false)}>Cancelar</button>
+          </div>
+        )}
+        </div>
+      </Modal>
+      </div>   
   );
 };
 
