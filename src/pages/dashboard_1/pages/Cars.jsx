@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AddCars from "../../create/AddCars";
-import Stock from "../../stock/Stock";
-import DeleteCar from "../../../components/deleteCar/deleteCar";
+import CardCars from '../components/Cards/Card_Cars'
+
 
 function Cars() {
   const [activeOption, setActiveOption] = useState("crear-auto");
@@ -15,9 +15,8 @@ function Cars() {
       case "crear-auto":
         return <AddCars />;
       case "administrar-auto":
-        return <Stock />;
-      case "eliminar-auto":
-        return < DeleteCar />;
+        return <CardCars/> ;
+    
       default:
         return <AddCars />;
     }
@@ -38,13 +37,7 @@ function Cars() {
         >
          Administrar Auto
         </button>
-        <button
-          className={`px-4 py-2 ${activeOption === "eliminar-auto" ? "bg-gray-400" : "bg-gray-200"}`}
-          onClick={() => handleOptionChange("eliminar-auto")}
-        >
-          Eliminar Auto
-        </button>
-   
+ 
       </div>
       <div className=" p-4 text-black bg-slate-300 rounded-lg mt-2 min-h-[91vh] max-h-[91vh] overflow-auto">
         {renderOptionContent()}
