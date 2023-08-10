@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { VscTrash } from "react-icons/vsc";
+import SearchBar from "../../../../components/SearchBar/SearchBar";
 
+const URL = "http://localhost:3001/cars";
+const limit = 1000;
 
-const URL = "https://pf-elixir-cars-back-production.up.railway.app/cars";
 
 const CardCars = () => {
   const [cars, setCars] = useState([]);
   const [selectedCars, setSelectedCars] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     async function fetchCars(page) {
       try {
-        const response = await axios.get(`${URL}?page=${page}`);
+        const response = await axios.get(`${URL}?page=${page}&limit=${limit}`);
         setCars(response.data.data);
         setCurrentPage(response.data.currentPage);
         setTotalPages(response.data.totalPages);
@@ -45,9 +49,23 @@ const CardCars = () => {
       console.log(error);
     }
   };
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+
+  const handleSearchBarReset = () => {
+    setIsSearching(false);
+    setSearchQuery("");
+    setCurrentPage(1);
+
   };
+
+  const filteredCars = cars.filter(
+    (car) =>
+      car.brand.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      car.carModel.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      car.presentacion.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      car.estado.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      car.year.toString().includes(searchQuery)
+  );
+
 
   return (
     <div>
@@ -58,19 +76,18 @@ const CardCars = () => {
       >
         <VscTrash className="w-4 h-4 cursor-pointer" />
       </button>
-      <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index}
-              onClick={() => handlePageChange(index + 1)}
-              className={`${
-                currentPage === index + 1 ? "bg-red-500 text-white" : "bg-white text-gray-700"
-              } relative inline-flex items-center px-4 py-2 border text-sm font-medium mt-0 ml-10`} 
-            >
-              {index + 1}
-            </button>
-          ))}
-        </nav>
+    
+        <div  className="w-fit m-auto flex justify-right">
+        <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            isSearching={isSearching} // Paso  isSearching como prop
+            setIsSearching={setIsSearching} // Paso setIsSearching como prop
+            setCurrentPage={setCurrentPage} // Pasa setCurrentPage como prop
+            handleSearchBarReset={handleSearchBarReset} // Paso la función handleSearchBarReset como prop
+          />
+
+        </div>
       <table className="table border-collapse w-full">
         <thead className="bg-gray-50">
           <tr>
@@ -96,7 +113,7 @@ const CardCars = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {cars.map((auto,index) => (
+          {filteredCars.map((auto,index) => (
             <tr key={auto.id}>
               <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
               <td className="px-6 py-4 whitespace-nowrap">{auto.brand.name}</td>
