@@ -201,7 +201,7 @@ const CardCars = () => {
               }
             />
             <button className="bg-blue-500 text-white px-3 py-1 rounded" onClick={handleSaveEdit}>Guardar</button>
-            <button className="bg-gray-300 text-gray-700 px-3 py-1 rounded mt-2" onClick={() => setIsModalOpen(false)}>Cancelar</button>
+            <button className="bg-blue-500 text-white px-3 py-1 rounded" onClick={() => setIsModalOpen(false)}>Cancelar</button>
           </div>
         )}
         </div>
