@@ -54,9 +54,9 @@ const CardCars = () => {
       <button
         onClick={handleDeleteCars}
         disabled={selectedCars.length === 0}
-        className="bg-red-500 text-white py-2 px-4 rounded mb-4"
+        className="bg-red-500 text-white py-2 px-4 rounded mb-4 mt-0"
       >
-        <VscTrash className="w-5 h-5 cursor-pointer" />
+        <VscTrash className="w-4 h-4 cursor-pointer" />
       </button>
       <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
           {Array.from({ length: totalPages }, (_, index) => (
@@ -65,7 +65,7 @@ const CardCars = () => {
               onClick={() => handlePageChange(index + 1)}
               className={`${
                 currentPage === index + 1 ? "bg-red-500 text-white" : "bg-white text-gray-700"
-              } relative inline-flex items-center px-4 py-2 border text-sm font-medium ml-10`} 
+              } relative inline-flex items-center px-4 py-2 border text-sm font-medium mt-0 ml-10`} 
             >
               {index + 1}
             </button>
