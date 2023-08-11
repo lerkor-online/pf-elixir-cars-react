@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import RootLayout from "./components/Helpers/RootLayout";
+//import { createBrowserRouter, RouterProvider } from "react-router-dom";
+//import RootLayout from "./components/Helpers/RootLayout";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./components/Helpers/RootLayout";
@@ -8,7 +8,7 @@ import "./App.css";
 import Home from "./pages/home/home";
 import Cerokm from "./pages/categoria-producto/0km/Cerokm";
 import LandingPage from "./components/landing/LandingPage";
-// import AddCars from "./pages/create/AddCars";
+import AddCars from "./pages/create_cars/AddCars";
 import About from "./pages/about/About";
 import Detail from "./pages/detail/detail";
 import OurTeam from "./pages/ourteam/OurTeam";
@@ -18,8 +18,6 @@ import AdminDashboard from "./pages/dashboard_1/AdminDashboard";
 /* import Dashboard from "./pages/dashboard/Dashboard"; */
 import { ContextProvider } from "./contexts/ContextProvider";
 /* import SignUpPage from "./pages/sing-up/[[...sign-up]]/sing-up"; */
-
-import Dashboard from "../src/components/Dashboard/Dashboard";
 import Profile from "./pages/profile/Profile";
 
 // import AuthMiddleware from "./components/Helpers/AuthMiddleware";
@@ -38,7 +36,6 @@ function App() {
         { path: "/about", element: <About /> },
         { path: "/about/ourteam", element: <OurTeam /> },
         { path: "/about/contact", element: <Contact /> },
-        // { path: "/create", element: <AddCars/> },
         { path: "/dashboard_1/*", element: <AdminDashboard /> },
         {
           path: "/home",
@@ -48,14 +45,10 @@ function App() {
             // </AuthMiddleware>
           ),
         },
-        { path: "/categoria-producto/0km", element: <Cerokm /> },
-        { path: "/categoria-producto/0km/detail/:id", element: <Detail /> },
         { path: "/checkout", element: <Checkout /> },
-        { path: "/about", element: <About /> },
         { path: "/about/ourteam", element: <OurTeam /> },
         { path: "/about/contact", element: <Contact /> },
         { path: "/create", element: <AddCars /> },
-        { path: "/dashboard", element: <Dashboard /> },
         { path: "/profile", element: <Profile /> },
         /* { path: "/sing-up", element: <SignUpPage /> }, */
       ],
