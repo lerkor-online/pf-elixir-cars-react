@@ -9,13 +9,15 @@ import About from "./pages/about/About";
 import Detail from "./pages/detail/detail";
 import OurTeam from "./pages/ourteam/OurTeam";
 import Contact from "./pages/contact/Contact";
-import Checkout from "./pages/checkout/Checkout";
+/* import Checkout from "./pages/checkout/Checkout"; */
 /* import Dashboard from "./pages/dashboard/Dashboard"; */
 import { ContextProvider } from "./contexts/ContextProvider";
 /* import SignUpPage from "./pages/sing-up/[[...sign-up]]/sing-up"; */
 
 // import Dashboard from "../src/components/Dashboard/Dashboard";
 import Profile from "./pages/profile/Profile";
+import Carrito from "./pages/carrito/carrito";
+import { PayPalButton } from "./components/PaypalButton/PaypalButton";
 
 // import AuthMiddleware from "./components/Helpers/AuthMiddleware";
 
@@ -37,13 +39,18 @@ function App() {
         },
         { path: "/categoria-producto/0km", element: <Cerokm /> },
         { path: "/categoria-producto/0km/detail/:id", element: <Detail /> },
-        { path: "/checkout", element: <Checkout /> },
+        {
+          path: "/paypal-button/:precio/:nombre",
+          element: <PayPalButton />,
+        },
+        /* { path: "/checkout", element: <Checkout /> }, */
         { path: "/about", element: <About /> },
         { path: "/about/ourteam", element: <OurTeam /> },
         { path: "/about/contact", element: <Contact /> },
         { path: "/create", element: <AddCars /> },
         // { path: "/dashboard", element: <Dashboard /> },
         { path: "/profile", element: <Profile /> },
+        { path: "/carrito", element: <Carrito /> },
         /* { path: "/sing-up", element: <SignUpPage /> }, */
       ],
     },

@@ -15,7 +15,8 @@ import carpower from "../../assets/IconsDetail/car-power.png";
 import carkey from "../../assets/IconsDetail/car-key.png";
 import cartrunk from "../../assets/IconsDetail/car-trunk.png";
 import carairbag from "../../assets/IconsDetail/car-airbag.png";
-
+import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
 import {
   AddToCartIcon,
   RemoveFromCartIcon,
@@ -23,9 +24,64 @@ import {
 import { useCart } from "../../hooks/useCart.js";
 import CreateReview from "../../components/CreateReview/CreateReview";
 
+
 export default function CarDetail() {
+  const navigate = useNavigate();
+  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
+
+  const [userId, setUserId] = useState(null);
+
+  const getUserId = async (user) => {
+    try {
+      const domain = import.meta.env.VITE_REACT_APP_AUTH0_DOMAIN;
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: `https://${domain}/api/v2/`,
+          scope: "read:current_user",
+        },
+      });
+
+      const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+
+      const metadataResponse = await axios(userDetailsByIdUrl, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const user_metadata = await metadataResponse.data;
+
+      const userFound = await axios.get(
+        `http://localhost:3001/users?email=${user_metadata.email}`
+      );
+
+      console.log(userFound.data)
+      return userFound.data.id
+     
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const UserInfo = JSON.parse(window.localStorage.getItem('user'));
+        /* const id = await getUserId(user, getAccessTokenSilently); */
+        setUserId(UserInfo.id);
+      } catch (error) {
+        console.log("Error fetching user ID:", error);
+      }
+    };
+    fetchUserId();
+  }, []);
+
+  console.log(userId)
+
   const { addToCart, removeFromCart, cart } = useCart();
   const [car, setCar] = useState(null);
+  const [blockbtn, setBlockbtn] = useState(false);
   const { id } = useParams();
   console.log(id);
 
@@ -54,6 +110,17 @@ export default function CarDetail() {
   // Check if the car data is still loading or if it's not available
   if (!car) {
     return <div>Loading...</div>;
+  }
+
+  const handleAddCartDB = () =>{
+    axios.post(`http://localhost:3001/cartDetails`,{
+      cartId : userId,
+      carId : id,
+      cantidad : 1
+    })
+    addToCart(car)
+    setBlockbtn(true)
+    /* navigate("/carrito") */
   }
 
   return (
@@ -114,6 +181,16 @@ export default function CarDetail() {
               </button>
               {/* <ButtonAddCart car={car}/>   */}
               <button
+                className="bg-transparent text-black border-2 border-black mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md hover:bg-gradient-to-r from-yellow-800 to-yellow-500 shadow-2xl"
+                /* style={{ backgroundColor: isProductInCart ? "red" : "#f7a902" }} */
+                style={{ backgroundColor: blockbtn ? "#EF4444" : "#f7a902" }}
+                disabled={ blockbtn }
+                onClick={handleAddCartDB}
+              >
+                {blockbtn ?<p>En Carrito</p>  : <p>Reservar</p>}
+                {/* {isProductInCart ? <RemoveFromCartIcon /> : <AddToCartIcon />} */}
+              </button>
+              {/* <button
                 className="border-2 border-black text-black"
                 style={{ backgroundColor: isProductInCart ? "red" : "#f7a902" }}
                 onClick={() => {
@@ -121,8 +198,8 @@ export default function CarDetail() {
                 }}
               >
                 {isProductInCart ? <RemoveFromCartIcon /> : <AddToCartIcon />}
-              </button>
-            </div>
+              </button>*/}
+            </div> 
             <div className="mt-3 text-sm text-gray-600">
               Foto no contractual, el precio y equipamiento podrán variar sin
               previo aviso. No incluye gastos de flete y patentamiento.

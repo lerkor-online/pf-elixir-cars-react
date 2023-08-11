@@ -19,7 +19,7 @@ const RootLayout = () => {
       <Footer /> */}
 
       {pathname !== "/" && pathname !== "/dashboard" && <Nav />}
-      <main style={{ display: "block" }}>
+      <main className=" flex-grow" style={{ display: "block" }}>
         <Outlet />
       </main>
       {pathname !== "/dashboard" && <Footer />}
