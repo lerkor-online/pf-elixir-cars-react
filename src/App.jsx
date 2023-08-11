@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 //import { createBrowserRouter, RouterProvider } from "react-router-dom";
 //import RootLayout from "./components/Helpers/RootLayout";
-
+import AuthMiddleware from "./components/Helpers/AuthMiddleware";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./components/Helpers/RootLayout";
 import "./App.css";
@@ -20,8 +20,6 @@ import { ContextProvider } from "./contexts/ContextProvider";
 /* import SignUpPage from "./pages/sing-up/[[...sign-up]]/sing-up"; */
 import Profile from "./pages/profile/Profile";
 
-// import AuthMiddleware from "./components/Helpers/AuthMiddleware";
-
 function App() {
   const root = createBrowserRouter([
     {
@@ -36,7 +34,16 @@ function App() {
         { path: "/about", element: <About /> },
         { path: "/about/ourteam", element: <OurTeam /> },
         { path: "/about/contact", element: <Contact /> },
-        { path: "/dashboard_1/*", element: <AdminDashboard /> },
+        // { path: "/dashboard_1/*", element: <AdminDashboard /> },
+        {
+          path: "/dashboard_1/*",
+          element: (
+            <AuthMiddleware>
+              <AdminDashboard />
+            </AuthMiddleware>
+          ),
+        },
+
         {
           path: "/home",
           element: (
