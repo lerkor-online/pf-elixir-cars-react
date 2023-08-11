@@ -1,0 +1,4 @@
+Usuario de prueba para ingresar a paypal.
+
+mail: msb-b9qe026849611@personal.example.com
+clave: '0R?V0l5
