@@ -96,7 +96,7 @@ export default function Nav() {
               <a href="app/categoria-producto/usados">Usados Garantizados</a>
             </li> */}
             <li>
-              <a href="/categoria-producto/0km">0 KM y Usados Garantizados</a>
+              <a href="/autos">0 KM y Usados Garantizados</a>
             </li>
             <li>
             <a className="cursor-pointer" onClick={onClickHandle}>

@@ -55,8 +55,8 @@ function App() {
           ),
         }, */
 
-        { path: "/categoria-producto/0km", element: <Cerokm /> },
-        { path: "/categoria-producto/0km/detail/:id", element: <Detail /> },
+        { path: "/autos/0km", element: <Cerokm /> },
+        { path: "/autos/detail/:id", element: <Detail /> },
         {
           path: "/paypal-button/:precio/:nombre",
           element: <PayPalButton />,
