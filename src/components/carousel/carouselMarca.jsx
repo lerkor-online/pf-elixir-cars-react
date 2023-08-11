@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
-import json from "./createdata.json";
+import json from "../../pages/dashboard_1/components/create_cars/logos.json";
 function CarouselMarca() {
   return (
     <div className="flex flex-col p-4 justify-center items-center bg-slate-50">

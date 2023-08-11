@@ -130,7 +130,7 @@ export default function CarDetail() {
         <div className="grid grid-cols-2 items-center m-8">
           <div className="flex justify-center ">
             <img
-              src={car.imageUrl}
+              src={car.imageUrl[0]}
               alt="Car Img"
               className=" rounded-3xl shadow-2xl"
               width={400}

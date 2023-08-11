@@ -8,21 +8,25 @@ const RootLayout = () => {
   const { pathname } = useLocation();
   return (
     <>
-      {/* {pathname !== "/" && (
-        <AuthMiddleware>
-          <Nav />
-        </AuthMiddleware>
-      )} */}
-      {/* <main style={{ display: "block" }}>
+      {(pathname !== "/" && pathname.includes("/dashboard")) || <Nav />}
+      <main style={{ display: "block" }}>
+//      {/* {pathname !== "/" && (
+//        <AuthMiddleware>
+//          <Nav />
+//        </AuthMiddleware>
+//      )} */}
+//      {/* <main style={{ display: "block" }}>
+//        <Outlet />
+//      </main>
+//      <Footer /> */}
+//
+//      {pathname !== "/" && pathname !== "/dashboard" && <Nav />}
+//      <main className=" flex-grow" style={{ display: "block" }}>
         <Outlet />
       </main>
-      <Footer /> */}
-
-      {pathname !== "/" && pathname !== "/dashboard" && <Nav />}
-      <main className=" flex-grow" style={{ display: "block" }}>
-        <Outlet />
-      </main>
-      {pathname !== "/dashboard" && <Footer />}
+      {(pathname !== "/dashboard" && pathname.includes("/dashboard_1")) || (
+        <Footer />
+      )}
     </>
   );
 };

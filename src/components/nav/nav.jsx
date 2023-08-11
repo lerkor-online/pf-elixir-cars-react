@@ -7,6 +7,8 @@ import LogoutButton from "../login/LogoutButton";
 import LoginButton from "../login/LoginButton";
 import { useAuth0 } from "@auth0/auth0-react";
 // import { useUser } from "../../hooks/useUser";
+
+import Profile from "../../pages/dashboard_1/components/Perfil/Profile";
 import { useState, useEffect } from "react";
 import Modal from "../ui/Modal";
 
@@ -98,9 +100,9 @@ export default function Nav() {
                 Vende tu Auto
               </a>
             </li>
-            <li>
+            {/* <li>
               <a href="/create">Añadir Auto</a>
-            </li>
+            </li> */}
             <li>
               <a href="">Servicios</a>
             </li>
@@ -116,10 +118,24 @@ export default function Nav() {
           <div className="pr-8"><button onClick={handleCarrito}>🛒</button></div>
           {/* <ButtonCart /> */}
 
+        <nav className="flex items-start mx-5 -mt-3">
+          <div className="relative">
+            <ButtonCart />
+          </div>
           {/*  <Cart/> */}
         </nav>
+
+        <nav className="flex items-center">
+          <div className="relative">
+            {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+          </div>
+        </nav>
+        <nav className="flex items-center">
+          <div className="relative mx-5">
+            <Profile />
+          </div>
+        </nav>
         <Boxgold />
-        {isAuthenticated ? <LogoutButton /> : <LoginButton />}
 
         {/* <button onClick={onLogOut} className="bg-white p-1 rounded-lg ">
           Salir
