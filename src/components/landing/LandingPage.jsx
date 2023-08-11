@@ -58,7 +58,13 @@ const LandingPage = () => {
           </section>
         </article>
       </section>
-      {showModal && <Modal setShowModal={setShowModal} />}
+      {showModal && (
+        <Modal
+          setShowModal={setShowModal}
+          title="Suscripcion exitosa!"
+          text="Te has suscrito ha nuestras noticias"
+        />
+      )}
       <section className=" p-2 ">
         <Newsletter setShowModal={setShowModal} />
       </section>

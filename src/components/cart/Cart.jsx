@@ -4,7 +4,7 @@ import { useId } from 'react'
 import { CartIcon, ClearCartIcon } from './Icons.jsx'
 import { useCart } from '../../hooks/useCart.js'
 
-function CartItem ({ brand, precio, imageUrl, presentation, title, quantity, addToCart }) {
+function CartItem ({ brand, precio, imageUrl, presentation, title, quantity, addToCart, removeFromCart }) {
   return (
     <div>
       <div className='flex gap-3 justify-center items-center'>
@@ -19,12 +19,13 @@ function CartItem ({ brand, precio, imageUrl, presentation, title, quantity, add
           <strong>{precio}</strong> - USD{precio}
       </div>
 
-      <footer>
+      {/* <footer>
         <small>
           Qty: {quantity}
         </small>
         <button onClick={addToCart}>+</button>
-      </footer>
+        <button onClick={removeFromCart}>-</button>
+      </footer> */}
     </div>
   )
 }
