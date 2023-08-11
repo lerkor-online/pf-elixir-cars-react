@@ -1,8 +1,12 @@
+// import { useUser } from "@clerk/clerk-react";
+import { useState } from "react";
 import Carousel from "../carousel/carousel";
 import Header from "../header/header";
 import Newsletter from "../newsletter/Newsletter";
-
+import Modal from "../ui/Modal";
 const LandingPage = () => {
+  const [showModal, setShowModal] = useState(false);
+
   const images = [
     "https://img1.wallspic.com/crops/4/0/4/0/7/170404/170404-porsche-porsche_911_gt3_r_991-coche-deportivo-wapcar-3840x2160.jpg",
     "https://img1.wallspic.com/crops/2/5/7/7/6/167752/167752-carretera-cargador_esquivar_2022-dodge-dodge_charger_srt_hellcat-coche-3840x2160.jpg",
@@ -10,7 +14,7 @@ const LandingPage = () => {
 
   return (
     <>
-      <Header/>
+      <Header />
       <section className=" flex flex-wrap  max-sm:flex-col ">
         <section className="flex-grow w-96 max-md:w-auto">
           <Carousel images={images} />
@@ -54,8 +58,9 @@ const LandingPage = () => {
           </section>
         </article>
       </section>
+      {showModal && <Modal setShowModal={setShowModal} />}
       <section className=" p-2 ">
-        <Newsletter />
+        <Newsletter setShowModal={setShowModal} />
       </section>
     </>
   );
