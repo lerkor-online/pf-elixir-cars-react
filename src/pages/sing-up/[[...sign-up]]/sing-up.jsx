@@ -30,8 +30,10 @@ export default function SignUpPage() {
   };
   const onRegister = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:3001/register", user);
-    const responseLogin = await axios.post("http://localhost:3001/login", user);
+    /* await axios.post("http://localhost:3001/register", user); */
+    await axios.post("https://pf-elixir-cars-back-production.up.railway.app/register", user);
+    /* const responseLogin = await axios.post("http://localhost:3001/login", user); */
+    const responseLogin = await axios.post("https://pf-elixir-cars-back-production.up.railway.app/login", user);
     const data = await responseLogin.data;
     // await signup(data.email, data.password);
     localStorage.setItem("Usuario", data.token);

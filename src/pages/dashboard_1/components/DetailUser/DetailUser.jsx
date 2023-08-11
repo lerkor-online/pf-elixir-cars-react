@@ -134,7 +134,8 @@ function DetailUser({ user, resetUser }) {
       if (result.isConfirmed) {
         try {
           const response = await axios.put(
-            `http://localhost:3001/users/${userMod?.id}/suspend`,
+            /* `http://localhost:3001/users/${userMod?.id}/suspend`, */
+            `https://pf-elixir-cars-back-production.up.railway.app/users/${userMod?.id}/suspend`,
             {
               status: newStatusValue,
             }
@@ -181,7 +182,8 @@ function DetailUser({ user, resetUser }) {
       if (result.isConfirmed) {
         try {
           const response = await axios.put(
-            `http://localhost:3001/users/${userMod?.id}`,
+            /* `http://localhost:3001/users/${userMod?.id}`, */
+            `https://pf-elixir-cars-back-production.up.railway.app/users/${userMod?.id}`,
             updatedUser
           );
           const { id, name, email, password, role } = response.data;

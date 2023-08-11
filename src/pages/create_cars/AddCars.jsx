@@ -185,7 +185,8 @@ const AddCars = ({ marca }) => {
 
   const fetchBrands = async () => {
     try {
-      const response = await fetch("http://localhost:3001/brands", {
+      /* const response = await fetch("http://localhost:3001/brands", { */
+        const response = await fetch("https://pf-elixir-cars-back-production.up.railway.app/brands", {
         next: {
           revalidate: 10,
         },
@@ -202,7 +203,8 @@ const AddCars = ({ marca }) => {
     try {
       const response =
         brandName !== "add"
-          ? await fetch(`http://localhost:3001/carModels?brand=${brandName}`, {
+         /*  ? await fetch(`http://localhost:3001/carModels?brand=${brandName}`, { */
+            ? await fetch(`https://pf-elixir-cars-back-production.up.railway.app/carModels?brand=${brandName}`, {
               next: {
                 revalidate: 10,
               },
@@ -586,7 +588,8 @@ const AddCars = ({ marca }) => {
       if (result.isConfirmed) {
         try {
           const response = await axios.post(
-            "http://localhost:3001/cars",
+            /* "http://localhost:3001/cars", */
+            "https://pf-elixir-cars-back-production.up.railway.app/cars",
             jsonData,
             {
               headers: {

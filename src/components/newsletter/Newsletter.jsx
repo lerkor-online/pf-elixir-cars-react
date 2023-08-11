@@ -12,7 +12,8 @@ const Newsletter = ({ setShowModal }) => {
   const onSubscribe = async () => {
     try {
       setEmailErr("");
-      await axios.post("http://localhost:3001/registerEmail", {
+      /* await axios.post("http://localhost:3001/registerEmail", { */
+        await axios.post("https://pf-elixir-cars-back-production.up.railway.app/registerEmail", {
         email,
       });
       setEmail("");

@@ -13,7 +13,8 @@ function AdminUsers() {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/users");
+      /* const response = await axios.get("http://localhost:3001/users"); */
+      const response = await axios.get("https://pf-elixir-cars-back-production.up.railway.app/users");
 
       const jsonData = await response.data;
       console.log(jsonData.users);
@@ -38,7 +39,8 @@ function AdminUsers() {
     console.log(email);
     try {
       const response = await axios.get(
-        `http://localhost:3001/user?email=${email}`
+        /* `http://localhost:3001/user?email=${email}` */
+        `https://pf-elixir-cars-back-production.up.railway.app/user?email=${email}`
       );
       setUser(response.data);
       console.log(user);
@@ -82,7 +84,8 @@ function AdminUsers() {
         if (result.isConfirmed) {
           try {
             const response = await axios.delete(
-              `http://localhost:3001/users/${selectedUsers}`,
+              /* `http://localhost:3001/users/${selectedUsers}`, */
+              `https://pf-elixir-cars-back-production.up.railway.app/users/${selectedUsers}`,
               {
                 data: { ids: selectedUsers },
               }

@@ -13,7 +13,7 @@ import About from "./pages/about/About";
 import Detail from "./pages/detail/detail";
 import OurTeam from "./pages/ourteam/OurTeam";
 import Contact from "./pages/contact/Contact";
-import Checkout from "./pages/checkout/Checkout";
+/* import Checkout from "./pages/checkout/Checkout"; */
 import AdminDashboard from "./pages/dashboard_1/AdminDashboard";
 /* import Dashboard from "./pages/dashboard/Dashboard"; */
 import { ContextProvider } from "./contexts/ContextProvider";
