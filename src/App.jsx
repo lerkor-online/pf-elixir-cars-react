@@ -14,7 +14,7 @@ import Checkout from "./pages/checkout/Checkout";
 import { ContextProvider } from "./contexts/ContextProvider";
 /* import SignUpPage from "./pages/sing-up/[[...sign-up]]/sing-up"; */
 
-import Dashboard from "../src/components/Dashboard/Dashboard";
+// import Dashboard from "../src/components/Dashboard/Dashboard";
 import Profile from "./pages/profile/Profile";
 
 // import AuthMiddleware from "./components/Helpers/AuthMiddleware";
@@ -42,7 +42,7 @@ function App() {
         { path: "/about/ourteam", element: <OurTeam /> },
         { path: "/about/contact", element: <Contact /> },
         { path: "/create", element: <AddCars /> },
-        { path: "/dashboard", element: <Dashboard /> },
+        // { path: "/dashboard", element: <Dashboard /> },
         { path: "/profile", element: <Profile /> },
         /* { path: "/sing-up", element: <SignUpPage /> }, */
       ],
