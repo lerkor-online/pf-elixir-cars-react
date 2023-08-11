@@ -82,7 +82,7 @@ const CardCars = () => {
     try {
       // Hacer la solicitud PUT para actualizar el auto en el servidor
       await axios.put(`${URL}/${editedCar.id}`, {
-        price: editedCar.price,
+        precio: editedCar.precio,
         stock: editedCar.stock,
       });
 
@@ -187,9 +187,9 @@ const CardCars = () => {
             <label className="mb-2">Precio:</label>
             <input
               type="number"
-              value={editedCar.price}
+              value={editedCar.precio}
               onChange={(e) =>
-                setEditedCar({ ...editedCar, price: e.target.value })
+                setEditedCar({ ...editedCar, precio: e.target.value })
               }
             />
             <label className="mb-2">Stock:</label>

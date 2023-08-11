@@ -29,13 +29,13 @@ function Cars() {
           className={`px-4 py-2 ${activeOption === "crear-auto" ? "bg-gray-400" : "bg-gray-200"}`}
           onClick={() => handleOptionChange("crear-auto")}
         >
-          Crear Auto
+          Publicar Auto
         </button>
         <button
           className={`px-4 py-2 ${activeOption === "administrar-auto" ? "bg-gray-400" : "bg-gray-200"}`}
           onClick={() => handleOptionChange("administrar-auto")}
         >
-         Administrar Auto
+         Administrar Autos
         </button>
  
       </div>
