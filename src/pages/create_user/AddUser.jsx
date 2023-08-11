@@ -186,7 +186,8 @@ function AddUser() {
       if (result.isConfirmed) {
         try {
           const response = await axios.post(
-            "http://localhost:3001/users",
+            /* "http://localhost:3001/users", */
+            "https://pf-elixir-cars-back-production.up.railway.app/users",
             jsonData,
             {
               headers: {

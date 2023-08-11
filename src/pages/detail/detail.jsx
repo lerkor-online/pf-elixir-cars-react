@@ -53,7 +53,8 @@ export default function CarDetail() {
       const user_metadata = await metadataResponse.data;
 
       const userFound = await axios.get(
-        `http://localhost:3001/users?email=${user_metadata.email}`
+        /* `http://localhost:3001/users?email=${user_metadata.email}` */
+        `https://pf-elixir-cars-back-production.up.railway.app/users?email=${user_metadata.email}`
       );
 
       console.log(userFound.data)
@@ -113,7 +114,8 @@ export default function CarDetail() {
   }
 
   const handleAddCartDB = () =>{
-    axios.post(`http://localhost:3001/cartDetails`,{
+    /* axios.post(`http://localhost:3001/cartDetails`,{ */
+      axios.post(`https://pf-elixir-cars-back-production.up.railway.app/cartDetails`,{
       cartId : userId,
       carId : id,
       cantidad : 1

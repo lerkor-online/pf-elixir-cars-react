@@ -38,7 +38,8 @@ function OffertMessenge() {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3001/send", formData);
+      /* const response = await axios.post("http://localhost:3001/send", formData); */
+      const response = await axios.post("https://pf-elixir-cars-back-production.up.railway.app/send", formData);
       console.log(response);
     } catch (error) {
       console.log("Error al enviar el mensaje", error);

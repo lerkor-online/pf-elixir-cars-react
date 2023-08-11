@@ -31,7 +31,8 @@ const Profile = () => {
 
         setUserMetadata(user_metadata);
 
-        await axios.post("http://localhost:3001/users", {
+        /* await axios.post("http://localhost:3001/users", { */
+          await axios.post("https://pf-elixir-cars-back-production.up.railway.app/users", {
           email: user_metadata.email,
           name: user_metadata.name,
           password: accessToken,
