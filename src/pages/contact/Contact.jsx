@@ -3,8 +3,8 @@ import HeaderAbout from "../../components/headerabout/HeaderAbout";
 
 function Contact() {
   return (
-    <section className="text-gray-600 body-font relative bg-slate-50 h-full w-full">
-      <HeaderAbout/>
+    <form className="text-gray-600 body-font relative bg-slate-50 h-full w-full">
+      <HeaderAbout />
       <div className="container px-5 py-16 mx-auto">
         <div className="flex flex-col text-center w-full mb-12">
           <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
@@ -18,7 +18,11 @@ function Contact() {
           <div className="flex flex-wrap -m-2">
             <div className="p-2 w-1/2">
               <div className="relative">
-                <label id="name" className="leading-7 text-sm text-gray-600">
+                <label
+                  id="name"
+                  htmlFor="name"
+                  className="leading-7 text-sm text-gray-600"
+                >
                   Name
                 </label>
                 <input
@@ -31,7 +35,11 @@ function Contact() {
             </div>
             <div className="p-2 w-1/2">
               <div className="relative">
-                <label id="email" className="leading-7 text-sm text-gray-600">
+                <label
+                  id="email"
+                  htmlFor="email"
+                  className="leading-7 text-sm text-gray-600"
+                >
                   Email
                 </label>
                 <input
@@ -44,7 +52,11 @@ function Contact() {
             </div>
             <div className="p-2 w-full">
               <div className="relative">
-                <label id="message" className="leading-7 text-sm text-gray-600">
+                <label
+                  id="message"
+                  htmlFor="message"
+                  className="leading-7 text-sm text-gray-600"
+                >
                   Message
                 </label>
                 <textarea
@@ -56,7 +68,7 @@ function Contact() {
             </div>
             <div className="p-2 w-full pb-24">
               <button className="flex mx-auto mt-8 w-fit justify-starts title-font font-medium text-lg text-white bg-blue-500 rounded-lg transition duration-300 hover:shadow-md shadow-[#555555] border-0 py-2 px-8 focus:outline-none hover:bg-[#FFD700] hover:text-gray-800 ">
-                Send
+                <a href="mailto:correo@ejemplo.com">Enviar correo</a>
               </button>
             </div>
             <div className="p-2 w-full pt-8 mt-8 border-t border-gray-200 text-center ">
@@ -72,7 +84,7 @@ function Contact() {
           </div>
         </div>
       </div>
-    </section>
+    </form>
   );
 }
 

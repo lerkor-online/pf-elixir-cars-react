@@ -1,24 +1,60 @@
-import React, { useEffect, useState } from "react";
 import Boxgold from "../boxgold/boxgold";
-/* import { UserButton } from "@clerk/nextjs"; */
-import ButtonCart from "../cart/cart";
+import ButtonCart from "../cart/Cart";
 import logo from "../../assets/logo_elixir.png";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import LogoutButton from "../login/LogoutButton";
+import LoginButton from "../login/LoginButton";
+import { useAuth0 } from "@auth0/auth0-react";
+// import { useUser } from "../../hooks/useUser";
+import { useEffect } from "react";
 
 export default function Nav() {
-  const [cartCount, setCartCount] = useState(0);
+  const navigate = useNavigate();
+  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
 
-  const getCartCountFromLocalStorage = () => {
-    const cartCountStr = localStorage.getItem("carrito");
-    const parsedCount = parseInt(cartCountStr, 10);
-    if (!isNaN(parsedCount)) {
-      setCartCount(parsedCount);
-    }
-  };
-
-  // Call the function to get the cart count when the component mounts
   useEffect(() => {
-    getCartCountFromLocalStorage();
-  }, []);
+    const getUserMetadata = async () => {
+      try {
+        const domain = import.meta.env.VITE_REACT_APP_AUTH0_DOMAIN;
+        const accessToken = await getAccessTokenSilently({
+          authorizationParams: {
+            audience: `https://${domain}/api/v2/`,
+            scope: "read:current_user",
+          },
+        });
+
+        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+
+        const metadataResponse = await axios(userDetailsByIdUrl, {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        const user_metadata = await metadataResponse.data;
+
+        const userFound = await axios.get(
+          `http://localhost:3001/users?email=${user_metadata.email}`
+        );
+        const userData = {
+          name: user_metadata.name,
+          email: user_metadata.email,
+          password: accessToken,
+        };
+        console.log(userFound);
+        if (!userFound.data) {
+          await axios.post("http://localhost:3001/register", userData);
+        }
+        await axios.post("http://localhost:3001/login", userData);
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+
+    getUserMetadata();
+  }, [getAccessTokenSilently, user?.sub]);
 
   return (
     <main>
@@ -64,10 +100,16 @@ export default function Nav() {
           </ul>
         </nav>
         <nav>
-          <a href="">🛒({cartCount})</a>
+          <ButtonCart />
+
+          {/*  <Cart/> */}
         </nav>
         <Boxgold />
-        <div className="px-1">{/* <UserButton afterSignOutUrl="/" /> */}</div>
+        {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+
+        {/* <button onClick={onLogOut} className="bg-white p-1 rounded-lg ">
+          Salir
+        </button> */}
       </header>
     </main>
   );
