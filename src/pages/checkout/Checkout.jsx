@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+/* import { useState, useEffect } from "react";
 import {PayPalButtonComponent} from '../../components/PaypalButton/PaypalButton';
 
 // checkout recibira por params el id del product con su precio y nombre.  y a su vez se lo psa al componente de paypal button
@@ -15,3 +15,4 @@ export default function Checkout(props) {
     </div>
   );
 }
+ */

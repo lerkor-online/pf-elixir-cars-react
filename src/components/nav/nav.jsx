@@ -7,13 +7,15 @@ import LogoutButton from "../login/LogoutButton";
 import LoginButton from "../login/LoginButton";
 import { useAuth0 } from "@auth0/auth0-react";
 // import { useUser } from "../../hooks/useUser";
-import { useEffect } from "react";
+
 import Profile from "../../pages/dashboard_1/components/Perfil/Profile";
+import { useState, useEffect } from "react";
+import Modal from "../ui/Modal";
 
 export default function Nav() {
   const navigate = useNavigate();
   const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
-
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     const getUserMetadata = async () => {
       try {
@@ -45,6 +47,7 @@ export default function Nav() {
           password: accessToken,
         };
         console.log(userFound);
+        window.localStorage.setItem("user", JSON.stringify(userFound.data))
         if (!userFound.data) {
           await axios.post("http://localhost:3001/register", userData);
         }
@@ -56,6 +59,15 @@ export default function Nav() {
 
     getUserMetadata();
   }, [getAccessTokenSilently, user?.sub]);
+
+  const handleCarrito = () =>{
+    navigate("/carrito")
+  }
+
+  const onClickHandle = (e) => {
+    e.preventDefault();
+    setShowModal(true);
+  };
 
   return (
     <main>
@@ -77,14 +89,16 @@ export default function Nav() {
 
         <nav className="flex flex-grow justify-center">
           <ul className="flex text-sm [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2 [&>li>a]:text-gray-50">
-            <li>
+            {/* <li>
               <a href="app/categoria-producto/usados">Usados Garantizados</a>
+            </li> */}
+            <li>
+              <a href="/categoria-producto/0km">0 KM y Usados Garantizados</a>
             </li>
             <li>
-              <a href="/categoria-producto/0km">0 KM</a>
-            </li>
-            <li>
-              <a href="">Vende tu Auto</a>
+            <a className="cursor-pointer" onClick={onClickHandle}>
+                Vende tu Auto
+              </a>
             </li>
             {/* <li>
               <a href="/create">Añadir Auto</a>
@@ -100,6 +114,9 @@ export default function Nav() {
             </li>
           </ul>
         </nav>
+        <nav>
+          <div className="pr-8"><button onClick={handleCarrito}>🛒</button></div>
+          {/* <ButtonCart /> */}
 
         <nav className="flex items-start mx-5 -mt-3">
           <div className="relative">
@@ -124,6 +141,13 @@ export default function Nav() {
           Salir
         </button> */}
       </header>
+      {showModal && (
+        <Modal
+          title="Contactanos a los siguientes numeros para concretar tu venta"
+          text="+59833443565, +59833443565"
+          setShowModal={setShowModal}
+        ></Modal>
+      )}
     </main>
   );
 }

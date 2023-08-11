@@ -19,6 +19,8 @@ import AdminDashboard from "./pages/dashboard_1/AdminDashboard";
 import { ContextProvider } from "./contexts/ContextProvider";
 /* import SignUpPage from "./pages/sing-up/[[...sign-up]]/sing-up"; */
 import Profile from "./pages/profile/Profile";
+import Carrito from "./pages/carrito/carrito";
+import { PayPalButton } from "./components/PaypalButton/PaypalButton";
 
 function App() {
   const root = createBrowserRouter([
@@ -52,11 +54,20 @@ function App() {
             // </AuthMiddleware>
           ),
         },
-        { path: "/checkout", element: <Checkout /> },
+
+        { path: "/categoria-producto/0km", element: <Cerokm /> },
+        { path: "/categoria-producto/0km/detail/:id", element: <Detail /> },
+        {
+          path: "/paypal-button/:precio/:nombre",
+          element: <PayPalButton />,
+        },
+        /* { path: "/checkout", element: <Checkout /> }, */
+        { path: "/about", element: <About /> },
         { path: "/about/ourteam", element: <OurTeam /> },
         { path: "/about/contact", element: <Contact /> },
         { path: "/create", element: <AddCars /> },
         { path: "/profile", element: <Profile /> },
+        { path: "/carrito", element: <Carrito /> },
         /* { path: "/sing-up", element: <SignUpPage /> }, */
       ],
     },
