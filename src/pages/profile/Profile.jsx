@@ -42,7 +42,7 @@ const Profile = () => {
     };
 
     getUserMetadata();
-  }, [getAccessTokenSilently, user?.sub]);
+  }, [domain, getAccessTokenSilently, user.sub]);
 
   return (
     isAuthenticated && (

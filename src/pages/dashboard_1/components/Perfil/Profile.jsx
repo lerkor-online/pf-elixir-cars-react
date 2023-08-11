@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Profile() {
   const [menuUser, setMenuUser] = useState(false);
@@ -18,6 +19,7 @@ function Profile() {
           </div>
         </button>
       </div>
+
       {menuUser && (
         <div className="absolute -right-2 p-2 flex flex-col items-center bg-neutral-700 min-w-[150px] rounded-lg shadow-lg Z-10">
           <div className="h-16 w-16 bg-red-600 my-2 overflow-hidden rounded-full">
@@ -31,9 +33,11 @@ function Profile() {
             <button className="text-center m-auto my-1 p-0 py-0.5 px-2 w-full">
               Edit Profile
             </button>
-            <button className="text-center m-auto my-1 p-0 py-0.5 px-2 w-full">
-              Settings
-            </button>
+            <Link to="/dashboard_1">
+              <button className="text-center m-auto my-1 p-0 py-0.5 px-2 w-full">
+                Settings
+              </button>
+            </Link>
             <button className="text-center m-auto my-1 p-0 py-0.5 px-2 w-full">
               Log Out
             </button>

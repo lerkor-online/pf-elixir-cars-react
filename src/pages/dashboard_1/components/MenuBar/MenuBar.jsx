@@ -44,6 +44,11 @@ function MenuBar() {
           </button>
         </Link>
       </div>
+      <div>
+        <Link to="/home" className=" no-underline text-black hover:text-white">
+          <button className="w-full m-auto my-2 hover:bg-yellow-500"></button>
+        </Link>
+      </div>
     </div>
   );
 }
