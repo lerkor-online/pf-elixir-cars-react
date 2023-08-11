@@ -16,10 +16,10 @@ function AdminUsers() {
       const response = await axios.get("http://localhost:3001/users");
 
       const jsonData = await response.data;
-      console.log(jsonData);
+      console.log(jsonData.users);
 
-      if (Array.isArray(jsonData) && jsonData.length > 0) {
-        setUsers(jsonData);
+      if (Array.isArray(jsonData.users) && jsonData.users.length > 0) {
+        setUsers(jsonData.users); // No es necesario envolver jsonData.users en un array adicional
       } else {
         console.log("No hay usuarios");
         setUsers(jsonData);
@@ -38,7 +38,7 @@ function AdminUsers() {
     console.log(email);
     try {
       const response = await axios.get(
-        `http://localhost:3001/users?email=${email}`
+        `http://localhost:3001/user?email=${email}`
       );
       setUser(response.data);
       console.log(user);
@@ -101,6 +101,7 @@ function AdminUsers() {
             console.log("Usuario(s) Borrado(s)", selectedUsers);
             fetchUser();
             setSelectedUsers([]);
+            setUser({});
           }
         }
       })
@@ -113,13 +114,16 @@ function AdminUsers() {
         console.error(error);
       });
   };
+  const resetUser = () => {
+    fetchUser();
+  };
 
   return (
     <div className="flex flex-row h-full w-[100%]">
       <div className="text-gray-900 bg-slate-100 rounded-lg mt-2 mr-2 w-[75%]">
         <div className="flex flex-row">
           <div className="p-4 flex">
-            <h1 className="text-3xl">Users</h1>
+            <h1 className="text-4xl">Users</h1>
           </div>
           {showDeleteButton && (
             <div className="ml-auto mr-4 mt-auto ">
@@ -135,7 +139,7 @@ function AdminUsers() {
         <div className="flex flex-col w-full overflow-hidden">
           <div className="w-full flex flex-row">
             <div className="w-full m-5 border-b border-gray-200 rounded-sm shadow">
-              <table className="min-w-full divide-y-2 divide-[#f1d72f]">
+              <table className="min-w-full border-b-2 divide-y-2 divide-[#f1d72f] border-[#f1d72f]">
                 <thead className="bg-gray-50 ">
                   <tr className="">
                     <th className="w-10 p-3 text-sm font-semibold tracking-wide text-left">
@@ -158,13 +162,10 @@ function AdminUsers() {
                     </th>
                   </tr>
                 </thead>
-                {users.length === 0 ? (
-                  <div className="min-w-full bg-white divide-y divide-gray-300">
-                    Loading...
-                  </div>
-                ) : (
+
+                {Array.isArray(users) && users.length > 0 ? (
                   <tbody className="bg-white divide-y divide-gray-300">
-                    {users?.map((user, index) => (
+                    {users.map((user, index) => (
                       <Card_Users
                         key={index}
                         user={user}
@@ -173,14 +174,24 @@ function AdminUsers() {
                       />
                     ))}
                   </tbody>
+                ) : (
+                  // Maneja el caso en el que users no sea un array o no tenga elementos
+                  <div className="justify-center items-center w-150 absolute">
+                    <tbody></tbody>
+                    <div className=" justify-center items-center w-full">
+                      <p className="text-red-500 w-full">
+                        No hay usuarios disponibles
+                      </p>
+                    </div>
+                  </div>
                 )}
               </table>
             </div>
           </div>
         </div>
       </div>
-      <div className="border-2 text-black bg-slate-300 rounded-lg mt-2 ml-2 w-[25%] overflow-hidden ">
-        <DetailUser user={user} />
+      <div className="border-2 text-black bg-slate-100 rounded-lg mt-2 ml-2 w-[25%] overflow-hidden ">
+        <DetailUser user={user} resetUser={resetUser} />
       </div>
     </div>
   );

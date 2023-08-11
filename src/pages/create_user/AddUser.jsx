@@ -232,122 +232,129 @@ function AddUser() {
   };
 
   return (
-    <div>
-      <h1>Add User</h1>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-col mt-2 mx-2 relative">
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              value={formData.name}
-              onChange={handleNameChange}
-              onFocus={handleNameFocus}
-              onBlur={handleNameBlur}
-              className={`border border-gray-300 rounded px-4 py-2 mt-1 mb-2 focus:outline-none ${
-                !isNameValid && !isNameFocused ? "border-red-500" : ""
-              } ${isNameValid ? "border-green-500" : ""}`}
-            />
-            {!isNameValid && !isNameFocused && (
-              <div className="text-red-500 text-sm mt-1">
-                Por favor, ingresa un nombre válido (mínimo 5 caracteres y
-                máximo 30 caracteres)
-              </div>
-            )}
-          </div>
-
-          <div className="flex flex-col mt-2 mx-2 relative">
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={formData.email}
-              onChange={handleEmailChange}
-              onFocus={handleEmailFocus}
-              onBlur={handleEmailBlur}
-              className={`border border-gray-300 rounded px-4 py-2 mt-1 mb-2 focus:outline-none ${
-                !isEmailValid && !isEmailFocused ? "border-red-500" : ""
-              } ${isEmailValid ? "border-green-500" : ""}`}
-            />
-            {!isEmailValid && !isEmailFocused && (
-              <div className="text-red-500 text-sm mt-1">
-                Por favor, ingresa un email válido
-              </div>
-            )}
-          </div>
-
-          <div className="flex flex-col mt-2 mx-2 relative">
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={formData.password}
-              onChange={handlePasswordChange}
-              onFocus={handlePasswordFocus}
-              onBlur={handlePasswordBlur}
-              className={`border border-gray-300 rounded px-4 py-2 mt-1 mb-2 focus:outline-none ${
-                !isPasswordValid && !isPasswordFocused ? "border-red-500" : ""
-              } ${isPasswordValid ? "border-green-500" : ""}`}
-            />
-            {!isPasswordValid && !isPasswordFocused && (
-              <div className="text-red-500 text-sm mt-1">
-                Por favor, ingresa una contraseña válida
-              </div>
-            )}
-          </div>
-
-          <div className="flex flex-col mt-2 mx-2 relative">
-            <label htmlFor="confirmPassword">Confirm Password:</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-              onFocus={handleConfirmPasswordFocus}
-              onBlur={handleConfirmPasswordBlur}
-              className={`border border-gray-300 rounded px-4 py-2 mt-1 mb-2 focus:outline-none ${
-                !isConfirmPasswordValid && !isConfirmPasswordFocused
-                  ? "border-red-500"
-                  : ""
-              } ${isConfirmPasswordValid ? "border-green-500" : ""}`}
-            />
-            {!isConfirmPasswordValid && !isConfirmPasswordFocused && (
-              <div className="text-red-500 text-sm mt-1">
-                Las contraseñas no coinciden
-              </div>
-            )}
-          </div>
-          <div className="flex flex-col mt-2 mx-2 relative">
-            <label htmlFor="role">Role:</label>
-            <select
-              id="role"
-              value={formData.role}
-              onChange={handleRoleChange}
-              onFocus={handleRoleFocus}
-              onBlur={handleRoleBlur}
-              className={`border border-gray-300 rounded px-4 py-2 mt-1 mb-2 focus:outline-none ${
-                !isRoleValid && !isRoleFocused ? "border-red-500" : ""
-              } ${isRoleValid ? "border-green-500" : ""}`}
-            >
-              <option value="">Select a role</option>
-              <option value="admin">Admin</option>
-              <option value="user">User</option>
-            </select>
-            {!isRoleValid && !isRoleFocused && (
-              <div className="text-red-500 text-sm mt-1">
-                Por favor, selecciona un rol válido
-              </div>
-            )}{" "}
-          </div>
-          <button
-            type="submit"
-            disabled={!isFormValid}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+    <div className="flex flex-col m-0 justify-center h-full w-[100%] items-center">
+      <div className="flex flex-col overflow-hidden w-[50%] items-center border-2 shadow-glass-card shadow-slate-500 rounded-lg py-10 ">
+        <div className="flex flex-col p-0 w-[100%] items-center ">
+          <h1 className="font-mono">ADD USER</h1>
+        </div>
+        <div className="flex flex-col overflow-hidden w-[100%] items-center">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col overflow-hidden w-[100%] items-center"
           >
-            Submit
-          </button>
-        </form>
+            <div className="flex flex-col mt-2 mx-2 w-[50%] relative">
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                id="name"
+                value={formData.name}
+                onChange={handleNameChange}
+                onFocus={handleNameFocus}
+                onBlur={handleNameBlur}
+                className={`border border-gray-300 rounded px-4 py-2 mt-1 mb-2 focus:outline-none ${
+                  !isNameValid && !isNameFocused ? "border-red-500" : ""
+                } ${isNameValid ? "border-green-500" : ""}`}
+              />
+              {!isNameValid && !isNameFocused && (
+                <div className="text-red-500 text-sm mt-1">
+                  Por favor, ingresa un nombre válido (mínimo 5 caracteres y
+                  máximo 30 caracteres)
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col mt-2 mx-2 relative w-[50%]">
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                value={formData.email}
+                onChange={handleEmailChange}
+                onFocus={handleEmailFocus}
+                onBlur={handleEmailBlur}
+                className={`border border-gray-300 rounded px-4 py-2 mt-1 mb-2 focus:outline-none ${
+                  !isEmailValid && !isEmailFocused ? "border-red-500" : ""
+                } ${isEmailValid ? "border-green-500" : ""}`}
+              />
+              {!isEmailValid && !isEmailFocused && (
+                <div className="text-red-500 text-sm mt-1">
+                  Por favor, ingresa un email válido
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col mt-2 mx-2 relative w-[50%]">
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                value={formData.password}
+                onChange={handlePasswordChange}
+                onFocus={handlePasswordFocus}
+                onBlur={handlePasswordBlur}
+                className={`border border-gray-300 rounded px-4 py-2 mt-1 mb-2 focus:outline-none ${
+                  !isPasswordValid && !isPasswordFocused ? "border-red-500" : ""
+                } ${isPasswordValid ? "border-green-500" : ""}`}
+              />
+              {!isPasswordValid && !isPasswordFocused && (
+                <div className="text-red-500 text-sm mt-1">
+                  Por favor, ingresa una contraseña válida
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col mt-2 mx-2 relative w-[50%]">
+              <label htmlFor="confirmPassword">Confirm Password:</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+                onFocus={handleConfirmPasswordFocus}
+                onBlur={handleConfirmPasswordBlur}
+                className={`border border-gray-300 rounded px-4 py-2 mt-1 mb-2 focus:outline-none ${
+                  !isConfirmPasswordValid && !isConfirmPasswordFocused
+                    ? "border-red-500"
+                    : ""
+                } ${isConfirmPasswordValid ? "border-green-500" : ""}`}
+              />
+              {!isConfirmPasswordValid && !isConfirmPasswordFocused && (
+                <div className="text-red-500 text-sm mt-1">
+                  Las contraseñas no coinciden
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col mt-2 mx-2 relative w-[50%]">
+              <label htmlFor="role">Role:</label>
+              <select
+                id="role"
+                value={formData.role}
+                onChange={handleRoleChange}
+                onFocus={handleRoleFocus}
+                onBlur={handleRoleBlur}
+                className={`border border-gray-300 rounded px-4 py-2 mt-1 mb-2 focus:outline-none ${
+                  !isRoleValid && !isRoleFocused ? "border-red-500" : ""
+                } ${isRoleValid ? "border-green-500" : ""}`}
+              >
+                <option value="">Select a role</option>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+              </select>
+              {!isRoleValid && !isRoleFocused && (
+                <div className="text-red-500 text-sm mt-1">
+                  Por favor, selecciona un rol válido
+                </div>
+              )}
+            </div>
+            <button
+              type="submit"
+              disabled={!isFormValid}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-300 disabled:cursor-not-allowed mt-4"
+            >
+              CREAR USER
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

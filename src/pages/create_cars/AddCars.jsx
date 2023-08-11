@@ -683,8 +683,8 @@ const AddCars = ({ marca }) => {
 
   return (
     // <div className="mt-16 min-w-full flex-col items-center bg-slate-50 text-gray-600 body-font h730:mt-144 h742:mt-120 h935:mt-100 hdm:mt-20 lg:mt-16 xl:mt-16 2xl:mt-16">
-    <div className="-mt-5 pt-5 min-w-full flex-col items-center bg-slate-50 text-gray-600 body-font ">
-      <div className="p-4 flex justify-center ">
+    <div className="min-w-full max-w-full h-full flex-col items-center bg-slate-50 text-gray-600 body-font over-flow-auto">
+      <div className="p-4 pt-10 flex justify-center ">
         <button
           className={
             "ml-4 py-2 px-4 bg-gray-500 text-gray-200  hover:text-gray-900 hover:cursor-pointer h-fit flex border-gray-200  rounded-lg transition duration-300 hover:shadow-md shadow-[#555555] hover:bg-[#ff7300]"

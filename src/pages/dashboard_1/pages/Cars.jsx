@@ -22,25 +22,31 @@ function Cars() {
   };
 
   return (
-    <div className="flex flex-col m-auto min-h-full min-w-full ">
-      <div className="min-h-[6vh] flex space-x-4 p-0 border-2 text-black bg-slate-300 rounded-lg mt-2">
-        <button
-          className={`px-4 py-2 ${
-            activeOption === "crear-auto" ? "bg-gray-400" : "bg-gray-200"
-          }`}
-          onClick={() => handleOptionChange("crear-auto")}
-        >
-          Crear Auto
-        </button>
-        <button
-          className={`px-4 py-2 ${
-            activeOption === "administrar-auto" ? "bg-gray-400" : "bg-gray-200"
-          }`}
-          onClick={() => handleOptionChange("administrar-auto")}
-        >
-          Administrar Auto
-        </button>
-        {/* <button
+    <div className="flex flex-col min-h-full min-w-full ">
+      <div className="flex felx-row min-h-[6vh] max-h-[6vh]">
+        <div className="flex felx-row h-full">
+          <div className="relative h-12 top-8 ">
+            <button
+              className={`px-4 h-10 p-0 rounded-b-sm text-start ${
+                activeOption === "crear-auto" ? "bg-gray-400" : "bg-gray-200"
+              }`}
+              onClick={() => handleOptionChange("crear-auto")}
+            >
+              Publicar Auto
+            </button>
+          </div>
+          <div className="relative h-12 top-8">
+            <button
+              className={`px-4 h-10 p-0 rounded-b-sm text-start ${
+                activeOption === "administrar-auto"
+                  ? "bg-gray-400"
+                  : "bg-gray-200"
+              }`}
+              onClick={() => handleOptionChange("administrar-auto")}
+            >
+              Administrar Auto
+            </button>
+            {/* <button
           className={`px-4 py-2 ${
             activeOption === "eliminar-auto" ? "bg-gray-400" : "bg-gray-200"
           }`}
@@ -48,9 +54,13 @@ function Cars() {
         >
           Eliminar Auto
         </button> */}
+          </div>
+        </div>
       </div>
-      <div className=" p-4 text-black bg-slate-300 rounded-lg mt-2 min-h-[91vh] max-h-[91vh] overflow-auto">
-        {renderOptionContent()}
+      <div className="flex flex-row mt-5 max-w-[100%]">
+        <div className=" border-spacing-1 shadow-glass-card shadow-slate-500 text-black bg-white pt-2 min-w-[97%] min-h-[88vh] px-4 rounded-tr-md">
+          {renderOptionContent()}
+        </div>
       </div>
     </div>
   );

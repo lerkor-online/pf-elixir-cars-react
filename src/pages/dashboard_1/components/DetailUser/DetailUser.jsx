@@ -2,16 +2,19 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-function DetailUser({ user }) {
+function DetailUser({ user, resetUser }) {
   const [userMod, setUserMod] = useState({});
-
+  console.log(userMod);
   const [newName, setNewName] = useState("");
+  const [nameError, setNameError] = useState("");
   const [originalName, setOriginalName] = useState(""); // Nuevo estado para almacenar el nombre original
 
   const [newEmail, setNewEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [originalEmail, setOriginalEmail] = useState("");
 
   const [newPassword, setNewPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [originalPassword, setOriginalPassword] = useState("");
 
   const [newRole, setNewRole] = useState("");
@@ -32,13 +35,21 @@ function DetailUser({ user }) {
 
   const handleNameChange = (e) => {
     setNewName(e.target.value);
+    if (e.target.value.length < 5) {
+      setNameError("El nombre debe tener al menos 5 caracteres");
+    } else {
+      setNameError("");
+    }
   };
 
   const handleNameSave = () => {
-    if (newName !== userMod?.name) {
+    if (nameError) {
+      return;
+    } else if (newName !== userMod?.name) {
       setUserMod({ ...userMod, name: newName });
     }
     setEditingName(false);
+    setIsButtonActive(true);
   };
 
   const handleNameCancel = () => {
@@ -47,13 +58,22 @@ function DetailUser({ user }) {
   };
   const handleEmailChange = (e) => {
     setNewEmail(e.target.value);
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!emailRegex.test(e.target.value)) {
+      setEmailError("El email no es válido");
+    } else {
+      setEmailError("");
+    }
   };
 
   const handleEmailSave = () => {
-    if (newEmail !== userMod?.email) {
+    if (emailError) {
+      return;
+    } else if (newEmail !== userMod?.email) {
       setUserMod({ ...userMod, email: newEmail });
     }
     setEditingEmail(false);
+    setIsButtonActive(true);
   };
 
   const handleEmailCancel = () => {
@@ -62,13 +82,21 @@ function DetailUser({ user }) {
   };
   const handlePasswordChange = (e) => {
     setNewPassword(e.target.value);
+    if (e.target.value.length < 8) {
+      setPasswordError("La contraseña debe tener al menos 8 caracteres");
+    } else {
+      setPasswordError("");
+    }
   };
 
   const handlePasswordSave = () => {
-    if (newPassword !== userMod?.password) {
+    if (passwordError) {
+      return;
+    } else if (newPassword !== userMod?.password) {
       setUserMod({ ...userMod, password: newPassword });
     }
     setEditingPassword(false);
+    setIsButtonActive(true);
   };
 
   const handlePasswordCancel = () => {
@@ -84,14 +112,13 @@ function DetailUser({ user }) {
       setUserMod({ ...userMod, role: newRole });
     }
     setEditingRole(false);
+    setIsButtonActive(true);
   };
 
   const handleRoleCancel = () => {
     setEditingRole(false);
     setNewRole(originalRole);
   };
-
-  const handleChangeSubmit = () => {};
 
   const handleStatusSave = async () => {
     const newStatusValue = userMod?.status === "active" ? "inactive" : "active";
@@ -131,13 +158,71 @@ function DetailUser({ user }) {
     });
   };
 
+  const handleChangeSubmit = async (e) => {
+    e.preventDefault();
+    const updatedUser = {
+      id: userMod.id,
+      name: newName !== "" ? newName : userMod.name,
+      email: newEmail !== "" ? newEmail : userMod.email,
+      password: newPassword !== "" ? newPassword : userMod.password,
+      role: newRole !== "" ? newRole : userMod.role,
+    };
+
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "¡Sí, borrar!",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.put(
+            `http://localhost:3001/users/${userMod?.id}`,
+            updatedUser
+          );
+          const { id, name, email, password, role } = response.data;
+          setUserMod({ id, name, email, password, role });
+          console.log(response.data);
+          Swal.fire({
+            title: "Actualización exitosa",
+            text: "El usuario se ha actualizado correctamente.",
+            icon: "success",
+          });
+          setUserMod(response.data);
+        } catch (error) {
+          console.error("Error al actualizar el usuario:", error);
+        } finally {
+          resetUser();
+          setIsButtonActive(false);
+        }
+      }
+    });
+  };
+
   //   console.log(userMod?.name);
   //   console.log(userMod?.email);
   //   console.log(userMod?.role);
   //   console.log(userMod?.status);
 
   if (!user || Object.keys(user).length === 0) {
-    return <p>No se ha proporcionado ningún usuario.</p>;
+    return (
+      <div
+        className="my-2 flex flex-col justify-center items-center mt-10"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div className="flex-none w-40 h-[175px] bg-gray-300 rounded-sm animate-pulse mb-4"></div>
+        <div>
+          <div className="flex-none w-40 h-[20px] bg-gray-300 rounded-sm animate-pulse my-2"></div>
+          <div className="flex-none w-40 h-[20px] bg-gray-300 rounded-sm animate-pulse my-2"></div>
+          <div className="flex-none w-40 h-[20px] bg-gray-300 rounded-sm animate-pulse"></div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -181,9 +266,13 @@ function DetailUser({ user }) {
                     onChange={handleNameChange}
                     className="w-full rounded-lg border-2 border-b-blue-500 focus:outline-none px-2 py-1 mb-2 col-span-2"
                   />
+                  {nameError && (
+                    <span className="text-red-500">{nameError}</span>
+                  )}
                   <div className="flex flex-row w-full m-auto items-center justify-center">
                     <button
                       type="button"
+                      disabled={nameError || newName === ""}
                       className="text-blue-600 hover:text-white hover:bg-blue-700 hover:border-blue-700 mr-2 p-1"
                       onClick={handleNameSave}
                     >
@@ -245,9 +334,14 @@ function DetailUser({ user }) {
                     onChange={handleEmailChange}
                     className="w-full rounded-lg border-2 border-b-blue-500 focus:outline-none px-2 py-1 mb-2 col-span-2"
                   />
+                  {emailError && (
+                    <span className="text-red-500">{emailError}</span>
+                  )}
+
                   <div className="flex flex-row w-full m-auto items-center justify-center">
                     <button
                       type="button"
+                      disabled={emailError || newEmail === ""}
                       className="text-blue-600 hover:text-white hover:bg-blue-700 hover:border-blue-700 mr-2 p-1"
                       onClick={handleEmailSave}
                     >
@@ -311,9 +405,13 @@ function DetailUser({ user }) {
                     onChange={handlePasswordChange}
                     className="w-full rounded-lg border-2 border-b-blue-500 focus:outline-none px-2 py-1 mb-2 col-span-2"
                   />
+                  {passwordError && (
+                    <span className="text-red-500">{passwordError}</span>
+                  )}
                   <div className="flex flex-row w-full m-auto items-center justify-center">
                     <button
                       type="button"
+                      disabled={passwordError || newPassword === ""}
                       className="text-blue-600 hover:text-white hover:bg-blue-700 hover:border-blue-700 mr-2 p-1"
                       onClick={handlePasswordSave}
                     >

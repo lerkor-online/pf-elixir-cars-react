@@ -4,11 +4,10 @@ import { VscTrash } from "react-icons/vsc";
 import SearchBar from "../../../../components/SearchBar/SearchBar";
 import { BsPencil } from "react-icons/bs";
 import Modal from "react-modal"; // Importamos react-modal
-
+import Swal from "sweetalert2";
 
 const URL = "https://pf-elixir-cars-back-production.up.railway.app/cars";
 const limit = 1000;
-
 
 const CardCars = () => {
   const [cars, setCars] = useState([]);
@@ -19,7 +18,6 @@ const CardCars = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [editedCar, setEditedCar] = useState(null); // Estado para el auto en edición
   const [isModalOpen, setIsModalOpen] = useState(false);
-
 
   useEffect(() => {
     async function fetchCars(page) {
@@ -60,7 +58,6 @@ const CardCars = () => {
     setIsSearching(false);
     setSearchQuery("");
     setCurrentPage(1);
-
   };
 
   const filteredCars = cars.filter(
@@ -78,29 +75,49 @@ const CardCars = () => {
   };
 
   const handleSaveEdit = async () => {
+    Swal.fire({
+      title: "¿Deseas guardar los cambios?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "GUARDAR",
+      cancelButtonText: "CANCELAR",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Hacer la solicitud PUT para actualizar el auto en el servidor
+          await axios.put(`${URL}/${editedCar.id}`, {
+            precio: editedCar.precio,
+            stock: editedCar.stock,
+          });
+
+          // Actualizar la lista de autos después de guardar los cambios
+          const response = await axios.get(URL);
+          setCars(response.data.data);
+
+          Swal.fire({
+            title: "Actualización exitosa",
+            text: "El auto se ha actualizado correctamente.",
+            icon: "success",
+          });
+
+          // Cerrar el modal y limpiar el auto en edición
+          setIsModalOpen(false);
+          setEditedCar(null);
+        } catch (error) {
+          console.log(error);
+          Swal.fire({
+            title: "Error",
+            text: "Error al actualizar el auto.",
+            icon: "error",
+          });
+        }
+      }
+    });
     // Implementar la lógica para guardar los cambios en el auto
-    try {
-      // Hacer la solicitud PUT para actualizar el auto en el servidor
-      await axios.put(`${URL}/${editedCar.id}`, {
-        price: editedCar.price,
-        stock: editedCar.stock,
-      });
-
-      // Actualizar la lista de autos después de guardar los cambios
-      const response = await axios.get(URL);
-      setCars(response.data.data);
-
-      // Cerrar el modal y limpiar el auto en edición
-      setIsModalOpen(false);
-      setEditedCar(null);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
-  
   return (
-    <div>
+    <div className="">
       <button
         onClick={handleDeleteCars}
         disabled={selectedCars.length === 0}
@@ -108,22 +125,21 @@ const CardCars = () => {
       >
         <VscTrash className="w-4 h-4 cursor-pointer" />
       </button>
-    
-        <div  className="w-fit m-auto flex justify-right">
-        <SearchBar
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            isSearching={isSearching} // Paso  isSearching como prop
-            setIsSearching={setIsSearching} // Paso setIsSearching como prop
-            setCurrentPage={setCurrentPage} // Pasa setCurrentPage como prop
-            handleSearchBarReset={handleSearchBarReset} // Paso la función handleSearchBarReset como prop
-          />
 
-        </div>
+      <div className="w-fit m-auto flex justify-right">
+        <SearchBar
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          isSearching={isSearching} // Paso  isSearching como prop
+          setIsSearching={setIsSearching} // Paso setIsSearching como prop
+          setCurrentPage={setCurrentPage} // Pasa setCurrentPage como prop
+          handleSearchBarReset={handleSearchBarReset} // Paso la función handleSearchBarReset como prop
+        />
+      </div>
       <table className="table border-collapse w-full">
         <thead className="bg-gray-50">
           <tr>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Nro
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -144,17 +160,20 @@ const CardCars = () => {
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Edit
             </th>
-            
           </tr>
         </thead>
-        
+
         <tbody className="bg-white divide-y divide-gray-200">
-          {filteredCars.map((auto,index) => (
+          {filteredCars.map((auto, index) => (
             <tr key={auto.id}>
               <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
               <td className="px-6 py-4 whitespace-nowrap">{auto.brand.name}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{auto.carModel.name}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{auto.presentacion}</td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                {auto.carModel.name}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                {auto.presentacion}
+              </td>
               <td className="px-6 py-4 whitespace-nowrap">{auto.year}</td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <input
@@ -168,7 +187,7 @@ const CardCars = () => {
                   className="w-4 h-4 cursor-pointer text-blue-500"
                   onClick={() => handleEditCar(auto)} // Agregamos el manejador de edición
                 />
-                  </td>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -178,35 +197,45 @@ const CardCars = () => {
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         contentLabel="Editar Auto"
-        className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+        className=" fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 border-2 "
       >
         <div className="w-150 h-150 bg-gray-300 rounded-lg p-4 flex flex-col justify-center items-center">
-        <h2 className="text-lg font-semibold mb-2">Editar Auto</h2>
-        {editedCar && (
-          <div className="flex flex-col items-center">
-            <label className="mb-2">Precio:</label>
-            <input
-              type="number"
-              value={editedCar.price}
-              onChange={(e) =>
-                setEditedCar({ ...editedCar, price: e.target.value })
-              }
-            />
-            <label className="mb-2">Stock:</label>
-            <input
-              type="number"
-              value={editedCar.stock}
-              onChange={(e) =>
-                setEditedCar({ ...editedCar, stock: e.target.value })
-              }
-            />
-            <button className="bg-blue-500 text-white px-3 py-1 rounded" onClick={handleSaveEdit}>Guardar</button>
-            <button className="bg-blue-500 text-white px-3 py-1 rounded" onClick={() => setIsModalOpen(false)}>Cancelar</button>
-          </div>
-        )}
+          <h2 className="text-lg font-semibold mb-2">Editar Auto</h2>
+          {editedCar && (
+            <div className="flex flex-col items-center">
+              <label className="mb-2">Precio:</label>
+              <input
+                type="number"
+                value={editedCar.price}
+                onChange={(e) =>
+                  setEditedCar({ ...editedCar, price: e.target.value })
+                }
+              />
+              <label className="mb-2">Stock:</label>
+              <input
+                type="number"
+                value={editedCar.stock}
+                onChange={(e) =>
+                  setEditedCar({ ...editedCar, stock: e.target.value })
+                }
+              />
+              <button
+                className="bg-blue-500 text-white px-3 py-1 rounded"
+                onClick={handleSaveEdit}
+              >
+                Guardar
+              </button>
+              <button
+                className="bg-blue-500 text-white px-3 py-1 rounded"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancelar
+              </button>
+            </div>
+          )}
         </div>
       </Modal>
-      </div>   
+    </div>
   );
 };
 

@@ -10,11 +10,10 @@ function RootLayout({ children }) {
       </div>
 
       <div className="flex flex-col min-w-[85%] min-h-full m-2">
-        <div className="absolute flex flex-row items-center top-0 right-4">
-          <SearchBar />
+        <div className="absolute flex flex-row items-center top-4 right-4">
           <Profile />
         </div>
-        <div className="">{children}</div>
+        <div className="max-h-[97vh] overflow-auto">{children}</div>
       </div>
     </div>
   );
