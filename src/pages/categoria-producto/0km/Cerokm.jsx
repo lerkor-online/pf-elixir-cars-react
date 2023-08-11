@@ -1,43 +1,58 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react"; // Asegúrate de importar React si aún no lo has hecho
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "../../../components/Card/Card";
 import Paginate from "../../../components/Paginate/Paginate";
 import Filters from "../../../components/Filters/Filters";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import SearchBar from "../../../components/SearchBar/SearchBar";
-import Slider from "react-slider";
+import Sorts from "../../../components/Sorts/Sorts";
 import "./Cerokm.css";
 
 const URL = "https://pf-elixir-cars-back-production.up.railway.app/";
 const limit = 12;
-const MIN = 0;
-const MAX = 60000;
+const MIN_PRICE = 0;
+const MAX_PRICE = 60000;
+const MIN_YEAR = 2010;
+const MAX_YEAR = new Date().getFullYear();
+const MIN_KM = 0;
+const MAX_KM = 200000;
 
 export default function Cerokm() {
   const [cars, setCars] = useState([]);
   const [brands, setBrands] = useState([]);
-  const [brand, setBrand] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [showFilters, setShowFilters] = useState(true);
-  const [filterButtonSymbol, setFilterButtonSymbol] = useState("◀");
-
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
 
-  const [values, setValues] = useState([MIN, MAX]);
+  const [selectedPriceRange, setSelectedPriceRange] = useState([
+    MIN_PRICE,
+    MAX_PRICE,
+  ]);
+  const [selectedYearRange, setSelectedYearRange] = useState([
+    MIN_YEAR,
+    MAX_YEAR,
+  ]);
+  const [selectedKmRange, setSelectedKmRange] = useState([MIN_KM, MAX_KM]);
+  const [selectedEstado, setSelectedEstado] = useState("");
+
+  const [selectedSorts, setSelectedSorts] = useState({
+    brand: "",
+    price: "",
+  });
 
   const limitItems = isSearching ? 10000 : limit;
 
-  const fetchData = async (currentPage) => {
+  const fetchData = async () => {
     try {
       const response = await axios(
-        `${URL}cars?page=${currentPage}&limit=${limitItems}&minPrice=${values[0]}&maxPrice=${values[1]}&brand=${brand}&estado=new `
+        `${URL}cars?page=${currentPage}&limit=${limitItems}&minPrice=${selectedPriceRange[0]}&maxPrice=${selectedPriceRange[1]}&brand=${selectedBrand}&state=${selectedEstado}&minYear=${selectedYearRange[0]}&maxYear=${selectedYearRange[1]}&minKm=${selectedKmRange[0]}&maxKm=${selectedKmRange[1]}&sortByBrand=${selectedSorts.brand}&sortByPrice=${selectedSorts.price}`
       );
+
       const jsonData = await response.data;
 
       setTotalPages(jsonData.totalPages);
@@ -74,7 +89,7 @@ export default function Cerokm() {
   useEffect(() => {
     setIsLoading(true);
 
-    fetchData(currentPage)
+    fetchData()
       .then(() => {
         setIsLoading(false);
       })
@@ -84,25 +99,48 @@ export default function Cerokm() {
       });
 
     fetchBrands();
-  }, [currentPage, isSearching, searchQuery, values[0], values[1], brand]);
-
-  console.log(brand);
+    console.log(selectedSorts.brand);
+    console.log(selectedSorts.price);
+  }, [
+    currentPage,
+    isSearching,
+    searchQuery,
+    selectedBrand,
+    selectedPriceRange,
+    selectedYearRange,
+    selectedKmRange,
+    selectedEstado,
+    selectedSorts,
+  ]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  function handleFilterBrand(e) {
-    console.log(e.target.value);
-    setBrand(e.target.value);
-  }
+  const handleFilterChange = (newFilters) => {
+    setSelectedBrand(newFilters.brand);
+    setSelectedPriceRange(newFilters.priceRange);
+    setSelectedYearRange(newFilters.yearRange);
+    setSelectedKmRange(newFilters.kmRange);
+    setSelectedEstado(newFilters.estado);
+    setCurrentPage(1);
+  };
 
-  /* const handleToggleFilters = () => {
-    setShowFilters((prevShowFilters) => {
-      setFilterButtonSymbol(prevShowFilters ? "▶" : "◀");
-      return !prevShowFilters;
+  // Función para manejar los cambios de ordenamiento
+  const handleSortChange = (column, direction) => {
+    setSelectedSorts((prevSorts) => ({
+      ...prevSorts,
+      [column]: direction,
+    }));
+  };
+
+  // Función para resetear los ordenamientos
+  const handleResetSort = () => {
+    setSelectedSorts({
+      brand: "",
+      price: "",
     });
-  }; */
+  };
 
   const handleSearchBarReset = () => {
     setIsSearching(false);
@@ -124,61 +162,40 @@ export default function Cerokm() {
     <div>
       <header className="h-20"></header>
       <section className="mt-4 h-16 w-11/12 flex justify-end uppercase">
-          <SearchBar
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            isSearching={isSearching} // Paso  isSearching como prop
-            setIsSearching={setIsSearching} // Paso setIsSearching como prop
-            setCurrentPage={setCurrentPage} // Pasa setCurrentPage como prop
-            fetchData={fetchData} // Aqui paso la función fetchData como prop
-            handleSearchBarReset={handleSearchBarReset} // Paso la función handleSearchBarReset como prop
-          />
+        <SearchBar
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          isSearching={isSearching}
+          setIsSearching={setIsSearching}
+          setCurrentPage={setCurrentPage}
+          fetchData={fetchData}
+          handleSearchBarReset={handleSearchBarReset}
+        />
       </section>
       <section className="flex">
         <div className="w-2/12 p-6">
           <h3 className="text-xl font-bold p-2 bg-black rounded-md text-white text-center">
             Filtro
           </h3>
-          {/* <li>
-            <div>
-              <input type="checkbox" />
-              <label>
-                <a href="">En Stock Oportunidad</a>
-              </label>
-            </div>
-          </li> */}
-          <div>
-            {/* <div className="mt-6 ml-2 text-lg font-bold">Destacado</div>
-            <div className="text-s">Aqui van los destacados a filtrar</div> */}
-            <div className="mt-6 ml-2 text-lg font-bold">Marca</div>
-            <select onChange={handleFilterBrand}>
-              {brands.map((brand) => (
-                <option key={brand.name} value={brand.name}>
-                  {brand.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <section>
-            <h3 className="mt-6 ml-2 text-lg font-bold">
-              Precio <span>Range</span>
-            </h3>
-            <div className={"values"}>
-              ${values[0]} - ${values[1]}
-            </div>
-            <small>Current Range: ${values[1] - values[0]}</small>
-            <Slider
-              className="slider"
-              onChange={setValues}
-              value={values}
-              min={MIN}
-              max={MAX}
-            />
-          </section>
+          <Filters
+            brands={brands}
+            filters={{
+              brand: selectedBrand,
+              priceRange: selectedPriceRange,
+              yearRange: selectedYearRange,
+              kmRange: selectedKmRange,
+              estado: selectedEstado,
+            }}
+            onFilterChange={handleFilterChange}
+          />
+          <Sorts
+            handleSortChange={handleSortChange}
+            handleResetSort={handleResetSort}
+            selectedSorts={selectedSorts}
+          />
         </div>
         <div className=" mb-24 m-6 grid grid-cols-4 grid-rows-10 gap-2 h-auto w-9/12 mx-auto text-black items-center">
           {isLoading ? (
-            // Show the loading message or spinner while isLoading is true
             <LoadingSpinner />
           ) : (
             filteredCars.map((auto) => <Card key={auto.id} auto={auto} />)
