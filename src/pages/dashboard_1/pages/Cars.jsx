@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import AddCars from "../../create_cars/AddCars";
-import Stock from "../../stock/Stock";
-import DeleteCar from "../../../components/deleteCar/deleteCar";
+import AddCars from "../../create/AddCars";
+import CardCars from "../components/Cards/Card_Cars";
 
 function Cars() {
   const [activeOption, setActiveOption] = useState("crear-auto");
@@ -15,9 +14,8 @@ function Cars() {
       case "crear-auto":
         return <AddCars />;
       case "administrar-auto":
-        return <Stock />;
-      case "eliminar-auto":
-        return <DeleteCar />;
+        return <CardCars />;
+
       default:
         return <AddCars />;
     }
