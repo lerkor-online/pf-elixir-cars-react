@@ -3,9 +3,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import { useAuth } from "../../../contexts/ContextProvider";
 import { useAuth } from "../../../contexts/ContextProvider";
+import { SignUp } from "@clerk/clerk-react";
 export default function SignUpPage() {
   const navigate = useNavigate();
+<<<<<<< HEAD
   const { signup, loginwithgoogle, user: usuario } = useAuth();
+=======
+  const { signup, user: usuario, loginwithgoogle } = useAuth();
+>>>>>>> 6e86121b8731642a493407fe8cb965483ddac630
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -30,35 +35,37 @@ export default function SignUpPage() {
   };
   const onRegister = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:3001/register", user);
-    const responseLogin = await axios.post("http://localhost:3001/login", user);
+    /* await axios.post("http://localhost:3001/register", user); */
+    await axios.post("https://pf-elixir-cars-back-production.up.railway.app/register", user);
+    /* const responseLogin = await axios.post("http://localhost:3001/login", user); */
+    const responseLogin = await axios.post("https://pf-elixir-cars-back-production.up.railway.app/login", user);
     const data = await responseLogin.data;
-    await signup(data.email, data.password);
+    // await signup(data.email, data.password);
     localStorage.setItem("Usuario", data.token);
     navigate("/home");
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////
-  const handleGoogleSignin = async (e) => {
-    e.preventDefault();
-    await loginwithgoogle();
-    try {
-      const getUser = await axios.get(
-        `http://localhost:3001/getUser?email=${usuario.email}`
-      );
-      const dataUser = await getUser.data;
-      localStorage.setItem("Usuario", dataUser.token);
-      navigate("/home");
-    } catch (err) {
-      await axios.post("http://localhost:3001/register", {
-        name: usuario.displayName,
-        email: usuario.email,
-        password: usuario.uid,
-      });
-      localStorage.setItem("Usuario", usuario.token);
-      navigate("/home");
-    }
-  };
+  // const handleGoogleSignin = async (e) => {
+  //   e.preventDefault();
+  //   const result = await loginwithgoogle();
+  //   try {
+  //     const getUser = await axios.get(
+  //       `http://localhost:3001/getUser?email=${usuario.email}`
+  //     );
+  //     const dataUser = await getUser.data;
+  //     localStorage.setItem("Usuario", dataUser.token);
+  //     navigate("/home");
+  //   } catch (err) {
+  //     await axios.post("http://localhost:3001/register", {
+  //       name: usuario.displayName,
+  //       email: usuario.email,
+  //       password: usuario.uid,
+  //     });
+  //     localStorage.setItem("Usuario", usuario.token);
+  //     navigate("/home");
+  //   }
+  // };
   ////////////////////////////////////////////////////////////////////////////////////////
 
   return (
@@ -122,12 +129,8 @@ export default function SignUpPage() {
                 </button> */}
               </section>
               <h3>Continuar con:</h3>
-              <button
-                onClick={handleGoogleSignin}
-                className="bg-gray-200 mb-2 p-1 px-4 rounded-lg hover:bg-gray-300"
-              >
-                Google
-              </button>
+
+              <SignUp afterSignUpUrl="/home" />
             </section>
             <section>
               <button

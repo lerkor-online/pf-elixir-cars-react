@@ -1,39 +1,76 @@
 import Boxgold from "../boxgold/boxgold";
-import ButtonCart from "../cart/cart";
+import ButtonCart from "../cart/Cart";
 import logo from "../../assets/logo_elixir.png";
 // import axios from "axios";
 import { useNavigate } from "react-router-dom";
-/* import { useAuth } from "../../contexts/ContextProvider"; */
-
-/* import { UserButton } from "@clerk/nextjs"; */
-
-
-// import Cart from "../cart/cart";
 import LogoutButton from "../login/LogoutButton";
+import LoginButton from "../login/LoginButton";
+import { useAuth0 } from "@auth0/auth0-react";
+// import { useUser } from "../../hooks/useUser";
 
+import Profile from "../../pages/dashboard_1/components/Perfil/Profile";
+import { useState, useEffect } from "react";
+import Modal from "../ui/Modal";
 
 export default function Nav() {
   const navigate = useNavigate();
-  /* const { logout, user } = useAuth(); */
- /*  const onLogOut = async () => {
-    if (user) {
-      await logout();
-      localStorage.removeItem("Usuario");
-      navigate("/");
-      return;
-    }
-    await axios.post(
-      "http://localhost:3001/logout",
-      {},
-      {
-        withCredentials: true,
-      }
+  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const [showModal, setShowModal] = useState(false);
+  useEffect(() => {
+    const getUserMetadata = async () => {
+      try {
+        const domain = import.meta.env.VITE_REACT_APP_AUTH0_DOMAIN;
+        const accessToken = await getAccessTokenSilently({
+          authorizationParams: {
+            audience: `https://${domain}/api/v2/`,
+            scope: "read:current_user",
+          },
+        });
 
-    );
-    await logout();
-    localStorage.removeItem("Usuario");
-    navigate("/");
-  }; */
+        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+
+        const metadataResponse = await axios(userDetailsByIdUrl, {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        const user_metadata = await metadataResponse.data;
+
+        const userFound = await axios.get(
+          /* `http://localhost:3001/users?email=${user_metadata.email}` */
+          `https://pf-elixir-cars-back-production.up.railway.app/users?email=${user_metadata.email}`
+        );
+        const userData = {
+          name: user_metadata.name,
+          email: user_metadata.email,
+          password: accessToken,
+        };
+        console.log(userFound);
+        window.localStorage.setItem("user", JSON.stringify(userFound.data))
+        if (!userFound.data) {
+          /* await axios.post("http://localhost:3001/register", userData); */
+          await axios.post("https://pf-elixir-cars-back-production.up.railway.app/register", userData);
+        }
+        /* await axios.post("http://localhost:3001/login", userData); */
+        await axios.post("https://pf-elixir-cars-back-production.up.railway.app/login", userData);
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+
+    getUserMetadata();
+  }, [getAccessTokenSilently, user?.sub]);
+
+  const handleCarrito = () =>{
+    navigate("/carrito")
+  }
+
+  const onClickHandle = (e) => {
+    e.preventDefault();
+    setShowModal(true);
+  };
 
   return (
     <main>
@@ -55,18 +92,20 @@ export default function Nav() {
 
         <nav className="flex flex-grow justify-center">
           <ul className="flex text-sm [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2 [&>li>a]:text-gray-50">
-            <li>
+            {/* <li>
               <a href="app/categoria-producto/usados">Usados Garantizados</a>
+            </li> */}
+            <li>
+              <a href="/categoria-producto/0km">0 KM y Usados Garantizados</a>
             </li>
             <li>
-              <a href="/categoria-producto/0km">0 KM</a>
+            <a className="cursor-pointer" onClick={onClickHandle}>
+                Vende tu Auto
+              </a>
             </li>
-            <li>
-              <a href="">Vende tu Auto</a>
-            </li>
-            <li>
+            {/* <li>
               <a href="/create">Añadir Auto</a>
-            </li>
+            </li> */}
             <li>
               <a href="">Servicios</a>
             </li>
@@ -79,17 +118,39 @@ export default function Nav() {
           </ul>
         </nav>
         <nav>
-          <ButtonCart />
+          <div className="pr-8"><button onClick={handleCarrito}>🛒</button></div>
+          {/* <ButtonCart /> */}
+          </nav>
+        {/* <nav className="flex items-start mx-5 -mt-3">
+          <div className="relative">
+            <ButtonCart />
+          </div>
+          {/*  <Cart/> 
+        </nav> */}
 
-       {/*  <Cart/> */}
-
+        <nav className="flex items-center">
+          <div className="relative">
+            {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+          </div>
+        </nav>
+        <nav className="flex items-center">
+          <div className="relative mx-5">
+            <Profile />
+          </div>
         </nav>
         <Boxgold />
-        <LogoutButton/>
+
         {/* <button onClick={onLogOut} className="bg-white p-1 rounded-lg ">
           Salir
         </button> */}
       </header>
+      {showModal && (
+        <Modal
+          title="Contactanos a los siguientes numeros para concretar tu venta"
+          text="+59833443565, +59833443565"
+          setShowModal={setShowModal}
+        ></Modal>
+      )}
     </main>
   );
 }

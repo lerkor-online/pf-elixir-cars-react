@@ -1,0 +1,59 @@
+.cart {
+  background: #000;
+  display: none;
+  padding: 32px;
+  position: fixed;
+  right: 0px;
+  top: 71px;
+  width: 30%;
+  background-color: brown;
+}
+
+.cart img {
+  aspect-ratio: 16/9;
+  height: 56px;
+}
+
+.cart li {
+  border-bottom: 1px solid #444;
+  padding-bottom: 16px;
+}
+
+.cart footer {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart footer button {
+  padding: 8px;
+}
+
+.cart-button {
+  align-items: center;
+
+  filter: invert(69%) sepia(69%) saturate(3692%) hue-rotate(10deg)
+    brightness(107%) contrast(107%);
+  /*  border-radius: 9999px; */
+  cursor: pointer;
+  display: flex;
+  height: 56px;
+  justify-content: center;
+  /*  padding: px; */
+  position: absolute;
+  right: 12px;
+  top: 6px;
+  transition: all 0.3s ease;
+  width: 32px;
+  z-index: 9999;
+}
+
+.cart-button:hover {
+  scale: 1.5;
+}
+
+.cart-button ~ input:checked ~ .cart {
+  height: 100%;
+  display: block;
+}
