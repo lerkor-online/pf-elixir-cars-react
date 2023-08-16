@@ -32,7 +32,7 @@
 
 //   const logHandler = async (e) => {
 //     e.preventDefault();
-//     const response = await axios.post("http://localhost:3001/login", user, {
+//     const response = await axios.post("${URL}login", user, {
 //       headers: {
 //         "Content-Type": "application/json",
 //       },
@@ -53,13 +53,13 @@
 //     await loginwithgoogle();
 //     try {
 //       const getUser = await axios.get(
-//         `http://localhost:3001/getUser?email=${usuario.email}`
+//         `${URL}getUser?email=${usuario.email}`
 //       );
 //       const dataUser = await getUser.data;
 //       localStorage.setItem("Usuario", dataUser.token);
 //       navigate("/home");
 //     } catch (err) {
-//       await axios.post("http://localhost:3001/register", {
+//       await axios.post("${URL}register", {
 //         name: usuario.displayName,
 //         email: usuario.email,
 //         password: usuario.uid,

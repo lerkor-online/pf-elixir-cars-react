@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 
+const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
+
 function AddUser() {
   const [isNameFocused, setIsNameFocused] = useState(false);
   const [isNameValid, setIsNameValid] = useState(false);
@@ -186,8 +188,7 @@ function AddUser() {
       if (result.isConfirmed) {
         try {
           const response = await axios.post(
-            /* "http://localhost:3001/users", */
-            "https://pf-elixir-cars-back-production.up.railway.app/users",
+            `${URL}users`,
             jsonData,
             {
               headers: {
@@ -204,7 +205,6 @@ function AddUser() {
 
           console.log("Nuevo Usuario:", response.data);
 
-          // "https://pf-elixir-cars-back-production.up.railway.app/user"
           // Limpio los campos después de confirmar
 
           setIsNameValid("");

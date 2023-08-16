@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import Modal from '../../components/ui/Modal';
 
+const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
+
 const Carrito = () => {
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
@@ -11,8 +13,7 @@ const Carrito = () => {
     const [carDataCart, setCarDataCart] = useState(null);
 
     const handleDelete = async ()=>{
-        /* const response = await axios.delete(`http://localhost:3001/cartDetail/${carritoDet.id}`) */
-        const response = await axios.delete(`https://pf-elixir-cars-back-production.up.railway.app/cartDetail/${carritoDet.id}`)
+        const response = await axios.delete(`${URL}cartDetail/${carritoDet.id}`)
         /* alert("Carrito Vacio, serás redirigido a Home"); */
         setShowModal(true)
         setTimeout(() => {
@@ -23,8 +24,7 @@ const Carrito = () => {
         const fetchCartDetail = async () => {
             try {
                 const response = await axios.get(
-                    /* `http://localhost:3001/cartDetails/${UserInfo.id}` */
-                    `https://pf-elixir-cars-back-production.up.railway.app/cartDetails/${UserInfo.id}`
+                    `${URL}cartDetails/${UserInfo.id}`
                     );
                     setCarritoDet(response.data[0]);
                 } catch (error) {
@@ -41,7 +41,7 @@ const Carrito = () => {
             const fetchCarDetail = async () => {
                 try {
                     const response = await axios.get(
-                        `https://pf-elixir-cars-back-production.up.railway.app/cars/${carritoDet.carId}`
+                        `${URL}cars/${carritoDet.carId}`
                     );
                     setCarDataCart(response.data);
                 } catch (error) {
