@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
+const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
+
 function OffertMessenge() {
   const [formData, setFormData] = useState({
     to: "",
@@ -38,8 +40,7 @@ function OffertMessenge() {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     try {
-      /* const response = await axios.post("http://localhost:3001/send", formData); */
-      const response = await axios.post("https://pf-elixir-cars-back-production.up.railway.app/send", formData);
+      const response = await axios.post(`${URL}send`, formData);
       console.log(response);
     } catch (error) {
       console.log("Error al enviar el mensaje", error);

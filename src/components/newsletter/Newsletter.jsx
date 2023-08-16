@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
 
 const Newsletter = ({ setShowModal }) => {
   const [email, setEmail] = useState("");
@@ -12,8 +13,7 @@ const Newsletter = ({ setShowModal }) => {
   const onSubscribe = async () => {
     try {
       setEmailErr("");
-      /* await axios.post("http://localhost:3001/registerEmail", { */
-        await axios.post("https://pf-elixir-cars-back-production.up.railway.app/registerEmail", {
+      await axios.post(`${URL}registerEmail`, {
         email,
       });
       setEmail("");

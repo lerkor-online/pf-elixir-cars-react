@@ -3,6 +3,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/ContextProvider";
 import { SignUp } from "@clerk/clerk-react";
+
+const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
+
 export default function SignUpPage() {
   const navigate = useNavigate();
   const { signup, user: usuario, loginwithgoogle } = useAuth();
@@ -30,10 +33,8 @@ export default function SignUpPage() {
   };
   const onRegister = async (e) => {
     e.preventDefault();
-    /* await axios.post("http://localhost:3001/register", user); */
-    await axios.post("https://pf-elixir-cars-back-production.up.railway.app/register", user);
-    /* const responseLogin = await axios.post("http://localhost:3001/login", user); */
-    const responseLogin = await axios.post("https://pf-elixir-cars-back-production.up.railway.app/login", user);
+    await axios.post(`${URL}register`, user);
+    const responseLogin = await axios.post(`${URL}login`, user);
     const data = await responseLogin.data;
     // await signup(data.email, data.password);
     localStorage.setItem("Usuario", data.token);
@@ -46,13 +47,13 @@ export default function SignUpPage() {
   //   const result = await loginwithgoogle();
   //   try {
   //     const getUser = await axios.get(
-  //       `http://localhost:3001/getUser?email=${usuario.email}`
+  //       `${URL}getUser?email=${usuario.email}`
   //     );
   //     const dataUser = await getUser.data;
   //     localStorage.setItem("Usuario", dataUser.token);
   //     navigate("/home");
   //   } catch (err) {
-  //     await axios.post("http://localhost:3001/register", {
+  //     await axios.post("${URL}register", {
   //       name: usuario.displayName,
   //       email: usuario.email,
   //       password: usuario.uid,

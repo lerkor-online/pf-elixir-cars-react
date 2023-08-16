@@ -6,7 +6,7 @@ import { BsPencil } from "react-icons/bs";
 import Modal from "react-modal"; // Importamos react-modal
 import Swal from "sweetalert2";
 
-const URL = "https://pf-elixir-cars-back-production.up.railway.app/cars";
+const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
 const limit = 1000;
 
 const CardCars = () => {
@@ -44,7 +44,7 @@ const CardCars = () => {
   const handleDeleteCars = async () => {
     try {
       for (const id of selectedCars) {
-        await axios.delete(`${URL}/${id}`);
+        await axios.delete(`${URL}${id}`);
       }
       const response = await axios.get(URL);
       setCars(response.data.data);
@@ -85,7 +85,7 @@ const CardCars = () => {
       if (result.isConfirmed) {
         try {
           // Hacer la solicitud PUT para actualizar el auto en el servidor
-          await axios.put(`${URL}/${editedCar.id}`, {
+          await axios.put(`${URL}${editedCar.id}`, {
             precio: editedCar.precio,
             stock: editedCar.stock,
           });
