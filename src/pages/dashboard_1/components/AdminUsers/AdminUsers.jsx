@@ -4,6 +4,8 @@ import axios from "axios";
 import Card_Users from "../Cards/Card_Users";
 import DetailUser from "../DetailUser/DetailUser";
 
+const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
+
 function AdminUsers() {
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState({});
@@ -13,7 +15,7 @@ function AdminUsers() {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/users");
+      const response = await axios.get(`${URL}users`);
 
       const jsonData = await response.data;
       console.log(jsonData.users);
@@ -38,7 +40,7 @@ function AdminUsers() {
     console.log(email);
     try {
       const response = await axios.get(
-        `http://localhost:3001/user?email=${email}`
+        `${URL}user?email=${email}`
       );
       setUser(response.data);
       console.log(user);
@@ -82,7 +84,7 @@ function AdminUsers() {
         if (result.isConfirmed) {
           try {
             const response = await axios.delete(
-              `http://localhost:3001/users/${selectedUsers}`,
+              `${URL}users/${selectedUsers}`,
               {
                 data: { ids: selectedUsers },
               }

@@ -8,7 +8,7 @@ import SearchBar from "../../../components/SearchBar/SearchBar";
 import Sorts from "../../../components/Sorts/Sorts";
 import "./Cerokm.css";
 
-const URL = "https://pf-elixir-cars-back-production.up.railway.app/";
+const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
 const limit = 12;
 const MIN_PRICE = 0;
 const MAX_PRICE = 60000;

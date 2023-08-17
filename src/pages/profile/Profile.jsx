@@ -3,6 +3,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import JSONPretty from "react-json-pretty";
 import axios from "axios";
 
+const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
+
 const Profile = () => {
   const domain = import.meta.env.VITE_REACT_APP_AUTH0_DOMAIN;
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -31,7 +33,7 @@ const Profile = () => {
 
         setUserMetadata(user_metadata);
 
-        await axios.post("http://localhost:3001/users", {
+        await axios.post(`${URL}users`, {
           email: user_metadata.email,
           name: user_metadata.name,
           password: accessToken,

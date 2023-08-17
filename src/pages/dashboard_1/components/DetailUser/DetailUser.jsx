@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 
+const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
+
 function DetailUser({ user, resetUser }) {
   const [userMod, setUserMod] = useState({});
   console.log(userMod);
@@ -134,7 +136,7 @@ function DetailUser({ user, resetUser }) {
       if (result.isConfirmed) {
         try {
           const response = await axios.put(
-            `http://localhost:3001/users/${userMod?.id}/suspend`,
+            `${URL}users/${userMod?.id}/suspend`,
             {
               status: newStatusValue,
             }
@@ -181,7 +183,7 @@ function DetailUser({ user, resetUser }) {
       if (result.isConfirmed) {
         try {
           const response = await axios.put(
-            `http://localhost:3001/users/${userMod?.id}`,
+            `${URL}users/${userMod?.id}`,
             updatedUser
           );
           const { id, name, email, password, role } = response.data;

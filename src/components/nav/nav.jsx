@@ -6,11 +6,12 @@ import { useNavigate } from "react-router-dom";
 import LogoutButton from "../login/LogoutButton";
 import LoginButton from "../login/LoginButton";
 import { useAuth0 } from "@auth0/auth0-react";
-// import { useUser } from "../../hooks/useUser";
 
 import Profile from "../../pages/dashboard_1/components/Perfil/Profile";
 import { useState, useEffect } from "react";
 import Modal from "../ui/Modal";
+
+const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
 
 export default function Nav() {
   const navigate = useNavigate();
@@ -39,7 +40,8 @@ export default function Nav() {
         const user_metadata = await metadataResponse.data;
 
         const userFound = await axios.get(
-          `http://localhost:3001/users?email=${user_metadata.email}`
+          `${URL}users?email=${user_metadata.email}`
+
         );
         const userData = {
           name: user_metadata.name,
@@ -49,9 +51,9 @@ export default function Nav() {
         console.log(userFound);
         window.localStorage.setItem("user", JSON.stringify(userFound.data))
         if (!userFound.data) {
-          await axios.post("http://localhost:3001/register", userData);
+          await axios.post(`${URL}register`, userData);
         }
-        await axios.post("http://localhost:3001/login", userData);
+        await axios.post(`${URL}login`, userData);
       } catch (e) {
         console.log(e.message);
       }
@@ -117,13 +119,13 @@ export default function Nav() {
         <nav>
           <div className="pr-8"><button onClick={handleCarrito}>🛒</button></div>
           {/* <ButtonCart /> */}
-
-        <nav className="flex items-start mx-5 -mt-3">
+          </nav>
+        {/* <nav className="flex items-start mx-5 -mt-3">
           <div className="relative">
             <ButtonCart />
           </div>
-          {/*  <Cart/> */}
-        </nav>
+          {/*  <Cart/> 
+        </nav> */}
 
         <nav className="flex items-center">
           <div className="relative">

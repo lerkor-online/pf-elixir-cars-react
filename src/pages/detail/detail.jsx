@@ -24,6 +24,7 @@ import {
 import { useCart } from "../../hooks/useCart.js";
 import CreateReview from "../../components/CreateReview/CreateReview";
 
+const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
 
 export default function CarDetail() {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ export default function CarDetail() {
       const user_metadata = await metadataResponse.data;
 
       const userFound = await axios.get(
-        `http://localhost:3001/users?email=${user_metadata.email}`
+        `${URL}users?email=${user_metadata.email}`
       );
 
       console.log(userFound.data)
@@ -97,7 +98,7 @@ export default function CarDetail() {
     const fetchCarDetail = async () => {
       try {
         const response = await axios.get(
-          `https://pf-elixir-cars-back-production.up.railway.app/cars/${id}`
+          `${URL}cars/${id}`
         );
         setCar(response.data);
       } catch (error) {
@@ -113,7 +114,7 @@ export default function CarDetail() {
   }
 
   const handleAddCartDB = () =>{
-    axios.post(`http://localhost:3001/cartDetails`,{
+    axios.post(`${URL}cartDetails`,{
       cartId : userId,
       carId : id,
       cantidad : 1

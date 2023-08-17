@@ -31,11 +31,11 @@ function App() {
       children: [
         { path: "/", element: <LandingPage /> },
         { path: "/home", element: <Home /> },
-        { path: "/categoria-producto/0km", element: <Cerokm /> },
+        /*  { path: "/categoria-producto/0km", element: <Cerokm /> },
         { path: "/categoria-producto/0km/detail/:id", element: <Detail /> },
         { path: "/about", element: <About /> },
         { path: "/about/ourteam", element: <OurTeam /> },
-        { path: "/about/contact", element: <Contact /> },
+        { path: "/about/contact", element: <Contact /> }, */
         // { path: "/dashboard_1/*", element: <AdminDashboard /> },
         {
           path: "/dashboard_1/*",
@@ -46,14 +46,14 @@ function App() {
           ),
         },
 
-        {
+        /*  {
           path: "/home",
           element: (
             // <AuthMiddleware>
             <Home />
             // </AuthMiddleware>
           ),
-        },
+        }, */
 
         { path: "/categoria-producto/0km", element: <Cerokm /> },
         { path: "/categoria-producto/0km/detail/:id", element: <Detail /> },

@@ -55,7 +55,7 @@ export const UserProvider = ({ children }) => {
 
 //       setUserMetadata(user_metadata);
 
-//       await axios.post("http://localhost:3001/users", {
+//       await axios.post("${URL}users", {
 //         email: user_metadata.email,
 //         name: user_metadata.name,
 //         password: accessToken,
