@@ -10,18 +10,6 @@ const RootLayout = () => {
     <>
       {(pathname !== "/" && pathname.includes("/dashboard")) || <Nav />}
       <main style={{ display: "block" }}>
-//      {/* {pathname !== "/" && (
-//        <AuthMiddleware>
-//          <Nav />
-//        </AuthMiddleware>
-//      )} */}
-//      {/* <main style={{ display: "block" }}>
-//        <Outlet />
-//      </main>
-//      <Footer /> */}
-//
-//      {pathname !== "/" && pathname !== "/dashboard" && <Nav />}
-//      <main className=" flex-grow" style={{ display: "block" }}>
         <Outlet />
       </main>
       {(pathname !== "/dashboard" && pathname.includes("/dashboard_1")) || (
