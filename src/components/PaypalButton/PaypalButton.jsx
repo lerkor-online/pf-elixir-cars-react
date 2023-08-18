@@ -32,11 +32,11 @@ export function PayPalButton() {
               <p>Has cancelado la compra de {nombre}.</p>
             </div>
           ) : isCompleted ? (
-            <div>
-              <h2>¡Compra completada!</h2>
-              <p>Tu compra de {nombre} ha sido exitosa.</p>
-              <p>ID de compra: {purchaseId}</p>
-              <p>Gracias por elegirnos.</p>
+            <div style={{ textAlign: 'center', backgroundColor: '#dff0d8', border: '1px solid #c3e6cb', padding: '20px', borderRadius: '5px' }}>
+              <h2 style={{ color: '#28a745' }}>¡Compra completada!</h2>
+              <p style={{ color: '#333' }}>Tu compra de {nombre} ha sido exitosa.</p>
+              <p style={{ color: '#333' }}>ID de compra: {purchaseId}</p>
+              <p style={{ color: '#333' }}>Gracias por elegirnos.</p>
             </div>
           ) : (
             <div>
