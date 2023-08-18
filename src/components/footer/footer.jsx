@@ -31,17 +31,17 @@ const Footer = () => {
                     </a>
                   </li>
                   <li>
-                    <a href="/preguntas-frecuentes" target="_blank">
+                    <a>
                       Preguntas frecuentes
                     </a>
                   </li>
                   <li>
-                    <a href="mailto:busquedas@elixircars.com" target="_blank">
-                      ¿Quieres trabajar con nostros?
+                    <a href="mailto:busquedas@elixircars.com" target="_blank" rel="noreferrer">
+                      ¿Quieres trabajar con nosotros?
                     </a>
                   </li>
                   <li>
-                    <a href="/arrepentimiento" target="_blank">
+                    <a /* href="/arrepentimiento" target="_blank" */>
                       Formulario
                     </a>
                   </li>
@@ -55,29 +55,29 @@ const Footer = () => {
                   <br />
                   <ul>
                     <li>
-                      <a href="/terminos-y-condiciones-de-uso/" target="_blank">
+                      <a >
                         Términos y Condiciones
                       </a>
                     </li>
                     <li>
-                      <a href="/politica-privacidad/" target="_blank">
+                      <a /* href="/politica-privacidad/" target="_blank" */>
                         Política de privacidad
                       </a>
                     </li>
                     <li>
-                      <a href="/terminos-y-condiciones-de-uso/" target="_blank">
+                      <a /* href="/terminos-y-condiciones-de-uso/" target="_blank" */>
                         Cookies
                       </a>
                     </li>
                     <li>
-                      <a href="https://outlook.office.com/mail/" target="_blank">
+                      <a href="https://outlook.office.com/mail/" target="_blank" rel="noreferrer">
                         Acceso empleados
                       </a>
                     </li>
                     <li>
                       <a
-                        href="/atencion-publicaciones-fraudulentas/"
-                        target="_blank"
+                       /*  href="/atencion-publicaciones-fraudulentas/"
+                        target="_blank" */
                       >
                         Atención a publicaciones fraudulentas
                       </a>
@@ -112,7 +112,7 @@ const Footer = () => {
               {/* <h2 className="text-lg font-semibold">Redes Sociales</h2> */}
               <ul className="mt-4 flex space-x-4">
                 <li>
-                  <a href="https://es-la.facebook.com/" target="_blank">
+                  <a href="https://es-la.facebook.com/" target="_blank" rel="noreferrer">
                     <img
                       src={face}
                       className="w-8 h-8 rounded-lg"
@@ -121,7 +121,7 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com/" target="_blank">
+                  <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
                     <img
                       src={insta}
                       className="w-8 h-8 rounded-lg"
@@ -130,7 +130,7 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="https://gmail.com" target="_blank">
+                  <a href="https://gmail.com" target="_blank" rel="noreferrer">
                     <img
                       src={mail}
                       className="w-8 h-8 rounded-lg"
